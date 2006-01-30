@@ -9,7 +9,7 @@ Group:		X11
 URL:		ftp://download.nvidia.com/XFree86/nvidia-settings/
 Source0:	ftp://download.nvidia.com/XFree86/nvidia-settings/%{name}-%{version}.tar.gz
 # Source0-md5:	e6025e7fe05162c4608333702895f97c
-Patch0:		%{name}-shared.patch
+Patch0:		libXNVCtrl-shared.patch
 Patch1:		%{name}-xlibs.patch
 %if %{with nvidia_settings}
 #BuildRequires:	XFree86-devel
@@ -112,14 +112,14 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -n libXNVCtrl
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_prefix}/X11R6/lib64/libXNVCtrl.so.*.*.*
+%attr(755,root,root) %{_prefix}/X11R6/%{_lib}/libXNVCtrl.so.*.*.*
 
 %files -n libXNVCtrl-devel
 %defattr(644,root,root,755)
 %{_prefix}/X11R6/include/X11/extensions/NVCtrl.h
 %{_prefix}/X11R6/include/X11/extensions/NVCtrlLib.h
-%{_prefix}/X11R6/lib64/libXNVCtrl.so
+%{_prefix}/X11R6/%{_lib}/libXNVCtrl.so
 
 %files -n libXNVCtrl-static
 %defattr(644,root,root,755)
-%{_prefix}/X11R6/lib64/libXNVCtrl.a
+%{_prefix}/X11R6/%{_lib}/libXNVCtrl.a
