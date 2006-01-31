@@ -14,16 +14,10 @@ Source0:	ftp://download.nvidia.com/XFree86/nvidia-settings/%{name}-%{version}.ta
 Patch0:		libXNVCtrl-shared.patch
 Patch1:		%{name}-xlibs.patch
 URL:		ftp://download.nvidia.com/XFree86/nvidia-settings/
+BuildRequires:	XFree86-devel
 %if %{with nvidia_settings}
-#BuildRequires:	XFree86-devel
-#BuildRequires:	XFree86-libs
-#BuildRequires:	fontconfig
-#BuildRequires:	freetype2
-#BuildRequires:	glib2-devel
-#BuildRequires:	libatk-devel
-#BuildRequires:	libgtk+2-devel
-#BuildRequires:	libpango-devel
-#BuildRequires:	pkgconfig
+BuildRequires:	gtk+2-devel
+BuildRequires:	pkgconfig
 %endif
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -106,14 +100,17 @@ Biblioteka statyczna libXNVCtrl.
 cd src/libXNVCtrl
 xmkmf
 %{__make} clean
-%{__make}
+%{__make} \
+	CC="%{__cc}" \
+	CFLAGS="%{rpmcflags}"
 cd ../..
 %endif
 
 %if %{with nvidia_settings}
 %{__make} \
 	CC="%{__cc}" \
-	CFLAGS="%{rpmcflags}"
+	CFLAGS="%{rpmcflags}" \
+	LDFLAGS="%{rpmldflags}"
 %endif
 
 %install
