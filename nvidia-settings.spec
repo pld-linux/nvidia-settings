@@ -1,16 +1,19 @@
+#
+# Conditional build:
 %bcond_with	nvidia_settings	# build the main package
 %bcond_without	libXNVCtrl	# build libXNVCtrl for http://websvn.kde.org/trunk/kdenonbeta/nvidia/
+#
 Summary:	Tool for configuring the NVIDIA driver
 Name:		nvidia-settings
 Version:	1.0
 Release:	0.3
 License:	GPL
 Group:		X11
-URL:		ftp://download.nvidia.com/XFree86/nvidia-settings/
 Source0:	ftp://download.nvidia.com/XFree86/nvidia-settings/%{name}-%{version}.tar.gz
 # Source0-md5:	e6025e7fe05162c4608333702895f97c
 Patch0:		libXNVCtrl-shared.patch
 Patch1:		%{name}-xlibs.patch
+URL:		ftp://download.nvidia.com/XFree86/nvidia-settings/
 %if %{with nvidia_settings}
 #BuildRequires:	XFree86-devel
 #BuildRequires:	XFree86-libs
@@ -40,29 +43,58 @@ the current settings. When nvidia-settings exits, it queries the
 current settings from the X server and saves them to the configuration
 file.
 
+%description -l pl
+Narzêdzie nvidia-settings s³u¿y do konfiguracji sterownika do kart
+graficznych firmy NVIDIA. Dzia³a komunikuj±c siê ze sterownikiem X
+NVIDIA, sprawdzaj±c i uaktualniaj±c stan w razie potrzeby. Komunikacja
+odbywa siê poprzez rozszerzenie X NV-CONTROL.
+
+Za pomoc± nvidia-settings mo¿na odczytywaæ i zmieniaæ warto¶ci takie
+jak jasno¶æ i korekcja gamma, atrybuty XVideo, temperatura barw i
+ustawienia OpenGL.
+
+Przy uruchamianiu nvidia-settings odczytuje bie¿±ce ustawienia z pliku
+konfiguracyjnego i wysy³a te ustawienia do serwera X. Nastêpnie
+wy¶wietla graficzny interfejs u¿ytkownika (GUI) do konfiguracji
+ustawieñ. Przy wy³±czniu nvidia-settings odczytuje bie¿±ce ustawienia
+z serwera X i zapisuje je do pliku konfiguracyjnego.
+
 %package -n libXNVCtrl
 Summary:	libXNVCtrl library
+Summary(pl):	Biblioteka libXNVCtrl
 Group:		Libraries
 
 %description -n libXNVCtrl
 Library for accessing NV-CONTROL extension in NVIDIA's latest drivers.
 
+%description -n libXNVCtrl -l pl
+Biblioteka do obs³ugi rozszerzenia NV-CONTROL z najnowszych
+sterowników NVIDIA.
+
 %package -n libXNVCtrl-devel
-Summary:	libXNVCtrl development headers and library
+Summary:	libXNVCtrl development headers
+Summary(pl):	Pliki nag³ówkowe biblioteki libXNVCtrl
 Group:		Development/Libraries
 Requires:	libXNVCtrl = %{version}-%{release}
 Requires:	XFree86-devel
 
 %description -n libXNVCtrl-devel
-Library and development headers for libXNVCtrl.
+Development headers for libXNVCtrl.
+
+%description -n libXNVCtrl-devel -l pl
+Pliki nag³ówkowe biblioteki libXNVCtrl.
 
 %package -n libXNVCtrl-static
 Summary:	libXNVCtrl static library
+Summary(pl):	Biblioteka statyczna libXNVCtrl
 Group:		Developmment/Libraries
 Requires:	libXNVCtrl-devel = %{version}-%{release}
 
 %description -n libXNVCtrl-static
 Static library for libXNVCtrl.
+
+%description -n libXNVCtrl-static -l pl
+Biblioteka statyczna libXNVCtrl.
 
 %prep
 %setup -q
@@ -75,7 +107,7 @@ cd src/libXNVCtrl
 xmkmf
 %{__make} clean
 %{__make}
-cd ../../
+cd ../..
 %endif
 
 %if %{with nvidia_settings}
@@ -110,16 +142,18 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/%{name}
 %endif
 
+%if %{with libXNVCtrl}
 %files -n libXNVCtrl
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_prefix}/X11R6/%{_lib}/libXNVCtrl.so.*.*.*
+%attr(755,root,root) /usr/X11R6/%{_lib}/libXNVCtrl.so.*.*.*
 
 %files -n libXNVCtrl-devel
 %defattr(644,root,root,755)
-%{_prefix}/X11R6/include/X11/extensions/NVCtrl.h
-%{_prefix}/X11R6/include/X11/extensions/NVCtrlLib.h
-%{_prefix}/X11R6/%{_lib}/libXNVCtrl.so
+/usr/X11R6/include/X11/extensions/NVCtrl.h
+/usr/X11R6/include/X11/extensions/NVCtrlLib.h
+/usr/X11R6/%{_lib}/libXNVCtrl.so
 
 %files -n libXNVCtrl-static
 %defattr(644,root,root,755)
-%{_prefix}/X11R6/%{_lib}/libXNVCtrl.a
+/usr/X11R6/%{_lib}/libXNVCtrl.a
+%endif
