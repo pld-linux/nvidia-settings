@@ -3,20 +3,22 @@
 %bcond_with	nvidia_settings	# build the main package
 %bcond_without	libXNVCtrl	# build libXNVCtrl for http://websvn.kde.org/trunk/kdenonbeta/nvidia/
 #
+%define		_build	20060919
 Summary:	Tool for configuring the NVIDIA driver
 Name:		nvidia-settings
 Version:	1.0
-Release:	0.3
+Release:	0.%{_build}.1
 License:	GPL
 Group:		X11
 Source0:	ftp://download.nvidia.com/XFree86/nvidia-settings/%{name}-%{version}.tar.gz
-# Source0-md5:	e6025e7fe05162c4608333702895f97c
+# Source0-md5:	6b70f0a178573b685f6c76e55067756c
 Patch0:		libXNVCtrl-shared.patch
 Patch1:		%{name}-xlibs.patch
 URL:		ftp://download.nvidia.com/XFree86/nvidia-settings/
 BuildRequires:	XFree86-devel
 %if %{with nvidia_settings}
 BuildRequires:	gtk+2-devel
+BuildRequires:	m4
 BuildRequires:	pkgconfig
 %endif
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -116,8 +118,9 @@ cd ../..
 %install
 rm -rf $RPM_BUILD_ROOT
 %if %{with nvidia_settings}
-install -d $RPM_BUILD_ROOT%{_bindir}
+install -d $RPM_BUILD_ROOT{%{_bindir},%{_mandir}/man1}
 install nvidia-settings $RPM_BUILD_ROOT%{_bindir}
+install doc/nvidia-settings.1 $RPM_BUILD_ROOT%{_mandir}/man1/nvidia-settings.1
 %endif
 
 %if %{with libXNVCtrl}
@@ -135,8 +138,9 @@ rm -rf $RPM_BUILD_ROOT
 %if %{with nvidia_settings}
 %files
 %defattr(644,root,root,755)
-%doc doc/*.txt samples
+%doc doc/{FRAMELOCK,NV-CONTROL-API}.txt samples
 %attr(755,root,root) %{_bindir}/%{name}
+%{_mandir}/man1/*
 %endif
 
 %if %{with libXNVCtrl}
