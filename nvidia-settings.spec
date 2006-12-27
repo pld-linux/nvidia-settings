@@ -3,8 +3,8 @@
 %bcond_without	nvidia_settings	# build the main package
 %bcond_without	libXNVCtrl	# build libXNVCtrl for http://websvn.kde.org/trunk/kdenonbeta/nvidia/
 #
-%define		_buildid	20060919
-%define		_rel	2
+%define		_buildid	20061219
+%define		_rel	1
 Summary:	Tool for configuring the NVIDIA driver
 Name:		nvidia-settings
 Version:	1.0
@@ -12,7 +12,7 @@ Release:	0.%{_buildid}.%{_rel}
 License:	GPL
 Group:		X11
 Source0:	ftp://download.nvidia.com/XFree86/nvidia-settings/%{name}-%{version}.tar.gz
-# Source0-md5:	6b70f0a178573b685f6c76e55067756c
+# Source0-md5:	414a838f01093ceb0ae8535c35e21eac
 Patch0:		libXNVCtrl-shared.patch
 Patch1:		%{name}-xlibs.patch
 URL:		ftp://download.nvidia.com/XFree86/nvidia-settings/
