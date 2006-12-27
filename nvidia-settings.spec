@@ -1,13 +1,14 @@
 #
 # Conditional build:
-%bcond_with	nvidia_settings	# build the main package
+%bcond_without	nvidia_settings	# build the main package
 %bcond_without	libXNVCtrl	# build libXNVCtrl for http://websvn.kde.org/trunk/kdenonbeta/nvidia/
 #
 %define		_buildid	20060919
+%define		_rel	2
 Summary:	Tool for configuring the NVIDIA driver
 Name:		nvidia-settings
 Version:	1.0
-Release:	0.%{_buildid}.1
+Release:	0.%{_buildid}.%{_rel}
 License:	GPL
 Group:		X11
 Source0:	ftp://download.nvidia.com/XFree86/nvidia-settings/%{name}-%{version}.tar.gz
@@ -21,6 +22,7 @@ BuildRequires:	gtk+2-devel
 BuildRequires:	m4
 BuildRequires:	pkgconfig
 %endif
+Requires:	libXNVCtrl = %{version}-%{release}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
