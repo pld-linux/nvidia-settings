@@ -4,7 +4,7 @@
 %bcond_without	libXNVCtrl	# build libXNVCtrl for http://websvn.kde.org/trunk/kdenonbeta/nvidia/
 #
 %define		_buildid	20061219
-%define		_rel	1
+%define		_rel	2
 Summary:	Tool for configuring the NVIDIA driver
 Name:		nvidia-settings
 Version:	1.0
@@ -73,8 +73,8 @@ sterowników NVIDIA.
 Summary:	libXNVCtrl development headers
 Summary(pl):	Pliki nag³ówkowe biblioteki libXNVCtrl
 Group:		Development/Libraries
-Requires:	libXNVCtrl = %{version}-%{release}
 Requires:	XFree86-devel
+Requires:	libXNVCtrl = %{version}-%{release}
 
 %description -n libXNVCtrl-devel
 Development headers for libXNVCtrl.
@@ -85,7 +85,7 @@ Pliki nag³ówkowe biblioteki libXNVCtrl.
 %package -n libXNVCtrl-static
 Summary:	libXNVCtrl static library
 Summary(pl):	Biblioteka statyczna libXNVCtrl
-Group:		Developmment/Libraries
+Group:		Development/Libraries
 Requires:	libXNVCtrl-devel = %{version}-%{release}
 
 %description -n libXNVCtrl-static
@@ -126,6 +126,8 @@ install doc/nvidia-settings.1 $RPM_BUILD_ROOT%{_mandir}/man1/nvidia-settings.1
 %endif
 
 %if %{with libXNVCtrl}
+install -d $RPM_BUILD_ROOT%{_examplesdir}/libXNVCtrl-%{version}
+cp -a samples/* $RPM_BUILD_ROOT%{_examplesdir}/libXNVCtrl-%{version}
 %{__make} install \
 	-C src/libXNVCtrl \
 	DESTDIR=$RPM_BUILD_ROOT
@@ -140,7 +142,6 @@ rm -rf $RPM_BUILD_ROOT
 %if %{with nvidia_settings}
 %files
 %defattr(644,root,root,755)
-%doc doc/{FRAMELOCK,NV-CONTROL-API}.txt samples
 %attr(755,root,root) %{_bindir}/%{name}
 %{_mandir}/man1/*
 %endif
@@ -152,9 +153,11 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -n libXNVCtrl-devel
 %defattr(644,root,root,755)
+%doc doc/{FRAMELOCK,NV-CONTROL-API}.txt
 /usr/X11R6/include/X11/extensions/NVCtrl.h
 /usr/X11R6/include/X11/extensions/NVCtrlLib.h
 /usr/X11R6/%{_lib}/libXNVCtrl.so
+%{_examplesdir}/libXNVCtrl-%{version}
 
 %files -n libXNVCtrl-static
 %defattr(644,root,root,755)
