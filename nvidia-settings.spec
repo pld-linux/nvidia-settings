@@ -6,6 +6,7 @@
 %define		_buildid	20061219
 %define		_rel	2
 Summary:	Tool for configuring the NVIDIA driver
+Summary(pl):	Narzêdzie do konfigurowania sterownika NVIDIA
 Name:		nvidia-settings
 Version:	1.0
 Release:	0.%{_buildid}.%{_rel}
