@@ -6,7 +6,7 @@
 %define		_buildid	20061219
 %define		_rel	2
 Summary:	Tool for configuring the NVIDIA driver
-Summary(pl):	Narzêdzie do konfigurowania sterownika NVIDIA
+Summary(pl.UTF-8):   NarzÄ™dzie do konfigurowania sterownika NVIDIA
 Name:		nvidia-settings
 Version:	1.0
 Release:	0.%{_buildid}.%{_rel}
@@ -42,37 +42,37 @@ the current settings. When nvidia-settings exits, it queries the
 current settings from the X server and saves them to the configuration
 file.
 
-%description -l pl
-Narzêdzie nvidia-settings s³u¿y do konfiguracji sterownika do kart
-graficznych firmy NVIDIA. Dzia³a komunikuj±c siê ze sterownikiem X
-NVIDIA, sprawdzaj±c i uaktualniaj±c stan w razie potrzeby. Komunikacja
-odbywa siê poprzez rozszerzenie X NV-CONTROL.
+%description -l pl.UTF-8
+NarzÄ™dzie nvidia-settings sÅ‚uÅ¼y do konfiguracji sterownika do kart
+graficznych firmy NVIDIA. DziaÅ‚a komunikujÄ…c siÄ™ ze sterownikiem X
+NVIDIA, sprawdzajÄ…c i uaktualniajÄ…c stan w razie potrzeby. Komunikacja
+odbywa siÄ™ poprzez rozszerzenie X NV-CONTROL.
 
-Za pomoc± nvidia-settings mo¿na odczytywaæ i zmieniaæ warto¶ci takie
-jak jasno¶æ i korekcja gamma, atrybuty XVideo, temperatura barw i
+Za pomocÄ… nvidia-settings moÅ¼na odczytywaÄ‡ i zmieniaÄ‡ wartoÅ›ci takie
+jak jasnoÅ›Ä‡ i korekcja gamma, atrybuty XVideo, temperatura barw i
 ustawienia OpenGL.
 
-Przy uruchamianiu nvidia-settings odczytuje bie¿±ce ustawienia z pliku
-konfiguracyjnego i wysy³a te ustawienia do serwera X. Nastêpnie
-wy¶wietla graficzny interfejs u¿ytkownika (GUI) do konfiguracji
-ustawieñ. Przy wy³±czniu nvidia-settings odczytuje bie¿±ce ustawienia
+Przy uruchamianiu nvidia-settings odczytuje bieÅ¼Ä…ce ustawienia z pliku
+konfiguracyjnego i wysyÅ‚a te ustawienia do serwera X. NastÄ™pnie
+wyÅ›wietla graficzny interfejs uÅ¼ytkownika (GUI) do konfiguracji
+ustawieÅ„. Przy wyÅ‚Ä…czniu nvidia-settings odczytuje bieÅ¼Ä…ce ustawienia
 z serwera X i zapisuje je do pliku konfiguracyjnego.
 
 %package -n libXNVCtrl
 Summary:	libXNVCtrl library
-Summary(pl):	Biblioteka libXNVCtrl
+Summary(pl.UTF-8):   Biblioteka libXNVCtrl
 Group:		Libraries
 
 %description -n libXNVCtrl
 Library for accessing NV-CONTROL extension in NVIDIA's latest drivers.
 
-%description -n libXNVCtrl -l pl
-Biblioteka do obs³ugi rozszerzenia NV-CONTROL z najnowszych
-sterowników NVIDIA.
+%description -n libXNVCtrl -l pl.UTF-8
+Biblioteka do obsÅ‚ugi rozszerzenia NV-CONTROL z najnowszych
+sterownikÃ³w NVIDIA.
 
 %package -n libXNVCtrl-devel
 Summary:	libXNVCtrl development headers
-Summary(pl):	Pliki nag³ówkowe biblioteki libXNVCtrl
+Summary(pl.UTF-8):   Pliki nagÅ‚Ã³wkowe biblioteki libXNVCtrl
 Group:		Development/Libraries
 Requires:	XFree86-devel
 Requires:	libXNVCtrl = %{version}-%{release}
@@ -80,19 +80,19 @@ Requires:	libXNVCtrl = %{version}-%{release}
 %description -n libXNVCtrl-devel
 Development headers for libXNVCtrl.
 
-%description -n libXNVCtrl-devel -l pl
-Pliki nag³ówkowe biblioteki libXNVCtrl.
+%description -n libXNVCtrl-devel -l pl.UTF-8
+Pliki nagÅ‚Ã³wkowe biblioteki libXNVCtrl.
 
 %package -n libXNVCtrl-static
 Summary:	libXNVCtrl static library
-Summary(pl):	Biblioteka statyczna libXNVCtrl
+Summary(pl.UTF-8):   Biblioteka statyczna libXNVCtrl
 Group:		Development/Libraries
 Requires:	libXNVCtrl-devel = %{version}-%{release}
 
 %description -n libXNVCtrl-static
 Static library for libXNVCtrl.
 
-%description -n libXNVCtrl-static -l pl
+%description -n libXNVCtrl-static -l pl.UTF-8
 Biblioteka statyczna libXNVCtrl.
 
 %prep
