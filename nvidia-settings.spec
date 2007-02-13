@@ -6,7 +6,7 @@
 %define		_buildid	20061219
 %define		_rel	2
 Summary:	Tool for configuring the NVIDIA driver
-Summary(pl.UTF-8):   Narzędzie do konfigurowania sterownika NVIDIA
+Summary(pl.UTF-8):	Narzędzie do konfigurowania sterownika NVIDIA
 Name:		nvidia-settings
 Version:	1.0
 Release:	0.%{_buildid}.%{_rel}
@@ -60,7 +60,7 @@ z serwera X i zapisuje je do pliku konfiguracyjnego.
 
 %package -n libXNVCtrl
 Summary:	libXNVCtrl library
-Summary(pl.UTF-8):   Biblioteka libXNVCtrl
+Summary(pl.UTF-8):	Biblioteka libXNVCtrl
 Group:		Libraries
 
 %description -n libXNVCtrl
@@ -72,7 +72,7 @@ sterowników NVIDIA.
 
 %package -n libXNVCtrl-devel
 Summary:	libXNVCtrl development headers
-Summary(pl.UTF-8):   Pliki nagłówkowe biblioteki libXNVCtrl
+Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki libXNVCtrl
 Group:		Development/Libraries
 Requires:	XFree86-devel
 Requires:	libXNVCtrl = %{version}-%{release}
@@ -85,7 +85,7 @@ Pliki nagłówkowe biblioteki libXNVCtrl.
 
 %package -n libXNVCtrl-static
 Summary:	libXNVCtrl static library
-Summary(pl.UTF-8):   Biblioteka statyczna libXNVCtrl
+Summary(pl.UTF-8):	Biblioteka statyczna libXNVCtrl
 Group:		Development/Libraries
 Requires:	libXNVCtrl-devel = %{version}-%{release}
 
