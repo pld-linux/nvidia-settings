@@ -22,6 +22,7 @@ BuildRequires:	XFree86-devel
 BuildRequires:	gtk+2-devel
 BuildRequires:	m4
 BuildRequires:	pkgconfig
+BuildRequires:	xorg-util-imake
 %endif
 Requires:	libXNVCtrl = %{version}-%{release}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
