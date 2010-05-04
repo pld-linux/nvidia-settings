@@ -3,21 +3,21 @@
 %bcond_without	nvidia_settings	# build the main package
 %bcond_without	libXNVCtrl	# build libXNVCtrl for http://websvn.kde.org/trunk/kdenonbeta/nvidia/
 #
-%define		_buildid	20061219
-%define		_rel	2
 Summary:	Tool for configuring the NVIDIA driver
 Summary(pl.UTF-8):	Narzędzie do konfigurowania sterownika NVIDIA
 Name:		nvidia-settings
-Version:	1.0
-Release:	0.%{_buildid}.%{_rel}
+Version:	195.36.24
+Release:	0.1
 License:	GPL
 Group:		X11
 Source0:	ftp://download.nvidia.com/XFree86/nvidia-settings/%{name}-%{version}.tar.gz
-# Source0-md5:	414a838f01093ceb0ae8535c35e21eac
+# Source0-md5:	43008cf2cec84fa27ee6f315845d50f7
 Patch0:		libXNVCtrl-shared.patch
 Patch1:		%{name}-xlibs.patch
 URL:		ftp://download.nvidia.com/XFree86/nvidia-settings/
-BuildRequires:	XFree86-devel
+BuildRequires:	xorg-lib-libXxf86vm-devel
+BuildRequires:	xorg-lib-libX11-devel
+BuildRequires:	xorg-lib-libXext-devel
 %if %{with nvidia_settings}
 BuildRequires:	gtk+2-devel
 BuildRequires:	m4
@@ -97,7 +97,7 @@ Static library for libXNVCtrl.
 Biblioteka statyczna libXNVCtrl.
 
 %prep
-%setup -q
+%setup -q -n %{name}-1.0
 %patch0 -p1
 %patch1 -p1
 
