@@ -7,24 +7,21 @@ Summary:	Tool for configuring the NVIDIA driver
 Summary(pl.UTF-8):	Narzędzie do konfigurowania sterownika NVIDIA
 Name:		nvidia-settings
 Version:	195.36.24
-Release:	0.1
+Release:	1
 License:	GPL
 Group:		X11
 Source0:	ftp://download.nvidia.com/XFree86/nvidia-settings/%{name}-%{version}.tar.gz
 # Source0-md5:	43008cf2cec84fa27ee6f315845d50f7
-Patch0:		libXNVCtrl-shared.patch
-Patch1:		%{name}-xlibs.patch
+Patch0:		%{name}-xlibs.patch
 URL:		ftp://download.nvidia.com/XFree86/nvidia-settings/
-BuildRequires:	xorg-lib-libXxf86vm-devel
 BuildRequires:	xorg-lib-libX11-devel
 BuildRequires:	xorg-lib-libXext-devel
+BuildRequires:	xorg-lib-libXxf86vm-devel
 %if %{with nvidia_settings}
 BuildRequires:	gtk+2-devel
 BuildRequires:	m4
 BuildRequires:	pkgconfig
-BuildRequires:	xorg-util-imake
 %endif
-Requires:	libXNVCtrl = %{version}-%{release}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -59,56 +56,33 @@ wyświetla graficzny interfejs użytkownika (GUI) do konfiguracji
 ustawień. Przy wyłączniu nvidia-settings odczytuje bieżące ustawienia
 z serwera X i zapisuje je do pliku konfiguracyjnego.
 
-%package -n libXNVCtrl
-Summary:	libXNVCtrl library
-Summary(pl.UTF-8):	Biblioteka libXNVCtrl
-Group:		Libraries
-
-%description -n libXNVCtrl
-Library for accessing NV-CONTROL extension in NVIDIA's latest drivers.
-
-%description -n libXNVCtrl -l pl.UTF-8
-Biblioteka do obsługi rozszerzenia NV-CONTROL z najnowszych
-sterowników NVIDIA.
-
 %package -n libXNVCtrl-devel
 Summary:	libXNVCtrl development headers
 Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki libXNVCtrl
 Group:		Development/Libraries
-Requires:	XFree86-devel
-Requires:	libXNVCtrl = %{version}-%{release}
+Requires:	xorg-lib-libX11-devel
+Requires:	xorg-lib-libXext-devel
+Requires:	xorg-lib-libXxf86vm-devel
+Obsoletes:	libXNVCtrl-static
 
 %description -n libXNVCtrl-devel
-Development headers for libXNVCtrl.
+Library for accessing NV-CONTROL extension in NVIDIA's latest drivers.
 
 %description -n libXNVCtrl-devel -l pl.UTF-8
-Pliki nagłówkowe biblioteki libXNVCtrl.
-
-%package -n libXNVCtrl-static
-Summary:	libXNVCtrl static library
-Summary(pl.UTF-8):	Biblioteka statyczna libXNVCtrl
-Group:		Development/Libraries
-Requires:	libXNVCtrl-devel = %{version}-%{release}
-
-%description -n libXNVCtrl-static
-Static library for libXNVCtrl.
-
-%description -n libXNVCtrl-static -l pl.UTF-8
-Biblioteka statyczna libXNVCtrl.
+Biblioteka do obsługi rozszerzenia NV-CONTROL z najnowszych
+sterowników NVIDIA.
 
 %prep
 %setup -q -n %{name}-1.0
 %patch0 -p1
-%patch1 -p1
 
 %build
 %if %{with libXNVCtrl}
 cd src/libXNVCtrl
-xmkmf
 %{__make} clean
 %{__make} \
 	CC="%{__cc}" \
-	CFLAGS="%{rpmcflags}"
+	CFLAGS="%{rpmcflags} -fPIC"
 cd ../..
 %endif
 
@@ -128,18 +102,16 @@ install doc/nvidia-settings.1 $RPM_BUILD_ROOT%{_mandir}/man1/nvidia-settings.1
 %endif
 
 %if %{with libXNVCtrl}
-install -d $RPM_BUILD_ROOT%{_examplesdir}/libXNVCtrl-%{version}
+install -d $RPM_BUILD_ROOT%{_examplesdir}/libXNVCtrl-%{version} \
+	$RPM_BUILD_ROOT{%{_libdir},%{_includedir}/NVCtrl}
 cp -a samples/* $RPM_BUILD_ROOT%{_examplesdir}/libXNVCtrl-%{version}
-%{__make} install \
-	-C src/libXNVCtrl \
-	DESTDIR=$RPM_BUILD_ROOT
+install -p src/libXNVCtrl/NVCtrl.h $RPM_BUILD_ROOT%{_includedir}/NVCtrl
+install -p src/libXNVCtrl/NVCtrlLib.h $RPM_BUILD_ROOT%{_includedir}/NVCtrl
+install -p src/libXNVCtrl/libXNVCtrl.a $RPM_BUILD_ROOT%{_libdir}
 %endif
 
 %clean
 rm -rf $RPM_BUILD_ROOT
-
-%post	-n libXNVCtrl -p /sbin/ldconfig
-%postun	-n libXNVCtrl -p /sbin/ldconfig
 
 %if %{with nvidia_settings}
 %files
@@ -149,19 +121,11 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %if %{with libXNVCtrl}
-%files -n libXNVCtrl
-%defattr(644,root,root,755)
-%attr(755,root,root) /usr/X11R6/%{_lib}/libXNVCtrl.so.*.*.*
-
 %files -n libXNVCtrl-devel
 %defattr(644,root,root,755)
 %doc doc/{FRAMELOCK,NV-CONTROL-API}.txt
-/usr/X11R6/include/X11/extensions/NVCtrl.h
-/usr/X11R6/include/X11/extensions/NVCtrlLib.h
-/usr/X11R6/%{_lib}/libXNVCtrl.so
+%{_includedir}/NVCtrl/NVCtrl.h
+%{_includedir}/NVCtrl/NVCtrlLib.h
+%{_libdir}/libXNVCtrl.a
 %{_examplesdir}/libXNVCtrl-%{version}
-
-%files -n libXNVCtrl-static
-%defattr(644,root,root,755)
-/usr/X11R6/%{_lib}/libXNVCtrl.a
 %endif
