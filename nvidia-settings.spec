@@ -7,7 +7,7 @@ Summary:	Tool for configuring the NVIDIA driver
 Summary(pl.UTF-8):	Narzędzie do konfigurowania sterownika NVIDIA
 Name:		nvidia-settings
 Version:	195.36.24
-Release:	1
+Release:	2
 License:	GPL
 Group:		X11
 Source0:	ftp://download.nvidia.com/XFree86/nvidia-settings/%{name}-%{version}.tar.gz
@@ -124,6 +124,7 @@ rm -rf $RPM_BUILD_ROOT
 %files -n libXNVCtrl-devel
 %defattr(644,root,root,755)
 %doc doc/{FRAMELOCK,NV-CONTROL-API}.txt
+%dir %{_includedir}/NVCtrl
 %{_includedir}/NVCtrl/NVCtrl.h
 %{_includedir}/NVCtrl/NVCtrlLib.h
 %{_libdir}/libXNVCtrl.a
