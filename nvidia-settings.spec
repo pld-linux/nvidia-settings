@@ -14,8 +14,10 @@ Source0:	ftp://download.nvidia.com/XFree86/nvidia-settings/%{name}-%{version}.ta
 # Source0-md5:	43008cf2cec84fa27ee6f315845d50f7
 Patch0:		%{name}-xlibs.patch
 URL:		ftp://download.nvidia.com/XFree86/nvidia-settings/
+BuildRequires:	OpenGL-devel
 BuildRequires:	xorg-lib-libX11-devel
 BuildRequires:	xorg-lib-libXext-devel
+BuildRequires:	xorg-lib-libXv-devel
 BuildRequires:	xorg-lib-libXxf86vm-devel
 %if %{with nvidia_settings}
 BuildRequires:	gtk+2-devel
