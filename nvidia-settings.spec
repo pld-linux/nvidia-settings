@@ -84,14 +84,14 @@ cd src/libXNVCtrl
 %{__make} clean
 %{__make} \
 	CC="%{__cc}" \
-	CFLAGS="%{rpmcflags} -fPIC"
+	CFLAGS="%{rpmcppflags} %{rpmcflags} -fPIC"
 cd ../..
 %endif
 
 %if %{with nvidia_settings}
 %{__make} \
 	CC="%{__cc}" \
-	CFLAGS="%{rpmcflags}" \
+	CFLAGS="%{rpmcppflags} %{rpmcflags}" \
 	LDFLAGS="%{rpmldflags}"
 %endif
 
