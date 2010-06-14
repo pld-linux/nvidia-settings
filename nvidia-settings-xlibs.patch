@@ -1,20 +1,35 @@
 --- nvidia-settings-1.0/Makefile	2006-12-26 21:46:56.000000000 +0200
 +++ nvidia-settings-1.0/Makefile	2010-06-14 14:34:53.948906186 +0300
-@@ -118,7 +118,7 @@
+@@ -116,9 +116,9 @@
+ X11_CFLAGS = $(X11_INC_DIRS)
+ 
  GTK_CFLAGS := $(shell $(PKG_CONFIG) --cflags gtk+-2.0)
- GTK_LDFLAGS := $(shell $(PKG_CONFIG) --libs gtk+-2.0)
+-GTK_LDFLAGS := $(shell $(PKG_CONFIG) --libs gtk+-2.0)
++GTK_LIBS := $(shell $(PKG_CONFIG) --libs gtk+-2.0)
  
 -X11_LIBS := $(X11_LIB_DIRS) -Wl,-Bstatic -lXxf86vm -Wl,-Bdynamic -lX11 -lXext
-+X11_LIBS := $(X11_LIB_DIRS) -lXxf86vm -lX11 -lXext
++X11_LIBS := $(X11_LIB_DIRS) -lXxf86vm -lX11 -lXext -ldl
  
  XNVCTRL_LIB := src/libXNVCtrl/libXNVCtrl.a
- 
-@@ -145,7 +145,7 @@
- INC_FLAGS := $(addprefix -I , $(RELATIVE_SRCDIRS))
+ XNVCTRL_DIR := src/libXNVCtrl
+@@ -146,6 +146,7 @@
  
  ALL_CFLAGS = $(CFLAGS) $(LOCAL_CFLAGS) $(X11_CFLAGS) $(GTK_CFLAGS) $(INC_FLAGS)
--ALL_LDFLAGS = $(LD_RUN_FLAG) $(LDFLAGS) $(GTK_LDFLAGS) $(X11_LIBS)
-+ALL_LDFLAGS = $(LD_RUN_FLAG) $(X11_LIBS) $(LDFLAGS) $(GTK_LDFLAGS)
+ ALL_LDFLAGS = $(LD_RUN_FLAG) $(LDFLAGS) $(GTK_LDFLAGS) $(X11_LIBS)
++ALL_LIBS = $(GTK_LIBS) $(X11_LIBS)
  
  CPPFLAGS = $(ALL_CFLAGS)
+ 
+@@ -236,10 +237,10 @@
+ 	$(MAKE) NV_CFLAGS='$(NV_CFLAGS)' -C $(XF86PARSER_DIR)
+ 
+ $(XNVCTRL_LIB):
+-	$(MAKE) CFLAGS='$(ALL_CFLAGS)' LDFLAGS='$(ALL_LDFLAGS)' -C $(XNVCTRL_DIR)
++	$(MAKE) CFLAGS='$(ALL_CFLAGS)' LDFLAGS='$(ALL_LDFLAGS)' LIBS='$(ALL_LIBS)' -C $(XNVCTRL_DIR)
+ 
+ $(NVIDIA_SETTINGS): $(OBJS) $(XNVCTRL_LIB) $(XF86PARSER_LIB)
+-	$(CC) $(OBJS) $(ALL_CFLAGS) $(ALL_LDFLAGS) $(XNVCTRL_LIB) $(XF86PARSER_LIB) -o $@
++	$(CC) $(ALL_CFLAGS) $(ALL_LDFLAGS) $(OBJS) $(XNVCTRL_LIB) $(XF86PARSER_LIB) $(ALL_LIBS) -o $@
+ 
+ .PHONY: $(XF86PARSER_LIB) dist clean clobber
  
