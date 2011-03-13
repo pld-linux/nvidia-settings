@@ -7,12 +7,14 @@ Summary:	Tool for configuring the NVIDIA driver
 Summary(pl.UTF-8):	Narzędzie do konfigurowania sterownika NVIDIA
 Name:		nvidia-settings
 Version:	195.36.31
-Release:	1
+Release:	2
 License:	GPL
 Group:		X11
 Source0:	ftp://download.nvidia.com/XFree86/nvidia-settings/%{name}-%{version}.tar.gz
 # Source0-md5:	30782edbe54e99f678cb73e08cd67470
 Patch0:		%{name}-xlibs.patch
+Source1:	%{name}.desktop
+Source2:	%{name}.png
 URL:		ftp://download.nvidia.com/XFree86/nvidia-settings/
 BuildRequires:	OpenGL-devel
 BuildRequires:	xorg-lib-libX11-devel
@@ -98,9 +100,11 @@ cd ../..
 %install
 rm -rf $RPM_BUILD_ROOT
 %if %{with nvidia_settings}
-install -d $RPM_BUILD_ROOT{%{_bindir},%{_mandir}/man1}
-install nvidia-settings $RPM_BUILD_ROOT%{_bindir}
-install doc/nvidia-settings.1 $RPM_BUILD_ROOT%{_mandir}/man1/nvidia-settings.1
+install -d $RPM_BUILD_ROOT{%{_bindir},%{_mandir}/man1,%{_desktopdir},%{_pixmapsdir}}
+install -p nvidia-settings $RPM_BUILD_ROOT%{_bindir}
+cp -p doc/nvidia-settings.1 $RPM_BUILD_ROOT%{_mandir}/man1/nvidia-settings.1
+cp -p %{SOURCE1} $RPM_BUILD_ROOT%{_desktopdir}
+cp -p %{SOURCE2} $RPM_BUILD_ROOT%{_pixmapsdir}
 %endif
 
 %if %{with libXNVCtrl}
@@ -118,8 +122,10 @@ rm -rf $RPM_BUILD_ROOT
 %if %{with nvidia_settings}
 %files
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/%{name}
-%{_mandir}/man1/*
+%attr(755,root,root) %{_bindir}/nvidia-settings
+%{_mandir}/man1/nvidia-settings.1*
+%{_desktopdir}/nvidia-settings.desktop
+%{_pixmapsdir}/nvidia-settings.png
 %endif
 
 %if %{with libXNVCtrl}

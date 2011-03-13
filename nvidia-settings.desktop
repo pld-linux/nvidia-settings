@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Encoding=UTF-8
+Name=nVidia X Server Settings
+Name[pl]=Ustawienia X serwera nVidii
+Comment=Configure nVidia X Server Settings
+Comment[pl]=Konfiguracja ustawień X serwera NVndii
+Exec=nvidia-settings
+Icon=nvidia-settings
+Categories=Settings;HardwareSettings;
