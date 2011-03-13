@@ -6,13 +6,12 @@
 Summary:	Tool for configuring the NVIDIA driver
 Summary(pl.UTF-8):	Narzędzie do konfigurowania sterownika NVIDIA
 Name:		nvidia-settings
-Version:	195.36.31
-Release:	2
+Version:	270.30
+Release:	1
 License:	GPL
 Group:		X11
-Source0:	ftp://download.nvidia.com/XFree86/nvidia-settings/%{name}-%{version}.tar.gz
-# Source0-md5:	30782edbe54e99f678cb73e08cd67470
-Patch0:		%{name}-xlibs.patch
+Source0:	ftp://download.nvidia.com/XFree86/nvidia-settings/%{name}-%{version}.tar.bz2
+# Source0-md5:	8137b32cae22cd14f1fca5fe6d945db7
 Source1:	%{name}.desktop
 Source2:	%{name}.png
 URL:		ftp://download.nvidia.com/XFree86/nvidia-settings/
@@ -77,32 +76,34 @@ Biblioteka do obsługi rozszerzenia NV-CONTROL z najnowszych
 sterowników NVIDIA.
 
 %prep
-%setup -q -n %{name}-1.0
-%patch0 -p1
+%setup -q
+
+%{__rm} src/libXNVCtrl/libXNVCtrl.a
 
 %build
 %if %{with libXNVCtrl}
-cd src/libXNVCtrl
-%{__make} clean
-%{__make} \
+%{__make} -C src/libXNVCtrl \
+	NV_VERBOSE=1 \
 	CC="%{__cc}" \
-	CFLAGS="%{rpmcppflags} %{rpmcflags} -fPIC"
-cd ../..
+	X_CFLAGS="%{rpmcppflags} %{rpmcflags} -fPIC"
 %endif
 
 %if %{with nvidia_settings}
 %{__make} \
+	NV_VERBOSE=1 \
+	STRIP_CMD=: \
 	CC="%{__cc}" \
-	CFLAGS="%{rpmcppflags} %{rpmcflags}" \
-	LDFLAGS="%{rpmldflags}"
+	X_CFLAGS="%{rpmcppflags} %{rpmcflags}" \
+	X_LDFLAGS="%{rpmldflags}"
 %endif
 
 %install
 rm -rf $RPM_BUILD_ROOT
 %if %{with nvidia_settings}
 install -d $RPM_BUILD_ROOT{%{_bindir},%{_mandir}/man1,%{_desktopdir},%{_pixmapsdir}}
-install -p nvidia-settings $RPM_BUILD_ROOT%{_bindir}
-cp -p doc/nvidia-settings.1 $RPM_BUILD_ROOT%{_mandir}/man1/nvidia-settings.1
+%{__make} install \
+	INSTALL="install -p" \
+	prefix=$RPM_BUILD_ROOT%{_prefix}
 cp -p %{SOURCE1} $RPM_BUILD_ROOT%{_desktopdir}
 cp -p %{SOURCE2} $RPM_BUILD_ROOT%{_pixmapsdir}
 %endif
