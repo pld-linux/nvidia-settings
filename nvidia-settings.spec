@@ -6,12 +6,12 @@
 Summary:	Tool for configuring the NVIDIA driver
 Summary(pl.UTF-8):	Narzędzie do konfigurowania sterownika NVIDIA
 Name:		nvidia-settings
-Version:	270.30
+Version:	173.14.31
 Release:	1
 License:	GPL
 Group:		X11
-Source0:	ftp://download.nvidia.com/XFree86/nvidia-settings/%{name}-%{version}.tar.bz2
-# Source0-md5:	8137b32cae22cd14f1fca5fe6d945db7
+Source0:	ftp://download.nvidia.com/XFree86/nvidia-settings/%{name}-%{version}.tar.gz
+# Source0-md5:	f43a46dce18fc11528b8458d5d271041
 Source1:	%{name}.desktop
 Source2:	%{name}.png
 URL:		ftp://download.nvidia.com/XFree86/nvidia-settings/
@@ -76,7 +76,7 @@ Biblioteka do obsługi rozszerzenia NV-CONTROL z najnowszych
 sterowników NVIDIA.
 
 %prep
-%setup -q
+%setup -q -n nvidia-settings-1.0
 
 %{__rm} src/libXNVCtrl/libXNVCtrl.a
 
