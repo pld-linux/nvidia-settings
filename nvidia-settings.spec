@@ -15,6 +15,7 @@ Source0:	ftp://download.nvidia.com/XFree86/nvidia-settings/%{name}-%{version}.ta
 Source1:	%{name}.desktop
 Source2:	%{name}.png
 Patch0:		prev_error_handler.patch
+Patch1:		nvidia-settings-xlibs.patch
 URL:		ftp://download.nvidia.com/XFree86/nvidia-settings/
 BuildRequires:	OpenGL-devel
 BuildRequires:	xorg-lib-libX11-devel
@@ -79,6 +80,7 @@ sterowników NVIDIA.
 %prep
 %setup -q -n %{name}-1.0
 %patch0 -p1
+%patch1 -p1
 
 %{__rm} src/libXNVCtrl/libXNVCtrl.a
 
