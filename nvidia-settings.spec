@@ -1,6 +1,7 @@
 #
 # Conditional build:
 %bcond_without	nvidia_settings	# build the main package
+%bcond_without	utils	# build utils from samples dir
 %bcond_without	libXNVCtrl	# build libXNVCtrl for http://websvn.kde.org/trunk/kdenonbeta/nvidia/
 
 Summary:	Tool for configuring the NVIDIA driver
@@ -87,18 +88,22 @@ sterowników NVIDIA.
 %build
 %if %{with libXNVCtrl}
 %{__make} -C src/libXNVCtrl \
-	NV_VERBOSE=1 \
 	CC="%{__cc}" \
-	X_CFLAGS="%{rpmcppflags} %{rpmcflags} -fPIC"
+	LOCAL_CFLAGS="%{rpmcppflags} %{rpmcflags} -fPIC"
+%endif
+
+%if %{with utils}
+%{__make} -C samples \
+	CC="%{__cc}" \
+	LOCAL_CFLAGS="%{rpmcppflags} %{rpmcflags} -fPIC"
 %endif
 
 %if %{with nvidia_settings}
 %{__make} \
-	NV_VERBOSE=1 \
-	STRIP_CMD=: \
+	STRIP=: \
 	CC="%{__cc}" \
-	X_CFLAGS="%{rpmcppflags} %{rpmcflags}" \
-	X_LDFLAGS="%{rpmldflags}"
+	LOCAL_CFLAGS="%{rpmcppflags} %{rpmcflags}" \
+	LDFLAGS="%{rpmldflags}"
 %endif
 
 %install
@@ -116,9 +121,22 @@ cp -p %{SOURCE2} $RPM_BUILD_ROOT%{_pixmapsdir}
 install -d $RPM_BUILD_ROOT%{_examplesdir}/libXNVCtrl-%{version} \
 	$RPM_BUILD_ROOT{%{_libdir},%{_includedir}/NVCtrl}
 cp -a samples/* $RPM_BUILD_ROOT%{_examplesdir}/libXNVCtrl-%{version}
-install -p src/libXNVCtrl/NVCtrl.h $RPM_BUILD_ROOT%{_includedir}/NVCtrl
-install -p src/libXNVCtrl/NVCtrlLib.h $RPM_BUILD_ROOT%{_includedir}/NVCtrl
-install -p src/libXNVCtrl/libXNVCtrl.a $RPM_BUILD_ROOT%{_libdir}
+cp -p src/libXNVCtrl/NVCtrl.h $RPM_BUILD_ROOT%{_includedir}/NVCtrl
+cp -p src/libXNVCtrl/NVCtrlLib.h $RPM_BUILD_ROOT%{_includedir}/NVCtrl
+cp -p src/libXNVCtrl/libXNVCtrl.a $RPM_BUILD_ROOT%{_libdir}
+%endif
+
+%if %{with utils}
+install -d $RPM_BUILD_ROOT%{_bindir}
+for prog in samples/nv-control-*; do
+	case "$prog" in
+	*.*)
+		continue
+		;;
+	esac
+	install -p $prog $RPM_BUILD_ROOT%{_bindir}
+done
+find $RPM_BUILD_ROOT%{_examplesdir}/libXNVCtrl-%{version} -type f -executable | xargs rm -v
 %endif
 
 %clean
@@ -131,6 +149,15 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/nvidia-settings.1*
 %{_desktopdir}/nvidia-settings.desktop
 %{_pixmapsdir}/nvidia-settings.png
+%endif
+
+%if %{with utils}
+%attr(755,root,root) %{_bindir}/nv-control-dpy
+%attr(755,root,root) %{_bindir}/nv-control-dvc
+%attr(755,root,root) %{_bindir}/nv-control-events
+%attr(755,root,root) %{_bindir}/nv-control-framelock
+%attr(755,root,root) %{_bindir}/nv-control-info
+%attr(755,root,root) %{_bindir}/nv-control-targets
 %endif
 
 %if %{with libXNVCtrl}
