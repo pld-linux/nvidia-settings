@@ -1,6 +1,7 @@
 #
 # Conditional build:
 %bcond_without	nvidia_settings	# build the main package
+%bcond_without	utils	# build utils from samples dir
 %bcond_without	libXNVCtrl	# build libXNVCtrl for http://websvn.kde.org/trunk/kdenonbeta/nvidia/
 
 Summary:	Tool for configuring the NVIDIA driver
@@ -88,6 +89,14 @@ sterowników NVIDIA.
 	X_CFLAGS="%{rpmcppflags} %{rpmcflags} -fPIC"
 %endif
 
+%if %{with utils}
+%{__make} -C samples \
+	NV_VERBOSE=1 \
+	CC="%{__cc}" \
+	OUTPUTDIR=$(pwd)/_out/utils \
+	X_CFLAGS="%{rpmcppflags} %{rpmcflags} -fPIC"
+%endif
+
 %if %{with nvidia_settings}
 %{__make} \
 	NV_VERBOSE=1 \
@@ -117,6 +126,18 @@ cp -p src/libXNVCtrl/NVCtrlLib.h $RPM_BUILD_ROOT%{_includedir}/NVCtrl
 cp -p src/libXNVCtrl/libXNVCtrl.a $RPM_BUILD_ROOT%{_libdir}
 %endif
 
+%if %{with utils}
+install -d $RPM_BUILD_ROOT%{_bindir}
+for prog in _out/utils/nv-control-*; do
+	case "$prog" in
+	*.*)
+		continue
+		;;
+	esac
+	install -p $prog $RPM_BUILD_ROOT%{_bindir}
+done
+%endif
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -127,6 +148,17 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/nvidia-settings.1*
 %{_desktopdir}/nvidia-settings.desktop
 %{_pixmapsdir}/nvidia-settings.png
+%endif
+
+%if %{with utils}
+%attr(755,root,root) %{_bindir}/nv-control-3dvisionpro
+%attr(755,root,root) %{_bindir}/nv-control-dpy
+%attr(755,root,root) %{_bindir}/nv-control-dvc
+%attr(755,root,root) %{_bindir}/nv-control-events
+%attr(755,root,root) %{_bindir}/nv-control-framelock
+%attr(755,root,root) %{_bindir}/nv-control-gvi
+%attr(755,root,root) %{_bindir}/nv-control-info
+%attr(755,root,root) %{_bindir}/nv-control-targets
 %endif
 
 %if %{with libXNVCtrl}
