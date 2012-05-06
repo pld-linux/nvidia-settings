@@ -14,6 +14,7 @@ Source0:	ftp://download.nvidia.com/XFree86/nvidia-settings/%{name}-%{version}.ta
 # Source0-md5:	f43a46dce18fc11528b8458d5d271041
 Source1:	%{name}.desktop
 Source2:	%{name}.png
+Patch0:		prev_error_handler.patch
 URL:		ftp://download.nvidia.com/XFree86/nvidia-settings/
 BuildRequires:	OpenGL-devel
 BuildRequires:	xorg-lib-libX11-devel
@@ -76,7 +77,8 @@ Biblioteka do obsługi rozszerzenia NV-CONTROL z najnowszych
 sterowników NVIDIA.
 
 %prep
-%setup -q -n nvidia-settings-1.0
+%setup -q -n %{name}-1.0
+%patch0 -p1
 
 %{__rm} src/libXNVCtrl/libXNVCtrl.a
 

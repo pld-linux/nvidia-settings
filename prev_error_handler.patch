@@ -1,0 +1,22 @@
+taken from gentoo-portage/media-video/nvidia-settings/files/nvidia-settings-173.14.31-Makefile.patch
+
+see also:
+https://bugs.gentoo.org/show_bug.cgi?id=290432
+
+diff --git a/src/libXNVCtrlAttributes/NvCtrlAttributesVidMode.c b/src/libXNVCtrlAttributes/NvCtrlAttributesVidMode.c
+index 633c078..a65a8b4 100644
+--- a/src/libXNVCtrlAttributes/NvCtrlAttributesVidMode.c
++++ b/src/libXNVCtrlAttributes/NvCtrlAttributesVidMode.c
+@@ -211,10 +211,12 @@ NvCtrlInitVidModeAttributes(NvCtrlAttributePrivateHandle *h)
+ 
+     /* restore the original error handler, if we overrode it */
+ 
++#if defined(X_XF86VidModeGetGammaRampSize)
+     if (prev_error_handler) {
+         XSetErrorHandler(prev_error_handler);
+         prev_error_handler = NULL;
+     }
++#endif
+ 
+     return NULL;
+ 
