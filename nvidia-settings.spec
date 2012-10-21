@@ -7,12 +7,13 @@
 Summary:	Tool for configuring the NVIDIA driver
 Summary(pl.UTF-8):	Narzędzie do konfigurowania sterownika NVIDIA
 Name:		nvidia-settings
-Version:	295.40
+# keep the version in sync with xorg-driver-video-nvidia.spec
+Version:	304.43
 Release:	1
 License:	GPL
 Group:		X11
 Source0:	ftp://download.nvidia.com/XFree86/nvidia-settings/%{name}-%{version}.tar.bz2
-# Source0-md5:	e9fd5dcb7f69c12334d199a783544d42
+# Source0-md5:	5f3b63a621897e5b32e13de114aa58db
 Source1:	%{name}.desktop
 Source2:	%{name}.png
 URL:		ftp://download.nvidia.com/XFree86/nvidia-settings/
@@ -112,7 +113,8 @@ rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_bindir},%{_mandir}/man1,%{_desktopdir},%{_pixmapsdir}}
 %{__make} install \
 	INSTALL="install -p" \
-	prefix=$RPM_BUILD_ROOT%{_prefix}
+	PREFIX=%{_prefix} \
+	DESTDIR=$RPM_BUILD_ROOT
 cp -p %{SOURCE1} $RPM_BUILD_ROOT%{_desktopdir}
 cp -p %{SOURCE2} $RPM_BUILD_ROOT%{_pixmapsdir}
 %endif
@@ -121,6 +123,7 @@ cp -p %{SOURCE2} $RPM_BUILD_ROOT%{_pixmapsdir}
 install -d $RPM_BUILD_ROOT%{_examplesdir}/libXNVCtrl-%{version} \
 	$RPM_BUILD_ROOT{%{_libdir},%{_includedir}/NVCtrl}
 cp -a samples/* $RPM_BUILD_ROOT%{_examplesdir}/libXNVCtrl-%{version}
+rm -r $RPM_BUILD_ROOT%{_examplesdir}/libXNVCtrl-%{version}/_out
 cp -p src/libXNVCtrl/NVCtrl.h $RPM_BUILD_ROOT%{_includedir}/NVCtrl
 cp -p src/libXNVCtrl/NVCtrlLib.h $RPM_BUILD_ROOT%{_includedir}/NVCtrl
 cp -p src/libXNVCtrl/libXNVCtrl.a $RPM_BUILD_ROOT%{_libdir}
