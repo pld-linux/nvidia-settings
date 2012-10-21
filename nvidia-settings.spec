@@ -30,8 +30,8 @@ BuildRequires:	pkgconfig
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
-The `nvidia-settings` utility is a tool for configuring the NVIDIA
-Linux graphics driver. It operates by communicating with the NVIDIA X
+The nvidia-settings utility is a tool for configuring the NVIDIA Linux
+graphics driver. It operates by communicating with the NVIDIA X
 driver, querying and updating state as appropriate. This communication
 is done with the NV-CONTROL X extension.
 
