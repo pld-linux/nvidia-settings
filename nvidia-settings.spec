@@ -8,12 +8,12 @@ Summary:	Tool for configuring the NVIDIA driver
 Summary(pl.UTF-8):	Narzędzie do konfigurowania sterownika NVIDIA
 Name:		nvidia-settings
 # keep the version in sync with xorg-driver-video-nvidia.spec
-Version:	304.64
+Version:	310.19
 Release:	1
 License:	GPL
 Group:		X11
 Source0:	ftp://download.nvidia.com/XFree86/nvidia-settings/%{name}-%{version}.tar.bz2
-# Source0-md5:	038d0c43517ed3a8fea8e7a3aace14d9
+# Source0-md5:	bcd79ca8d4f806616e206f54a6cc3ab3
 Source1:	%{name}.desktop
 Source2:	%{name}.png
 URL:		ftp://download.nvidia.com/XFree86/nvidia-settings/
@@ -124,9 +124,24 @@ install -d $RPM_BUILD_ROOT%{_examplesdir}/libXNVCtrl-%{version} \
 	$RPM_BUILD_ROOT{%{_libdir},%{_includedir}/NVCtrl}
 cp -a samples/* $RPM_BUILD_ROOT%{_examplesdir}/libXNVCtrl-%{version}
 rm -r $RPM_BUILD_ROOT%{_examplesdir}/libXNVCtrl-%{version}/_out
+cp -p src/libXNVCtrl/nv_control.h $RPM_BUILD_ROOT%{_includedir}/NVCtrl
 cp -p src/libXNVCtrl/NVCtrl.h $RPM_BUILD_ROOT%{_includedir}/NVCtrl
 cp -p src/libXNVCtrl/NVCtrlLib.h $RPM_BUILD_ROOT%{_includedir}/NVCtrl
 cp -p src/libXNVCtrl/libXNVCtrl.a $RPM_BUILD_ROOT%{_libdir}
+
+install -d $RPM_BUILD_ROOT%{_pkgconfigdir}
+cat <<'EOF' > $RPM_BUILD_ROOT%{_pkgconfigdir}/libXNVCtrl.pc
+prefix=%{_prefix}
+libdir=%{_libdir}
+includedir=${prefix}/include/NVCtrl
+
+Name: libXNVCtrl
+Description: Library for accessing NV-CONTROL extension in NVIDIA's latest drivers.
+Version: %{version}
+Libs: -L${libdir} -lXNVCtrl
+Cflags: -I${includedir}
+EOF
+#'
 %endif
 
 %if %{with utils}
@@ -168,9 +183,8 @@ rm -rf $RPM_BUILD_ROOT
 %files -n libXNVCtrl-devel
 %defattr(644,root,root,755)
 %doc doc/{FRAMELOCK,NV-CONTROL-API}.txt
-%dir %{_includedir}/NVCtrl
-%{_includedir}/NVCtrl/NVCtrl.h
-%{_includedir}/NVCtrl/NVCtrlLib.h
 %{_libdir}/libXNVCtrl.a
+%{_includedir}/NVCtrl
+%{_pkgconfigdir}/libXNVCtrl.pc
 %{_examplesdir}/libXNVCtrl-%{version}
 %endif
