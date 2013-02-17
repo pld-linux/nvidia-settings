@@ -16,6 +16,7 @@ Source0:	ftp://download.nvidia.com/XFree86/nvidia-settings/%{name}-%{version}.ta
 # Source0-md5:	bcd79ca8d4f806616e206f54a6cc3ab3
 Source1:	%{name}.desktop
 Source2:	%{name}.png
+Source3:	%{name}-autostart.desktop
 URL:		ftp://download.nvidia.com/XFree86/nvidia-settings/
 BuildRequires:	OpenGL-devel
 BuildRequires:	xorg-lib-libX11-devel
@@ -110,13 +111,14 @@ sterowników NVIDIA.
 %install
 rm -rf $RPM_BUILD_ROOT
 %if %{with nvidia_settings}
-install -d $RPM_BUILD_ROOT{%{_bindir},%{_mandir}/man1,%{_desktopdir},%{_pixmapsdir}}
+install -d $RPM_BUILD_ROOT{%{_bindir},%{_mandir}/man1,%{_desktopdir},%{_pixmapsdir},/etc/xdg/autostart}
 %{__make} install \
 	INSTALL="install -p" \
 	PREFIX=%{_prefix} \
 	DESTDIR=$RPM_BUILD_ROOT
 cp -p %{SOURCE1} $RPM_BUILD_ROOT%{_desktopdir}
 cp -p %{SOURCE2} $RPM_BUILD_ROOT%{_pixmapsdir}
+cp -p %{SOURCE3} $RPM_BUILD_ROOT/etc/xdg/autostart/%{name}.desktop
 %endif
 
 %if %{with libXNVCtrl}
@@ -166,6 +168,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/nvidia-settings.1*
 %{_desktopdir}/nvidia-settings.desktop
 %{_pixmapsdir}/nvidia-settings.png
+/etc/xdg/autostart/%{name}.desktop
 %endif
 
 %if %{with utils}

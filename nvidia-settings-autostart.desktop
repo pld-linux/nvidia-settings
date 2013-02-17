@@ -1,0 +1,5 @@
+[Desktop Entry]
+Type=Application
+Exec=nvidia-settings -l
+Name=nVidia startup settings
+Comment=load nVidia preferences
