@@ -8,18 +8,19 @@ Summary:	Tool for configuring the NVIDIA driver
 Summary(pl.UTF-8):	Narzędzie do konfigurowania sterownika NVIDIA
 Name:		nvidia-settings
 # keep the version in sync with xorg-driver-video-nvidia.spec
-Version:	319.32
+Version:	319.49
 Release:	1
 License:	GPL
 Group:		X11
 Source0:	ftp://download.nvidia.com/XFree86/nvidia-settings/%{name}-%{version}.tar.bz2
-# Source0-md5:	e79e4cae77ceaa8da8dbcaf6b3c9eb39
+# Source0-md5:	e62f9da501aec646c2ab1a7d0144d26f
 Source1:	%{name}.desktop
 Source2:	%{name}.png
 Source3:	%{name}-autostart.desktop
 Patch0:		%{name}-wsecurity.patch
 URL:		ftp://download.nvidia.com/XFree86/nvidia-settings/
 BuildRequires:	OpenGL-devel
+BuildRequires:	libvdpau-devel
 BuildRequires:	xorg-lib-libX11-devel
 BuildRequires:	xorg-lib-libXext-devel
 BuildRequires:	xorg-lib-libXv-devel
@@ -81,7 +82,7 @@ sterowników NVIDIA.
 
 %prep
 %setup -q
-%patch -p1
+%patch0 -p1
 
 %{__rm} src/libXNVCtrl/libXNVCtrl.a
 
