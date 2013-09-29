@@ -5,7 +5,7 @@
  {
      nv_msg(NULL, "");
 -    nv_msg(NULL, pNV_ID);
-+    nv_msg(NULL, pNV_ID, "%s");
++    nv_msg(NULL, "%s", pNV_ID);
      nv_msg(TAB, "The NVIDIA X Server Settings tool.");
      nv_msg(NULL, "");
      nv_msg(TAB, "This program is used to configure the "
@@ -25,7 +25,7 @@
 -    nv_msg(TAB, name);
 -    nv_msg_preserve_whitespace(BIGTAB, description);
 +    nv_msg(TAB, "%s", name);
-+    nv_msg_preserve_whitespace(BIGTAB, "%s", description, "%s");
++    nv_msg_preserve_whitespace(BIGTAB, "%s", description);
      nv_msg(NULL, "");
  }
  
@@ -36,7 +36,7 @@
          nv_msg(TAB, "direct rendering: %s", NULL_TO_EMPTY(direct_rendering));
          nv_msg(TAB, "GLX extensions:");
 -        nv_msg("    ", NULL_TO_EMPTY(glx_extensions));
-+        nv_msg("    ", NULL_TO_EMPTY(glx_extensions),"%s");
++        nv_msg("    ", "%s", NULL_TO_EMPTY(glx_extensions));
          nv_msg(" ", "\n");
          nv_msg(TAB, "server glx vendor string: %s",
                 NULL_TO_EMPTY(server_vendor));
@@ -44,7 +44,7 @@
                 NULL_TO_EMPTY(server_version));
          nv_msg(TAB, "server glx extensions:");
 -        nv_msg("    ", NULL_TO_EMPTY(server_extensions));
-+        nv_msg("    ", NULL_TO_EMPTY(server_extensions),"%s");
++        nv_msg("    ", "%s", NULL_TO_EMPTY(server_extensions));
          nv_msg(" ", "\n");
          nv_msg(TAB, "client glx vendor string: %s",
                 NULL_TO_EMPTY(client_vendor));
@@ -52,7 +52,7 @@
                 NULL_TO_EMPTY(client_version));
          nv_msg(TAB, "client glx extensions:");
 -        nv_msg("    ", NULL_TO_EMPTY(client_extensions));
-+        nv_msg("    ", NULL_TO_EMPTY(client_extensions),"%s");
++        nv_msg("    ", "%s", NULL_TO_EMPTY(client_extensions));
          nv_msg(" ", "\n");
          nv_msg(TAB, "OpenGL vendor string: %s",
                 NULL_TO_EMPTY(opengl_vendor));
@@ -61,7 +61,7 @@
                 NULL_TO_EMPTY(opengl_version));
          nv_msg(TAB, "OpenGL extensions:");
 -        nv_msg("    ", NULL_TO_EMPTY(opengl_extensions));
-+        nv_msg("    ", NULL_TO_EMPTY(opengl_extensions),"%s");
++        nv_msg("    ", "%s", NULL_TO_EMPTY(opengl_extensions));
  #ifdef GLX_VERSION_1_3        
          if ( fbconfig_attribs != NULL ) {
              nv_msg(" ", "\n");
@@ -72,7 +72,7 @@
      if (ctk_xvideo->active_attributes & __XV_SYNC_TO_DISPLAY) {
          ctk_help_heading(b, &i, "Sync to this display device");
 -        ctk_help_para(b, &i, __xv_sync_to_display_help);
-+        ctk_help_para(b, &i, __xv_sync_to_display_help,"%s");
++        ctk_help_para(b, &i, "%s", __xv_sync_to_display_help);
      }
      
      ctk_help_finish(b);
@@ -84,8 +84,8 @@
                    "The following options are available:");
 -    ctk_help_para(b, &i, __server_checkbox_help);
 -    ctk_help_para(b, &i, __client_checkbox_help);
-+    ctk_help_para(b, &i, __server_checkbox_help,"%s");
-+    ctk_help_para(b, &i, __client_checkbox_help,"%s");
++    ctk_help_para(b, &i, "%s", __server_checkbox_help);
++    ctk_help_para(b, &i, "%s", __client_checkbox_help);
      ctk_help_para(b, &i, "Stereo LED: This indicates whether or not the "
                    "display device is synced to the stereo signal coming from "
                    "the Quadro Sync device.  This LED is only available to "
@@ -94,14 +94,14 @@
  
      ctk_help_heading(b, &i, "Adding Devices");
 -    ctk_help_para(b, &i, __add_devices_button_help);
-+    ctk_help_para(b, &i, __add_devices_button_help,"%s");
++    ctk_help_para(b, &i, "%s", __add_devices_button_help);
      ctk_help_para(b, &i, "If the X Server is remote, be sure you have "
                    "configured remote access (via `xhost`, for example) "
                    "such that you are allowed to establish a connection.");
      
      ctk_help_heading(b, &i, "Removing Devices");
 -    ctk_help_para(b, &i, __remove_devices_button_help);
-+    ctk_help_para(b, &i, __remove_devices_button_help,"%s");
++    ctk_help_para(b, &i, "%s", __remove_devices_button_help);
  
      /* House Sync Frame Help */
  
@@ -110,7 +110,7 @@
  
      ctk_help_heading(b, &i, "Use House Sync on Server");
 -    ctk_help_para(b, &i, __use_house_sync_button_help);
-+    ctk_help_para(b, &i, __use_house_sync_button_help,"%s");
++    ctk_help_para(b, &i, "%s", __use_house_sync_button_help);
      ctk_help_para(b, &i, "If this option is checked and no house signal "
                    "is detected (House LED is red), the Quadro Sync device "
                    "will fall back to using internal timings from the primary "
@@ -118,11 +118,11 @@
  
      ctk_help_heading(b, &i, "Sync Interval");
 -    ctk_help_para(b, &i, __sync_interval_scale_help);
-+    ctk_help_para(b, &i, __sync_interval_scale_help,"%s");
++    ctk_help_para(b, &i, "%s", __sync_interval_scale_help);
  
      ctk_help_heading(b, &i, "Sync Edge");
 -    ctk_help_para(b, &i, __sync_edge_combo_help);
-+    ctk_help_para(b, &i, __sync_edge_combo_help,"%s");
++    ctk_help_para(b, &i, "%s", __sync_edge_combo_help);
      ctk_help_para(b, &i, "Syncing to the rising (leading) edge should be "
                    "suitable for bi-level and TTL signals.  Syncing to the "
                    "falling edge should be used for tri-level signals.  "
@@ -131,11 +131,11 @@
  
      ctk_help_heading(b, &i, "Video Mode");
 -    ctk_help_para(b, &i, __video_mode_help);
-+    ctk_help_para(b, &i, __video_mode_help,"%s");
++    ctk_help_para(b, &i, "%s", __video_mode_help);
  
      ctk_help_heading(b, &i, "Video Mode Detect");
 -    ctk_help_para(b, &i, __detect_video_mode_button_help);
-+    ctk_help_para(b, &i, __detect_video_mode_button_help,"%s");
++    ctk_help_para(b, &i, "%s", __detect_video_mode_button_help);
  
      /* Button Help */
      
@@ -144,7 +144,7 @@
  
      ctk_help_heading(b, &i, "Enable Frame Lock");
 -    ctk_help_para(b, &i, __sync_enable_button_help);
-+    ctk_help_para(b, &i, __sync_enable_button_help,"%s");
++    ctk_help_para(b, &i, "%s", __sync_enable_button_help);
      ctk_help_para(b, &i, "Only devices selected as clients or server will be "
                    "enabled.");
  
@@ -155,7 +155,7 @@
      
      ctk_help_heading(b, &i, "Reset Hardware Defaults");
 -    ctk_help_para(b, &i, __resest_button_help);
-+    ctk_help_para(b, &i, __resest_button_help,"%s");
++    ctk_help_para(b, &i, "%s", __resest_button_help);
  
      ctk_help_finish(b);
  
@@ -164,7 +164,7 @@
  
      ctk_help_term(b, i, "Active Color Channel");
 -    ctk_help_para(b, i, __active_color_help);
-+    ctk_help_para(b, i, __active_color_help,"%s");
++    ctk_help_para(b, i, "%s", __active_color_help);
  
      ctk_help_term(b, i, "Brightness, Contrast and Gamma");
      ctk_help_para(b, i, "The Brightness, Contrast and Gamma sliders "
@@ -173,7 +173,7 @@
                    "appear brighter, making them more playable.");
  
 -    ctk_help_para(b, i, __color_curve_help);
-+    ctk_help_para(b, i, __color_curve_help,"%s");
++    ctk_help_para(b, i, "%s", __color_curve_help);
  
      if (randr) {
          ctk_help_para(b, i, "The %s tab uses the RandR extension to "
@@ -182,7 +182,7 @@
  
      ctk_help_term(b, i, "Confirm Current Changes");
 -    ctk_help_para(b, i, __confirm_button_help);
-+    ctk_help_para(b, i, __confirm_button_help,"%s");
++    ctk_help_para(b, i, "%s", __confirm_button_help);
  }
 --- nvidia-settings-319.32/src/gtk+-2.x/ctkmultisample.c.old	2013-06-29 18:41:57.000000000 +0200
 +++ nvidia-settings-319.32/src/gtk+-2.x/ctkmultisample.c	2013-06-29 18:44:37.000000000 +0200
@@ -191,7 +191,7 @@
          
          if (ctk_multisample->active_attributes & __FSAA_ENHANCE) {
 -            ctk_help_para(b, &i, __aa_menu_help);
-+            ctk_help_para(b, &i, __aa_menu_help,"%s");
++            ctk_help_para(b, &i, "%s", __aa_menu_help);
              ctk_help_para(b, &i, "Use Application Settings will let applications "
                            "choose the AA mode.");
              ctk_help_para(b, &i, "Override Application Settings will override "
@@ -200,7 +200,7 @@
                            "slider.");
          } else {
 -            ctk_help_para(b, &i, __aa_override_app_help);
-+            ctk_help_para(b, &i, __aa_override_app_help,"%s");
++            ctk_help_para(b, &i, "%s", __aa_override_app_help);
          }
  
          if (ctk_multisample->active_attributes & __FSAA_NONE) {
@@ -209,7 +209,7 @@
      if (ctk_multisample->active_attributes & __FXAA) {
          ctk_help_term(b, &i, "Enable FXAA");
 -        ctk_help_para(b, &i, __fxaa_enable_help);
-+        ctk_help_para(b, &i, __fxaa_enable_help,"%s");
++        ctk_help_para(b, &i, "%s", __fxaa_enable_help);
      }
  
      if (ctk_multisample->active_attributes & __LOG_ANISO_RANGE) {
@@ -218,16 +218,16 @@
          ctk_help_term(b, &i, "Override Application Setting");
          
 -        ctk_help_para(b, &i, __aniso_override_app_help);
-+        ctk_help_para(b, &i, __aniso_override_app_help,"%s");
++        ctk_help_para(b, &i, "%s", __aniso_override_app_help);
          
 -        ctk_help_para(b, &i, __aniso_slider_help);
-+        ctk_help_para(b, &i, __aniso_slider_help,"%s");
++        ctk_help_para(b, &i, "%s", __aniso_slider_help);
      }
  
      if (ctk_multisample->active_attributes & __TEXTURE_SHARPEN) {
          ctk_help_heading(b, &i, "Texture Sharpening");
 -        ctk_help_para(b, &i, __texture_sharpening_help);
-+        ctk_help_para(b, &i, __texture_sharpening_help,"%s");
++        ctk_help_para(b, &i, "%s", __texture_sharpening_help);
      }
  
      ctk_help_finish(b);
@@ -238,7 +238,7 @@
      if (ctk_opengl->active_attributes & __SYNC_TO_VBLANK) {
          ctk_help_heading(b, &i, "Sync to VBlank");
 -        ctk_help_para(b, &i, __sync_to_vblank_help);
-+        ctk_help_para(b, &i, __sync_to_vblank_help,"%s");
++        ctk_help_para(b, &i, "%s", __sync_to_vblank_help);
      }
  
      if (ctk_opengl->active_attributes & __ALLOW_FLIPPING) {
@@ -247,19 +247,19 @@
      if (ctk_opengl->active_attributes & __FORCE_STEREO) {
          ctk_help_heading(b, &i, "Force Stereo Flipping");
 -        ctk_help_para(b, &i, __force_stereo_help);
-+        ctk_help_para(b, &i, __force_stereo_help,"%s");
++        ctk_help_para(b, &i, "%s", __force_stereo_help);
      }
      
      if (ctk_opengl->active_attributes & __XINERAMA_STEREO) {
          ctk_help_heading(b, &i, "Allow Xinerama Stereo Flipping");
 -        ctk_help_para(b, &i, __xinerama_stereo_help);
-+        ctk_help_para(b, &i, __xinerama_stereo_help,"%s");
++        ctk_help_para(b, &i, "%s", __xinerama_stereo_help);
      }
      
      if (ctk_opengl->active_attributes & __STEREO_EYES_EXCHANGE) {
          ctk_help_heading(b, &i, "Exchange Stereo Eyes");
 -        ctk_help_para(b, &i, __stereo_eyes_exchange_help);
-+        ctk_help_para(b, &i, __stereo_eyes_exchange_help,"%s");
++        ctk_help_para(b, &i, "%s", __stereo_eyes_exchange_help);
      }
      
      if (ctk_opengl->active_attributes & __IMAGE_SETTINGS) {
@@ -275,13 +275,13 @@
          ctk_help_heading(b, &i, "Set gamma correction for "
                           "antialiased lines");
 -        ctk_help_para(b, &i, __aa_line_gamma_slider_help);
-+        ctk_help_para(b, &i, __aa_line_gamma_slider_help,"%s");
++        ctk_help_para(b, &i, "%s", __aa_line_gamma_slider_help);
      }
  
      if (ctk_opengl->active_attributes & __CONFORMANT_CLAMPING) {
          ctk_help_heading(b, &i, "Use Conformant Texture Clamping");
 -        ctk_help_para(b, &i, __use_conformant_clamping_help);
-+        ctk_help_para(b, &i, __use_conformant_clamping_help,"%s");
++        ctk_help_para(b, &i, "%s", __use_conformant_clamping_help);
      }
  
      if (ctk_opengl->active_attributes & __SHOW_SLI_VISUAL_INDICATOR) {
@@ -292,7 +292,7 @@
  
      ctk_help_heading(b, &i, "Show GLX Frame Buffer Configurations");
 -    ctk_help_para(b, &i, __show_fbc_help);
-+    ctk_help_para(b, &i, __show_fbc_help,"%s");
++    ctk_help_para(b, &i, "%s", __show_fbc_help);
  
      ctk_help_heading(b, &i, "GLX Frame Buffer Configurations");
      ctk_help_para(b, &i, "This table lists the supported frame buffer "
@@ -303,7 +303,7 @@
  {
      ctk_help_heading(b, i, "Reset Hardware Defaults");
 -    ctk_help_para(b, i, text);
-+    ctk_help_para(b, i, text,"%s");
++    ctk_help_para(b, i, "%s", text);
  }
  
  
@@ -312,10 +312,10 @@
          item = (CtkHelpDataItem *)cur->data;
          if (use_headings) {
 -            ctk_help_heading(b, i, item->label);
-+            ctk_help_heading(b, i, item->label,"%s");
++            ctk_help_heading(b, i, "%s", item->label);
          } else {
 -            ctk_help_term(b, i, item->label);
-+            ctk_help_term(b, i, item->label,"%s");
++            ctk_help_term(b, i, "%s", item->label);
          }
          g_string_printf(temp_string, "%s", item->help_text);
          if (item->extended_help_text) {
@@ -323,7 +323,7 @@
                                     item->extended_help_text);
          }
 -        ctk_help_para(b, i, temp_string->str);
-+        ctk_help_para(b, i, temp_string->str,"%s");
++        ctk_help_para(b, i, "%s", temp_string->str);
      }
  
      g_string_free(temp_string, TRUE);
@@ -334,7 +334,7 @@
  
      ctk_help_heading(b, &i, "Device Information");
 -    ctk_help_para(b, &i, __info_help);
-+    ctk_help_para(b, &i, __info_help,"%s");
++    ctk_help_para(b, &i, "%s", __info_help);
  
      for (j = 0; j < ARRAY_LEN(__info_entry_data); j++) {
          InfoEntryData *entryData = __info_entry_data+j;
@@ -343,8 +343,8 @@
          if (entry->present) {
 -            ctk_help_term(b, &i, entryData->str);
 -            ctk_help_para(b, &i, *entryData->tooltip);
-+            ctk_help_term(b, &i, entryData->str,"%s");
-+            ctk_help_para(b, &i, *entryData->tooltip,"%s");
++            ctk_help_term(b, &i, "%s", entryData->str);
++            ctk_help_para(b, &i, "%s", *entryData->tooltip);
          }
      }
  
@@ -355,19 +355,19 @@
  
      ctk_help_heading(b, i, "Dithering Controls");
 -    ctk_help_para(b, i, __dithering_help);
-+    ctk_help_para(b, i, __dithering_help,"%s");
++    ctk_help_para(b, i, "%s", __dithering_help);
  
      ctk_help_term(b, i, "Dithering");
 -    ctk_help_para(b, i, __dithering_config_help);
-+    ctk_help_para(b, i, __dithering_config_help,"%s");
++    ctk_help_para(b, i, "%s", __dithering_config_help);
  
      ctk_help_term(b, i, "Mode");
 -    ctk_help_para(b, i, __dithering_mode_help);
-+    ctk_help_para(b, i, __dithering_mode_help,"%s");
++    ctk_help_para(b, i, "%s", __dithering_mode_help);
  
      ctk_help_term(b, i, "Depth");
 -    ctk_help_para(b, i, __dithering_depth_help);
-+    ctk_help_para(b, i, __dithering_depth_help,"%s");
++    ctk_help_para(b, i, "%s", __dithering_depth_help);
  } /* add_dithering_controls_help() */
  
  
@@ -378,39 +378,39 @@
      if (!ctk_thermal->thermal_sensor_target_type_supported) {
          ctk_help_heading(b, &i, "Slowdown Threshold");
 -        ctk_help_para(b, &i, __core_threshold_help);
-+        ctk_help_para(b, &i, __core_threshold_help,"%s");
++        ctk_help_para(b, &i, "%s", __core_threshold_help);
  
          ctk_help_heading(b, &i, "Core Temperature");
 -        ctk_help_para(b, &i, __core_temp_help);
-+        ctk_help_para(b, &i, __core_temp_help,"%s");
++        ctk_help_para(b, &i, "%s", __core_temp_help);
  
          if (ctk_thermal->ambient_label) {
              ctk_help_heading(b, &i, "Ambient Temperature");
 -            ctk_help_para(b, &i, __ambient_temp_help);
-+            ctk_help_para(b, &i, __ambient_temp_help,"%s");
++            ctk_help_para(b, &i, "%s", __ambient_temp_help);
          }
      } else {
          ctk_help_title(b, &i, "Thermal Sensor Information Help");
  
          ctk_help_heading(b, &i, "ID");
 -        ctk_help_para(b, &i, __thermal_sensor_id_help);
-+        ctk_help_para(b, &i, __thermal_sensor_id_help,"%s");
++        ctk_help_para(b, &i, "%s", __thermal_sensor_id_help);
  
          ctk_help_heading(b, &i, "Temperature");
 -        ctk_help_para(b, &i, __thermal_sensor_reading_help);
-+        ctk_help_para(b, &i, __thermal_sensor_reading_help,"%s");
++        ctk_help_para(b, &i, "%s", __thermal_sensor_reading_help);
  
          ctk_help_heading(b, &i, "Target");
 -        ctk_help_para(b, &i, __thermal_sensor_target_help);
-+        ctk_help_para(b, &i, __thermal_sensor_target_help,"%s");
++        ctk_help_para(b, &i, "%s", __thermal_sensor_target_help);
          
          ctk_help_heading(b, &i, "Provider");
 -        ctk_help_para(b, &i, __thermal_sensor_provider_help);
-+        ctk_help_para(b, &i, __thermal_sensor_provider_help,"%s");
++        ctk_help_para(b, &i, "%s", __thermal_sensor_provider_help);
      }
      ctk_help_heading(b, &i, "Level");
 -    ctk_help_para(b, &i, __temp_level_help);
-+    ctk_help_para(b, &i, __temp_level_help,"%s");
++    ctk_help_para(b, &i, "%s", __temp_level_help);
  
  next_help:
      /* if Fan not available skip online help */
@@ -419,32 +419,32 @@
  
      ctk_help_heading(b, &i, "ID");
 -    ctk_help_para(b, &i, __fan_id_help);
-+    ctk_help_para(b, &i, __fan_id_help,"%s");
++    ctk_help_para(b, &i, "%s", __fan_id_help);
  
      ctk_help_heading(b, &i, "Speed (%%)");
 -    ctk_help_para(b, &i, __fan_speed_help);
-+    ctk_help_para(b, &i, __fan_speed_help,"%s");
++    ctk_help_para(b, &i, "%s", __fan_speed_help);
  
      ctk_help_heading(b, &i, "Type");
 -    ctk_help_para(b, &i, __fan_control_type_help);
-+    ctk_help_para(b, &i, __fan_control_type_help,"%s");
++    ctk_help_para(b, &i, "%s", __fan_control_type_help);
  
      ctk_help_heading(b, &i, "Cooling Target");
 -    ctk_help_para(b, &i, __fan_cooling_target_help);
-+    ctk_help_para(b, &i, __fan_cooling_target_help,"%s");
++    ctk_help_para(b, &i, "%s", __fan_cooling_target_help);
  
      ctk_help_heading(b, &i, "Enable GPU Fan Settings");
 -    ctk_help_para(b, &i, __enable_button_help);
-+    ctk_help_para(b, &i, __enable_button_help,"%s");
++    ctk_help_para(b, &i, "%s", __enable_button_help);
  
      if ( ctk_thermal->show_fan_control_frame ) {
          ctk_help_heading(b, &i, "Enable GPU Fan Settings");
 -        ctk_help_para(b, &i, __apply_button_help);
-+        ctk_help_para(b, &i, __apply_button_help,"%s");
++        ctk_help_para(b, &i, "%s", __apply_button_help);
  
          ctk_help_heading(b, &i, "Enable GPU Fan Settings");
 -        ctk_help_para(b, &i, __reset_button_help);
-+        ctk_help_para(b, &i, __reset_button_help,"%s");
++        ctk_help_para(b, &i, "%s", __reset_button_help);
      }
  done:
      ctk_help_finish(b);
@@ -455,7 +455,7 @@
      }
  
 -    ctk_config_statusbar_message(ctk_powermizer->ctk_config, message);
-+    ctk_config_statusbar_message(ctk_powermizer->ctk_config, message,"%s");
++    ctk_config_statusbar_message(ctk_powermizer->ctk_config, "%s", message);
  } /* post_dp_configuration_update() */
  
  
@@ -464,7 +464,7 @@
      if (ctk_powermizer->adaptive_clock_status) {
          ctk_help_heading(b, &i, "Adaptive Clocking");
 -        ctk_help_para(b, &i, __adaptive_clock_help);
-+        ctk_help_para(b, &i, __adaptive_clock_help,"%s");
++        ctk_help_para(b, &i, "%s", __adaptive_clock_help);
      }
  
      if (ctk_powermizer->gpu_clock && ctk_powermizer->memory_clock) {
@@ -473,16 +473,16 @@
      if (ctk_powermizer->power_source) {
          ctk_help_heading(b, &i, "Power Source");
 -        ctk_help_para(b, &i, __power_source_help);
-+        ctk_help_para(b, &i, __power_source_help,"%s");
++        ctk_help_para(b, &i, "%s", __power_source_help);
      }
  
      if (ctk_powermizer->pcie_gen_queriable) {
          ctk_help_heading(b, &i, "Current PCIe link width");
 -        ctk_help_para(b, &i, __current_pcie_link_width_help);
-+        ctk_help_para(b, &i, __current_pcie_link_width_help,"%s");
++        ctk_help_para(b, &i, "%s", __current_pcie_link_width_help);
          ctk_help_heading(b, &i, "Current PCIe link speed");
 -        ctk_help_para(b, &i, __current_pcie_link_speed_help);
-+        ctk_help_para(b, &i, __current_pcie_link_speed_help,"%s");
++        ctk_help_para(b, &i, "%s", __current_pcie_link_speed_help);
      }
  
      if (ctk_powermizer->performance_level) {
@@ -490,19 +490,19 @@
          ctk_help_para(b, &i, __performance_level_help);
          ctk_help_heading(b, &i, "Performance Levels (Table)");
 -        ctk_help_para(b, &i, __performance_levels_table_help);
-+        ctk_help_para(b, &i, __performance_levels_table_help,"%s");
++        ctk_help_para(b, &i, "%s", __performance_levels_table_help);
      }
  
      if (ctk_powermizer->powermizer_menu) {
          ctk_help_heading(b, &i, "PowerMizer Settings");
 -        ctk_help_para(b, &i, ctk_powermizer->powermizer_menu_help);
-+        ctk_help_para(b, &i, ctk_powermizer->powermizer_menu_help,"%s");
++        ctk_help_para(b, &i, "%s", ctk_powermizer->powermizer_menu_help);
      }
  
      if (ctk_powermizer->configuration_button) {
          ctk_help_heading(b, &i, "CUDA - Double precision");
 -        ctk_help_para(b, &i, __dp_configuration_button_help);
-+        ctk_help_para(b, &i, __dp_configuration_button_help,"%s");
++        ctk_help_para(b, &i, "%s", __dp_configuration_button_help);
      }
  
      ctk_help_finish(b);
@@ -513,7 +513,7 @@
                  "Memory Clock frequencies.";
          }
 -        ctk_help_para(b, &i, s);
-+        ctk_help_para(b, &i, s,"%s");
++        ctk_help_para(b, &i, "%s", s);
      }
  
      if (ctk_powermizer->power_source) {
@@ -522,9 +522,9 @@
      if (ctk_powermizer->performance_level) {
          ctk_help_heading(b, &i, "Performance Level");
 -        ctk_help_para(b, &i, __performance_level_help);
-+        ctk_help_para(b, &i, __performance_level_help,"%s");
++        ctk_help_para(b, &i, "%s", __performance_level_help);
          ctk_help_heading(b, &i, "Performance Levels (Table)");
-         ctk_help_para(b, &i, __performance_levels_table_help,"%s");
+         ctk_help_para(b, &i, "%s", __performance_levels_table_help);
      }
 --- nvidia-settings-319.32/src/gtk+-2.x/ctkgvo.c.old	2013-06-29 19:01:26.000000000 +0200
 +++ nvidia-settings-319.32/src/gtk+-2.x/ctkgvo.c	2013-06-29 19:04:32.000000000 +0200
@@ -533,20 +533,20 @@
                    "that is associated with the X screen.");
      ctk_help_heading(b, &i, "Firmware Version");
 -    ctk_help_para(b, &i, __general_firmware_version_help);
-+    ctk_help_para(b, &i, __general_firmware_version_help,"%s");
++    ctk_help_para(b, &i, "%s", __general_firmware_version_help);
      ctk_help_heading(b, &i, "Current SDI Resolution");
 -    ctk_help_para(b, &i, __general_current_sdi_resolution_help);
-+    ctk_help_para(b, &i, __general_current_sdi_resolution_help,"%s");
++    ctk_help_para(b, &i, "%s", __general_current_sdi_resolution_help);
      ctk_help_heading(b, &i, "Current SDI State");
 -    ctk_help_para(b, &i, __general_current_sdi_state_help);
-+    ctk_help_para(b, &i, __general_current_sdi_state_help,"%s");
++    ctk_help_para(b, &i, "%s", __general_current_sdi_state_help);
  
      ctk_help_heading(b, &i, "Requested SDI Video Format");
 -    ctk_help_para(b, &i, __requested_sdi_video_format_help);
-+    ctk_help_para(b, &i, __requested_sdi_video_format_help,"%s");
++    ctk_help_para(b, &i, "%s", __requested_sdi_video_format_help);
      ctk_help_heading(b, &i, "Requested SDI Data Format");
 -    ctk_help_para(b, &i, __requested_sdi_data_format_help);
-+    ctk_help_para(b, &i, __requested_sdi_data_format_help,"%s");
++    ctk_help_para(b, &i, "%s", __requested_sdi_data_format_help);
  
      ctk_help_finish(b);
  
@@ -557,11 +557,11 @@
  
      ctk_help_heading(b, &i, "Override default Color Space Conversion");
 -    ctk_help_para(b, &i, __override_help);
-+    ctk_help_para(b, &i, __override_help,"%s");
++    ctk_help_para(b, &i, "%s", __override_help);
  
      ctk_help_heading(b, &i, "Initialize Color Space Conversion");
 -    ctk_help_para(b, &i, __initialize_help);
-+    ctk_help_para(b, &i, __initialize_help,"%s");
++    ctk_help_para(b, &i, "%s", __initialize_help);
  
      ctk_help_heading(b, &i, "Color Space Conversion Matrix, Offset and Scale");
      ctk_help_para(b, &i, "%s  RGB color is converted to YCrCb in the "
@@ -570,12 +570,12 @@
      if (ctk_gvo_csc->caps & NV_CTRL_GVO_CAPABILITIES_APPLY_CSC_IMMEDIATELY) {
          ctk_help_heading(b, &i, "Apply Changes Immediately");
 -        ctk_help_para(b, &i, __apply_immediately_help);
-+        ctk_help_para(b, &i, __apply_immediately_help,"%s");
++        ctk_help_para(b, &i, "%s", __apply_immediately_help);
      }
  
      ctk_help_heading(b, &i, "Apply");
 -    ctk_help_para(b, &i, __apply_help);
-+    ctk_help_para(b, &i, __apply_help,"%s");
++    ctk_help_para(b, &i, "%s", __apply_help);
  
      ctk_help_finish(b);
  
@@ -586,7 +586,7 @@
                    );
      ctk_help_heading(b, &i, "Enabling Clock Frequencies");
 -    ctk_help_para(b, &i, __enable_button_help);
-+    ctk_help_para(b, &i, __enable_button_help,"%s");
++    ctk_help_para(b, &i, "%s", __enable_button_help);
      ctk_help_para(b, &i,
                    "GPU Overclocking functionality is currently limited to "
                    "GeForce FX and newer non-mobile GPUs."
@@ -595,26 +595,26 @@
                    );
      ctk_help_heading(b, &i, "Graphics Clock Frequency");
 -    ctk_help_para(b, &i, __graphics_clock_help);
-+    ctk_help_para(b, &i, __graphics_clock_help,"%s");
++    ctk_help_para(b, &i, "%s", __graphics_clock_help);
      ctk_help_heading(b, &i, "Memory Clock Frequency");
 -    ctk_help_para(b, &i, __mem_clock_help);
-+    ctk_help_para(b, &i, __mem_clock_help,"%s");
++    ctk_help_para(b, &i, "%s", __mem_clock_help);
      ctk_help_heading(b, &i, "Applying Custom Clock Frequencies");
 -    ctk_help_para(b, &i, __apply_button_help);
-+    ctk_help_para(b, &i, __apply_button_help,"%s");
++    ctk_help_para(b, &i, "%s", __apply_button_help);
      ctk_help_heading(b, &i, "Auto Detect Optimal 3D Clock Frequencies");
 -    ctk_help_para(b, &i, __detect_button_help);
-+    ctk_help_para(b, &i, __detect_button_help,"%s");
++    ctk_help_para(b, &i, "%s", __detect_button_help);
      ctk_help_heading(b, &i, "Canceling Optimal 3D Clock Frequency Auto-"
                       "detection.");
 -    ctk_help_para(b, &i, __cancel_button_help);
-+    ctk_help_para(b, &i, __cancel_button_help,"%s");
++    ctk_help_para(b, &i, "%s", __cancel_button_help);
      ctk_help_para(b, &i,
                    "This button is only available if the Optimal "
                    "clocks are currently being probed.");
      ctk_help_heading(b, &i, "Restoring Hardware Default Frequencies");
 -    ctk_help_para(b, &i, __reset_button_help);
-+    ctk_help_para(b, &i, __reset_button_help,"%s");
++    ctk_help_para(b, &i, "%s", __reset_button_help);
  
      ctk_help_finish(b);
  
@@ -623,11 +623,11 @@
      if ( ctk_object->probing_optimal ) {
          ctk_config_statusbar_message(ctk_object->ctk_config,
 -                                     __detect_wait_msg);
-+                                     __detect_wait_msg,"%s");
++                                     "%s", __detect_wait_msg);
      } else {
          ctk_config_statusbar_message(ctk_object->ctk_config,
 -                                     __canceled_msg);
-+                                     __canceled_msg,"%s");
++                                     "%s", __canceled_msg);
      }
  
  } /* auto_detection_state_received() */
@@ -636,7 +636,7 @@
           value == NV_CTRL_GPU_OPTIMAL_CLOCK_FREQS_DETECTION_STATE_BUSY ) {
          ctk_config_statusbar_message(ctk_object->ctk_config,
 -                                     __detect_wait_msg);
-+                                     __detect_wait_msg,"%s");
++                                     "%s", __detect_wait_msg);
      }
  }
 --- nvidia-settings-319.32/src/gtk+-2.x/ctkutils.c.old	2013-06-29 19:20:51.000000000 +0200
@@ -646,7 +646,7 @@
      
      if (msg) {
 -        nv_error_msg(msg);
-+        nv_error_msg(msg,"%s");
++        nv_error_msg("%s", msg);
  
          if (parent) {
              dlg = gtk_message_dialog_new
@@ -655,7 +655,7 @@
      
      if (msg) {
 -        nv_warning_msg(msg);
-+        nv_warning_msg(msg,"%s");
++        nv_warning_msg("%s", msg);
  
          if (parent) {
              dlg = gtk_message_dialog_new
@@ -666,7 +666,7 @@
  {
      ctk_help_heading(b, i, "Acquire EDID");
 -    ctk_help_para(b, i, __acquire_edid_help);
-+    ctk_help_para(b, i, __acquire_edid_help,"%s");
++    ctk_help_para(b, i, "%s", __acquire_edid_help);
  
  } /* add_acquire_edid_help() */
 --- nvidia-settings-319.32/src/gtk+-2.x/ctkdisplayconfig.c.old	2013-06-29 20:13:12.000000000 +0200
@@ -676,7 +676,7 @@
              parent = ctk_get_parent_window(GTK_WIDGET(ctk_object));
              if (!parent) {
 -                nv_warning_msg(msg);
-+                nv_warning_msg(msg,"%s");
++                nv_warning_msg("%s", msg);
                  g_free(msg);
                  break;
              }
@@ -685,13 +685,13 @@
                    "be moved by holding CONTROL-Click and dragging.");
      ctk_help_heading(b, &i, "Layout Hidden Label");
 -    ctk_help_para(b, &i, __layout_hidden_label_help);
-+    ctk_help_para(b, &i, __layout_hidden_label_help,"%s");
++    ctk_help_para(b, &i, "%s", __layout_hidden_label_help);
      ctk_help_heading(b, &i, "Enable Xinerama");
      ctk_help_para(b, &i, "%s  This setting is only available when multiple "
                    "X screens are present.", __layout_xinerama_button_help);
      ctk_help_heading(b, &i, "Selection");
 -    ctk_help_para(b, &i, __selected_item_help);
-+    ctk_help_para(b, &i, __selected_item_help,"%s");
++    ctk_help_para(b, &i, "%s", __selected_item_help);
  
      ctk_help_para(b, &i, "");
      ctk_help_heading(b, &i, "Display Options");
@@ -700,7 +700,7 @@
                    "the settings for that display device.");
      ctk_help_heading(b, &i, "Resolution");
 -    ctk_help_para(b, &i, __dpy_resolution_mnu_help);
-+    ctk_help_para(b, &i, __dpy_resolution_mnu_help,"%s");
++    ctk_help_para(b, &i, "%s", __dpy_resolution_mnu_help);
      ctk_help_heading(b, &i, "Refresh");
      ctk_help_para(b, &i, "The Refresh drop-down is to the right of the "
                    "Resolution drop-down.  %s", __dpy_refresh_mnu_help);
@@ -709,7 +709,7 @@
                    "This is only available when advanced view is enabled.");
      ctk_help_heading(b, &i, "Stereo Eye");
 -    ctk_help_para(b, &i, __dpy_stereo_help);
-+    ctk_help_para(b, &i, __dpy_stereo_help,"%s");
++    ctk_help_para(b, &i, "%s", __dpy_stereo_help);
      ctk_help_heading(b, &i, "Orientation");
      ctk_help_para(b, &i, "The Orientation drop-downs control how the desktop "
                    "image is rotated and/or reflected.  %s  %s  Note that "
@@ -718,25 +718,25 @@
                    "Compensation.", __dpy_underscan_text_help);
      ctk_help_heading(b, &i, "Position Type");
 -    ctk_help_para(b, &i, __dpy_position_type_help);
-+    ctk_help_para(b, &i, __dpy_position_type_help,"%s");
++    ctk_help_para(b, &i, "%s", __dpy_position_type_help);
      ctk_help_heading(b, &i, "Position Relative");
 -    ctk_help_para(b, &i, __dpy_position_relative_help);
-+    ctk_help_para(b, &i, __dpy_position_relative_help,"%s");
++    ctk_help_para(b, &i, "%s", __dpy_position_relative_help);
      ctk_help_heading(b, &i, "Position Offset");
 -    ctk_help_para(b, &i, __dpy_position_offset_help);
-+    ctk_help_para(b, &i, __dpy_position_offset_help,"%s");
++    ctk_help_para(b, &i, "%s", __dpy_position_offset_help);
      ctk_help_heading(b, &i, "ViewPortIn");
 -    ctk_help_para(b, &i, __dpy_viewport_in_help);
-+    ctk_help_para(b, &i, __dpy_viewport_in_help,"%s");
++    ctk_help_para(b, &i, "%s", __dpy_viewport_in_help);
      ctk_help_heading(b, &i, "ViewPortOut");
 -    ctk_help_para(b, &i, __dpy_viewport_out_help);
-+    ctk_help_para(b, &i, __dpy_viewport_out_help,"%s");
++    ctk_help_para(b, &i, "%s", __dpy_viewport_out_help);
      ctk_help_heading(b, &i, "Panning");
      ctk_help_para(b, &i, "%s  This is only available when advanced "
                    "view is enabled.", __dpy_panning_help);
      ctk_help_heading(b, &i, "Primary Display");
 -    ctk_help_para(b, &i, __dpy_primary_help);
-+    ctk_help_para(b, &i, __dpy_primary_help,"%s");
++    ctk_help_para(b, &i, "%s", __dpy_primary_help);
  
  
      ctk_help_para(b, &i, "");
@@ -745,19 +745,19 @@
                    __screen_virtual_size_help);
      ctk_help_heading(b, &i, "Color Depth");
 -    ctk_help_para(b, &i, __screen_depth_help);
-+    ctk_help_para(b, &i, __screen_depth_help,"%s");
++    ctk_help_para(b, &i, "%s", __screen_depth_help);
      ctk_help_heading(b, &i, "Stereo Mode");
 -    ctk_help_para(b, &i, __screen_stereo_help);
-+    ctk_help_para(b, &i, __screen_stereo_help,"%s");
++    ctk_help_para(b, &i, "%s", __screen_stereo_help);
      ctk_help_heading(b, &i, "Position Type");
 -    ctk_help_para(b, &i, __screen_position_type_help);
-+    ctk_help_para(b, &i, __screen_position_type_help,"%s");
++    ctk_help_para(b, &i, "%s", __screen_position_type_help);
      ctk_help_heading(b, &i, "Position Relative");
 -    ctk_help_para(b, &i, __screen_position_relative_help);
-+    ctk_help_para(b, &i, __screen_position_relative_help,"%s");
++    ctk_help_para(b, &i, "%s", __screen_position_relative_help);
      ctk_help_heading(b, &i, "Position Offset");
 -    ctk_help_para(b, &i, __screen_position_offset_help);
-+    ctk_help_para(b, &i, __screen_position_offset_help,"%s");
++    ctk_help_para(b, &i, "%s", __screen_position_offset_help);
      ctk_help_heading(b, &i, "MetaMode Selection");
      ctk_help_para(b, &i, "%s  This is only available when advanced view "
                    "is enabled.", __screen_metamode_help);
@@ -766,7 +766,7 @@
                    "screen color depth.", __apply_button_help);
      ctk_help_heading(b, &i, "Detect Displays");
 -    ctk_help_para(b, &i, __detect_displays_button_help);
-+    ctk_help_para(b, &i, __detect_displays_button_help,"%s");
++    ctk_help_para(b, &i, "%s", __detect_displays_button_help);
      ctk_help_heading(b, &i, "Advanced/Basic...");
      ctk_help_para(b, &i, "%s  The Basic view modifies the currently active "
                    "MetaMode for an X screen, while the advanced view exposes "
@@ -774,10 +774,10 @@
                    "modify each of them.", __advanced_button_help);
      ctk_help_heading(b, &i, "Reset");
 -    ctk_help_para(b, &i, __reset_button_help);
-+    ctk_help_para(b, &i, __reset_button_help,"%s");
++    ctk_help_para(b, &i, "%s", __reset_button_help);
      ctk_help_heading(b, &i, "Save to X Configuration File");
 -    ctk_help_para(b, &i, __save_button_help);
-+    ctk_help_para(b, &i, __save_button_help,"%s");
++    ctk_help_para(b, &i, "%s", __save_button_help);
  
      ctk_help_finish(b);
  
@@ -786,7 +786,7 @@
              update = TRUE;
              if (!display_add_modelines_from_server(display, display->gpu, &err_str)) {
 -                nv_warning_msg(err_str);
-+                nv_warning_msg(err_str,"%s");
++                nv_warning_msg("%s", err_str);
                  g_free(err_str);
                  return;
              }
@@ -795,7 +795,7 @@
      if (!layout || err_str) {
          if (err_str) {
 -            nv_error_msg(err_str);
-+            nv_error_msg(err_str,"%s");
++            nv_error_msg("%s", err_str);
              g_free(err_str);
          }
          return;
@@ -806,7 +806,7 @@
                                     NvCtrlGetTargetId(display->handle),
                                     display->logName);
 -        nv_error_msg(*err_str);
-+        nv_error_msg(*err_str,"%s");
++        nv_error_msg("%s", *err_str);
          goto fail;
      }
  
@@ -815,7 +815,7 @@
                                         display->logName,
                                         str);
 -            nv_error_msg(*err_str);
-+            nv_error_msg(*err_str,"%s");
++            nv_error_msg("%s", *err_str);
              goto fail;
          }
  
@@ -824,7 +824,7 @@
                                     screen->scrnum,
                                     NvCtrlGetTargetId(screen->gpu->handle));
 -        nv_error_msg(*err_str);
-+        nv_error_msg(*err_str,"%s");
++        nv_error_msg("%s", *err_str);
          goto fail;
      }
  
@@ -833,7 +833,7 @@
                                     screen->scrnum,
                                     NvCtrlGetTargetId(screen->gpu->handle));
 -        nv_error_msg(*err_str);
-+        nv_error_msg(*err_str,"%s");
++        nv_error_msg("%s", *err_str);
          goto fail;
      }
  
@@ -842,7 +842,7 @@
                                     displayNameInfo->nameDescription,
                                     NvCtrlGetTargetId(display->handle));
 -        nv_error_msg(*err_str);
-+        nv_error_msg(*err_str,"%s");
++        nv_error_msg("%s", *err_str);
          return FALSE;
      }
  
@@ -851,7 +851,7 @@
                                     display_id,
                                     NvCtrlGetTargetId(gpu->handle));
 -        nv_error_msg(*err_str);
-+        nv_error_msg(*err_str,"%s");
++        nv_error_msg("%s", *err_str);
          goto fail;
      }
  
@@ -860,7 +860,7 @@
                                     "connected to GPU-%d '%s'.",
                                     NvCtrlGetTargetId(gpu->handle), gpu->name);
 -        nv_error_msg(*err_str);
-+        nv_error_msg(*err_str,"%s");
++        nv_error_msg("%s", *err_str);
          goto fail;
      }
  
@@ -869,7 +869,7 @@
          *err_str = g_strdup_printf("Failed to create NV-CONTROL handle for "
                                     "GPU-%d.", gpu_id);
 -        nv_error_msg(*err_str);
-+        nv_error_msg(*err_str,"%s");
++        nv_error_msg("%s", *err_str);
          goto fail;
      }
  
@@ -878,7 +878,7 @@
          *err_str = g_strdup_printf("Failed to query GPU name of GPU-%d.",
                                     gpu_id);
 -        nv_error_msg(*err_str);
-+        nv_error_msg(*err_str,"%s");
++        nv_error_msg("%s", *err_str);
          goto fail;
      }
  
@@ -887,7 +887,7 @@
          *err_str = g_strdup_printf("Failed to query MAX SCREEN WIDTH on "
                                     "GPU-%d '%s'.", gpu_id, gpu->name);
 -        nv_error_msg(*err_str);
-+        nv_error_msg(*err_str,"%s");
++        nv_error_msg("%s", *err_str);
          goto fail;
      }
  
@@ -896,7 +896,7 @@
          *err_str = g_strdup_printf("Failed to query MAX SCREEN HEIGHT on "
                                     "GPU-%d '%s'.", gpu_id, gpu->name);
 -        nv_error_msg(*err_str);
-+        nv_error_msg(*err_str,"%s");
++        nv_error_msg("%s", *err_str);
          goto fail;
      }
  
@@ -905,7 +905,7 @@
          *err_str = g_strdup_printf("Failed to query MAX DISPLAYS on "
                                     "GPU-%d '%s'.", gpu_id, gpu->name);
 -        nv_error_msg(*err_str);
-+        nv_error_msg(*err_str,"%s");
++        nv_error_msg("%s", *err_str);
          goto fail;
      }
  
@@ -914,7 +914,7 @@
          *err_str = g_strdup("Failed to query number of GPUs (or no GPUs "
                              "found) in the system.");
 -        nv_error_msg(*err_str);
-+        nv_error_msg(*err_str,"%s");
++        nv_error_msg("%s", *err_str);
          goto fail;
      }
  
@@ -923,7 +923,7 @@
                                     "screen %d.",
                                     screen_id);
 -        nv_error_msg(*err_str);
-+        nv_error_msg(*err_str,"%s");
++        nv_error_msg("%s", *err_str);
          goto fail;
      }
  
@@ -932,7 +932,7 @@
                                     "screen %d.",
                                     screen_id);
 -        nv_warning_msg(*err_str);
-+        nv_warning_msg(*err_str,"%s");
++        nv_warning_msg("%s", *err_str);
          goto fail;
      }
      screen->dynamic_twinview = !!val;
@@ -941,7 +941,7 @@
                                     "screen %d.",
                                     screen_id);
 -        nv_warning_msg(*err_str);
-+        nv_warning_msg(*err_str,"%s");
++        nv_warning_msg("%s", *err_str);
          goto fail;
      }
      screen->no_scanout = (val == NV_CTRL_NO_SCANOUT_ENABLED);
@@ -950,7 +950,7 @@
                                     "dynamic twinview disabled.",
                                     screen_id);
 -        nv_warning_msg(*err_str);
-+        nv_warning_msg(*err_str,"%s");
++        nv_warning_msg("%s", *err_str);
          goto fail;
      }
  
@@ -959,7 +959,7 @@
          *err_str = g_strdup_printf("Failed to find GPU that drives screen %d.",
                                     screen_id);
 -        nv_warning_msg(*err_str);
-+        nv_warning_msg(*err_str,"%s");
++        nv_warning_msg("%s", *err_str);
          goto fail;
      }
  
@@ -968,7 +968,7 @@
          *err_str = g_strdup("Failed to query number of X screens (or no X "
                              "screens found) in the system.");
 -        nv_error_msg(*err_str);
-+        nv_error_msg(*err_str,"%s");
++        nv_error_msg("%s", *err_str);
          nscreens = 0;
          goto fail;
      }
@@ -977,7 +977,7 @@
      if (ret != NvCtrlSuccess) {
          *err_str = g_strdup("Failed to query status of Xinerama.");
 -        nv_error_msg(*err_str);
-+        nv_error_msg(*err_str,"%s");
++        nv_error_msg("%s", *err_str);
          goto fail;
      }
  
@@ -986,7 +986,7 @@
                                     displayName ? displayName : "this X server");
          free(displayName);
 -        nv_warning_msg(*err_str);
-+        nv_warning_msg(*err_str,"%s");
++        nv_warning_msg("%s", *err_str);
          goto fail;
      }
  
@@ -997,38 +997,38 @@
  
      ctk_help_heading(b, &i, "Input Video Format");
 -    ctk_help_para(b, &i, __input_video_format_help);
-+    ctk_help_para(b, &i, __input_video_format_help,"%s");
++    ctk_help_para(b, &i, "%s", __input_video_format_help);
      ctk_help_heading(b, &i, "Input Video Format Detect");
 -    ctk_help_para(b, &i, __input_video_format_detect_help);
-+    ctk_help_para(b, &i, __input_video_format_detect_help,"%s");
++    ctk_help_para(b, &i, "%s", __input_video_format_detect_help);
      ctk_help_heading(b, &i, "Composite Termination");
      ctk_help_para(b, &i, "%s.  This allows the composite signal to be daisy "
                    "chained from a server load.",
                    __composite_termination_help);
      ctk_help_heading(b, &i, "Sync Mode");
 -    ctk_help_para(b, &i, __sync_mode_help);
-+    ctk_help_para(b, &i, __sync_mode_help,"%s");
++    ctk_help_para(b, &i, "%s", __sync_mode_help);
      ctk_help_heading(b, &i, "Sync Format");
 -    ctk_help_para(b, &i, __sync_format_help);
-+    ctk_help_para(b, &i, __sync_format_help,"%s");
++    ctk_help_para(b, &i, "%s", __sync_format_help);
      ctk_help_heading(b, &i, "Sync Status");
 -    ctk_help_para(b, &i, __sync_status_help);
-+    ctk_help_para(b, &i, __sync_status_help,"%s");
++    ctk_help_para(b, &i, "%s", __sync_status_help);
  
      if ( ctk_gvo_sync->caps & NV_CTRL_GVO_CAPABILITIES_ADVANCE_SYNC_SKEW ) {
          ctk_help_heading(b, &i, "HSync Advance");
 -        ctk_help_para(b, &i, __hsync_advance_help);
-+        ctk_help_para(b, &i, __hsync_advance_help,"%s");
++        ctk_help_para(b, &i, "%s", __hsync_advance_help);
          ctk_help_heading(b, &i, "VSync Advance");
 -        ctk_help_para(b, &i, __vsync_advance_help);
-+        ctk_help_para(b, &i, __vsync_advance_help,"%s");
++        ctk_help_para(b, &i, "%s", __vsync_advance_help);
      } else {
          ctk_help_heading(b, &i, "HSync Delay");
 -        ctk_help_para(b, &i, __hsync_delay_help);
-+        ctk_help_para(b, &i, __hsync_delay_help,"%s");
++        ctk_help_para(b, &i, "%s", __hsync_delay_help);
          ctk_help_heading(b, &i, "VSync Delay");
 -        ctk_help_para(b, &i, __vsync_delay_help);
-+        ctk_help_para(b, &i, __vsync_delay_help,"%s");
++        ctk_help_para(b, &i, "%s", __vsync_delay_help);
      }
  
      ctk_help_finish(b);
@@ -1039,7 +1039,7 @@
  
      ctk_help_heading(b, &i, "On-Demand VBlank Interrupts");
 -    ctk_help_para(b, &i, __vblank_control_help);
-+    ctk_help_para(b, &i, __vblank_control_help,"%s");
++    ctk_help_para(b, &i, "%s", __vblank_control_help);
  
      ctk_help_finish(b);
  
@@ -1050,7 +1050,7 @@
      }
  
 -    ctk_config_statusbar_message(ctk_ecc->ctk_config, message);
-+    ctk_config_statusbar_message(ctk_ecc->ctk_config, message,"%s");
++    ctk_config_statusbar_message(ctk_ecc->ctk_config, "%s", message);
  } /* post_ecc_configuration_update() */
  
  
@@ -1059,44 +1059,44 @@
  
      ctk_help_heading(b, &i, "ECC Settings Help");
 -    ctk_help_para(b, &i, __ecc_settings_help);
-+    ctk_help_para(b, &i, __ecc_settings_help,"%s");
++    ctk_help_para(b, &i, "%s", __ecc_settings_help);
      
      ctk_help_heading(b, &i, "ECC");
 -    ctk_help_para(b, &i, __ecc_status_help);
-+    ctk_help_para(b, &i, __ecc_status_help,"%s");
++    ctk_help_para(b, &i, "%s", __ecc_status_help);
  
      if (ctk_ecc->dbit_error_available) {
          ctk_help_heading(b, &i, "Double-bit ECC Errors");
 -        ctk_help_para(b, &i, __dbit_error_help);
-+        ctk_help_para(b, &i, __dbit_error_help,"%s");
++        ctk_help_para(b, &i, "%s", __dbit_error_help);
      }
      if (ctk_ecc->aggregate_dbit_error_available) {
          ctk_help_heading(b, &i, "Aggregate Double-bit ECC Errors");
 -        ctk_help_para(b, &i, __aggregate_dbit_error_help);
-+        ctk_help_para(b, &i, __aggregate_dbit_error_help,"%s");
++        ctk_help_para(b, &i, "%s", __aggregate_dbit_error_help);
      }
      ctk_help_heading(b, &i, "ECC Configuration");
 -    ctk_help_para(b, &i, __configuration_status_help);
-+    ctk_help_para(b, &i, __configuration_status_help,"%s");
++    ctk_help_para(b, &i, "%s", __configuration_status_help);
  
      ctk_help_heading(b, &i, "Enable ECC");
 -    ctk_help_para(b, &i, __ecc_status_help);
-+    ctk_help_para(b, &i, __ecc_status_help,"%s");
++    ctk_help_para(b, &i, "%s", __ecc_status_help);
  
      if (ctk_ecc->dbit_error_available) {
          ctk_help_heading(b, &i, "Clear ECC Errors");
 -        ctk_help_para(b, &i, __clear_button_help);
-+        ctk_help_para(b, &i, __clear_button_help,"%s");
++        ctk_help_para(b, &i, "%s", __clear_button_help);
      }
      if (ctk_ecc->aggregate_dbit_error_available) {
          ctk_help_heading(b, &i, "Clear Aggregate ECC Errors");
 -        ctk_help_para(b, &i, __clear_aggregate_button_help);
-+        ctk_help_para(b, &i, __clear_aggregate_button_help,"%s");
++        ctk_help_para(b, &i, "%s", __clear_aggregate_button_help);
      }
      
      ctk_help_heading(b, &i, "Reset Default Configuration");
 -    ctk_help_para(b, &i, __reset_default_config_button_help);
-+    ctk_help_para(b, &i, __reset_default_config_button_help,"%s");
++    ctk_help_para(b, &i, "%s", __reset_default_config_button_help);
  
      ctk_help_finish(b);
  
@@ -1108,8 +1108,8 @@
      for (j = 0; j < NUM_RULE_FEATURES; j++) {
 -        ctk_help_term(b, &i, rule_feature_label_strings[j]);
 -        ctk_help_para(b, &i, rule_feature_help_text[j]);
-+        ctk_help_term(b, &i, rule_feature_label_strings[j],"%s");
-+        ctk_help_para(b, &i, rule_feature_help_text[j],"%s");
++        ctk_help_term(b, &i, "%s", rule_feature_label_strings[j]);
++        ctk_help_para(b, &i, "%s", rule_feature_help_text[j]);
      }
  
      ctk_help_heading(b, &i, "Supported Setting Keys");
@@ -1119,8 +1119,8 @@
      for (j = 0; j < NUM_PROFILE_SETTINGS; j++) {
 -        ctk_help_term(b, &i, profile_setting_keys[j]);
 -        ctk_help_para(b, &i, profile_setting_descriptions[j]);
-+        ctk_help_term(b, &i, profile_setting_keys[j],"%s");
-+        ctk_help_para(b, &i, profile_setting_descriptions[j],"%s");
++        ctk_help_term(b, &i, "%s", profile_setting_keys[j]);
++        ctk_help_para(b, &i, "%s", profile_setting_descriptions[j]);
      }
  
      ctk_help_finish(b);
@@ -1131,15 +1131,15 @@
  
      ctk_help_heading(b, i, "Color Controls");
 -    ctk_help_para(b, i, __color_controls_help);
-+    ctk_help_para(b, i, __color_controls_help,"%s");
++    ctk_help_para(b, i, "%s", __color_controls_help);
  
      ctk_help_term(b, i, "Color Space");
 -    ctk_help_para(b, i, __color_space_help);
-+    ctk_help_para(b, i, __color_space_help,"%s");
++    ctk_help_para(b, i, "%s", __color_space_help);
  
      ctk_help_term(b, i, "Color Range");
 -    ctk_help_para(b, i, __color_range_help);
-+    ctk_help_para(b, i, __color_range_help,"%s");
++    ctk_help_para(b, i, "%s", __color_range_help);
  } /* add_color_controls_help() */
  
  
@@ -1150,7 +1150,7 @@
  
      ctk_help_heading(b, &i, "Add glasses");
 -    ctk_help_para(b, &i, __add_glasses_tooltip);
-+    ctk_help_para(b, &i, __add_glasses_tooltip,"%s");
++    ctk_help_para(b, &i, "%s", __add_glasses_tooltip);
      ctk_help_para(b, &i, "This action is used to set up new 3D Vision Pro Glasses. "
                           "On clicking this button the hub enters into pairing mode. "
                           "Follow the instructions on Add Glasses dialog box. "
@@ -1159,7 +1159,7 @@
  
      ctk_help_heading(b, &i, "Refresh Glasses' Information");
 -    ctk_help_para(b, &i, __refresh_tooltip);
-+    ctk_help_para(b, &i, __refresh_tooltip,"%s");
++    ctk_help_para(b, &i, "%s", __refresh_tooltip);
      ctk_help_para(b, &i, "Refresh glasses information is typically required when- \n"
                           "o Glasses move in and out of the range.\n"
                           "o Get the updated battery level of all the glasses.");
@@ -1168,20 +1168,20 @@
  
      ctk_help_heading(b, &i, "Rename glasses");
 -    ctk_help_para(b, &i, __rename_tooltip);
-+    ctk_help_para(b, &i, __rename_tooltip,"%s");
++    ctk_help_para(b, &i, "%s", __rename_tooltip);
      ctk_help_para(b, &i, "Select the glasses from the list of paired glasses "
                           "that you want to rename and provide an unique new name.");
  
      ctk_help_heading(b, &i, "Remove glasses");
 -    ctk_help_para(b, &i, __remove_glasses_tooltip);
-+    ctk_help_para(b, &i, __remove_glasses_tooltip,"%s");
++    ctk_help_para(b, &i, "%s", __remove_glasses_tooltip);
      ctk_help_para(b, &i, "Select the glasses from the list of paired glasses "
                           "that you want to remove. On removal glasses get "
                           "unpaired and will not sync to the hub.");
  
      ctk_help_heading(b, &i, "Glasses Information");
 -    ctk_help_para(b, &i, __goggle_info_tooltip);
-+    ctk_help_para(b, &i, __goggle_info_tooltip,"%s");
++    ctk_help_para(b, &i, "%s", __goggle_info_tooltip);
  
      ctk_help_heading(b, &i, "Glasses Name");
      ctk_help_para(b, &i, "Each pair of glasses has an unique name and the name should "
@@ -1190,7 +1190,7 @@
  
      ctk_help_heading(b, &i, "Hub Range");
 -    ctk_help_para(b, &i, __channel_range_tooltip);
-+    ctk_help_para(b, &i, __channel_range_tooltip,"%s");
++    ctk_help_para(b, &i, "%s", __channel_range_tooltip);
      ctk_help_para(b, &i, "The hub range is the farthest distance that the "
                           "glasses can synchronize with the 3D Vision Pro Hub. "
                           "You can reduce the hub range to limit the experience "
@@ -1201,7 +1201,7 @@
                  }
              }
 -            label = gtk_label_new(g_strdup_printf(str1->str));
-+            label = gtk_label_new(g_strdup_printf(str1->str,"%s"));
++            label = gtk_label_new(g_strdup_printf("%s", str1->str));
              gtk_label_set_selectable(GTK_LABEL(label), TRUE);
              gtk_misc_set_alignment(GTK_MISC(label), 0.0f, 0.5f);
              gtk_table_attach(GTK_TABLE(table), label, 3, 4, count+1, count+2,
@@ -1210,7 +1210,7 @@
                  }
              }
 -            label = gtk_label_new(g_strdup_printf(str1->str));
-+            label = gtk_label_new(g_strdup_printf(str1->str,"%s"));
++            label = gtk_label_new(g_strdup_printf("%s", str1->str));
              gtk_label_set_selectable(GTK_LABEL(label), TRUE);
              gtk_misc_set_alignment(GTK_MISC(label), 0.0f, 0.5f);
              gtk_table_attach(GTK_TABLE(table), label, 4, 5, count+1, count+2,
@@ -1219,55 +1219,55 @@
  
      ctk_help_title(b, &i, "VDPAU Information Help");
 -    ctk_help_para(b, &i, __vdpau_information_label_help);
-+    ctk_help_para(b, &i, __vdpau_information_label_help,"%s");
++    ctk_help_para(b, &i, "%s", __vdpau_information_label_help);
  
      ctk_help_heading(b, &i, "Base Information");
 -    ctk_help_para(b, &i, __base_information_help);
-+    ctk_help_para(b, &i, __base_information_help,"%s");
++    ctk_help_para(b, &i, "%s", __base_information_help);
  
      ctk_help_heading(b, &i, "API Version");
 -    ctk_help_para(b, &i, __vdpau_api_version_help);
-+    ctk_help_para(b, &i, __vdpau_api_version_help,"%s");
++    ctk_help_para(b, &i, "%s", __vdpau_api_version_help);
  
      ctk_help_heading(b, &i, "Supported Codecs");
 -    ctk_help_para(b, &i, __supported_codecs_help);
-+    ctk_help_para(b, &i, __supported_codecs_help,"%s");
++    ctk_help_para(b, &i, "%s", __supported_codecs_help);
  
      ctk_help_heading(b, &i, "Surface Limits");
 -    ctk_help_para(b, &i, __surface_limits_help);
-+    ctk_help_para(b, &i, __surface_limits_help,"%s");
++    ctk_help_para(b, &i, "%s", __surface_limits_help);
  
      ctk_help_heading(b, &i, "Video Surface");
 -    ctk_help_para(b, &i, __video_surface_help);
-+    ctk_help_para(b, &i, __video_surface_help,"%s");
++    ctk_help_para(b, &i, "%s", __video_surface_help);
  
      ctk_help_heading(b, &i, "Output Surface");
 -    ctk_help_para(b, &i, __ouput_surface_help);
-+    ctk_help_para(b, &i, __ouput_surface_help,"%s");
++    ctk_help_para(b, &i, "%s", __ouput_surface_help);
  
      ctk_help_heading(b, &i, "Bitmap Surface");
 -    ctk_help_para(b, &i, __bitmap_surface_help);
-+    ctk_help_para(b, &i, __bitmap_surface_help,"%s");
++    ctk_help_para(b, &i, "%s", __bitmap_surface_help);
  
      ctk_help_heading(b, &i, "Decoder Limits");
 -    ctk_help_para(b, &i, __decoder_limits_help);
-+    ctk_help_para(b, &i, __decoder_limits_help,"%s");
++    ctk_help_para(b, &i, "%s", __decoder_limits_help);
  
      ctk_help_heading(b, &i, "Video Mixer");
 -    ctk_help_para(b, &i, __video_mixer_help);
-+    ctk_help_para(b, &i, __video_mixer_help,"%s");
++    ctk_help_para(b, &i, "%s", __video_mixer_help);
  
      ctk_help_term(b, &i, "Feature");
 -    ctk_help_para(b, &i, __video_mixer_feature_help);
-+    ctk_help_para(b, &i, __video_mixer_feature_help,"%s");
++    ctk_help_para(b, &i, "%s", __video_mixer_feature_help);
  
      ctk_help_term(b, &i, "Parameter");
 -    ctk_help_para(b, &i, __video_mixer_parameter_help);
-+    ctk_help_para(b, &i, __video_mixer_parameter_help,"%s");
++    ctk_help_para(b, &i, "%s", __video_mixer_parameter_help);
  
      ctk_help_term(b, &i, "Attribute");
 -    ctk_help_para(b, &i, __video_mixer_attribute_help);
-+    ctk_help_para(b, &i, __video_mixer_attribute_help,"%s");
++    ctk_help_para(b, &i, "%s", __video_mixer_attribute_help);
  
      ctk_help_finish(b);
      return b;
