@@ -1,5 +1,8 @@
---- nvidia-settings-319.32/src/command-line.c.old	2013-06-28 13:25:11.000000000 +0200
-+++ nvidia-settings-319.32/src/command-line.c	2013-06-28 13:28:33.000000000 +0200
+From: Andreas Beckmann <anbe@debian.org>
+Subject: fix -Werror=format-security errors
+
+--- a/src/command-line.c
++++ b/src/command-line.c
 @@ -59,7 +59,7 @@
  static void print_version(void)
  {
@@ -9,7 +12,7 @@
      nv_msg(TAB, "The NVIDIA X Server Settings tool.");
      nv_msg(NULL, "");
      nv_msg(TAB, "This program is used to configure the "
-@@ -128,7 +128,7 @@
+@@ -126,7 +126,7 @@
                  if (entry->flags & NV_PARSER_TYPE_VALUE_IS_SWITCH_DISPLAY)
                      nv_msg(NULL, "  - Attribute value is switch display.");
  
@@ -18,7 +21,7 @@
                  nv_msg(NULL, "");
              } else {
                  nv_msg(NULL, "%s", entry->name);
-@@ -148,8 +148,8 @@
+@@ -146,8 +146,8 @@
  
  static void print_help_helper(const char *name, const char *description)
  {
@@ -29,8 +32,8 @@
      nv_msg(NULL, "");
  }
  
---- nvidia-settings-319.32/src/glxinfo.old	2013-06-28 13:30:39.000000000 +0200
-+++ nvidia-settings-319.32/src/glxinfo.c	2013-06-28 13:32:21.000000000 +0200
+--- a/src/glxinfo.c
++++ b/src/glxinfo.c
 @@ -415,21 +415,21 @@
          /* Print results */
          nv_msg(TAB, "direct rendering: %s", NULL_TO_EMPTY(direct_rendering));
@@ -65,19 +68,44 @@
  #ifdef GLX_VERSION_1_3        
          if ( fbconfig_attribs != NULL ) {
              nv_msg(" ", "\n");
---- nvidia-settings-319.32/src/gtk+-2.x/ctkxvideo.c.old	2013-06-28 13:33:56.000000000 +0200
-+++ nvidia-settings-319.32/src/gtk+-2.x/ctkxvideo.c	2013-06-28 13:34:32.000000000 +0200
-@@ -532,7 +532,7 @@
+--- a/src/gtk+-2.x/ctkcolorcorrection.c
++++ b/src/gtk+-2.x/ctkcolorcorrection.c
+@@ -1053,7 +1053,7 @@
+     ctk_color_correction_tab_help(b, &i, title, FALSE /* randr */);
      
-     if (ctk_xvideo->active_attributes & __XV_SYNC_TO_DISPLAY) {
-         ctk_help_heading(b, &i, "Sync to this display device");
--        ctk_help_para(b, &i, __xv_sync_to_display_help);
-+        ctk_help_para(b, &i, "%s", __xv_sync_to_display_help);
-     }
-     
+     ctk_help_heading(b, &i, "Reset Hardware Defaults");
+-    ctk_help_para(b, &i, __resest_button_help);
++    ctk_help_para(b, &i, "%s", __resest_button_help);
+ 
      ctk_help_finish(b);
---- nvidia-settings-319.32/src/gtk+-2.x/ctkframelock.c.old	2013-06-28 13:35:43.000000000 +0200
-+++ nvidia-settings-319.32/src/gtk+-2.x/ctkframelock.c	2013-06-29 09:58:03.000000000 +0200
+ 
+@@ -1068,7 +1068,7 @@
+     ctk_help_heading(b, i, "Color Correction");
+ 
+     ctk_help_term(b, i, "Active Color Channel");
+-    ctk_help_para(b, i, __active_color_help);
++    ctk_help_para(b, i, "%s", __active_color_help);
+ 
+     ctk_help_term(b, i, "Brightness, Contrast and Gamma");
+     ctk_help_para(b, i, "The Brightness, Contrast and Gamma sliders "
+@@ -1087,7 +1087,7 @@
+                   "value equally across all channels will make these games "
+                   "appear brighter, making them more playable.");
+ 
+-    ctk_help_para(b, i, __color_curve_help);
++    ctk_help_para(b, i, "%s", __color_curve_help);
+ 
+     if (randr) {
+         ctk_help_para(b, i, "The %s tab uses the RandR extension to "
+@@ -1098,5 +1098,5 @@
+     }
+ 
+     ctk_help_term(b, i, "Confirm Current Changes");
+-    ctk_help_para(b, i, __confirm_button_help);
++    ctk_help_para(b, i, "%s", __confirm_button_help);
+ }
+--- a/src/gtk+-2.x/ctkframelock.c
++++ b/src/gtk+-2.x/ctkframelock.c
 @@ -5963,8 +5963,8 @@
                    "device should behave in the frame lock group.  Setting  of "
                    "options is only available while frame lock is disabled.  "
@@ -148,44 +176,19 @@
      ctk_help_para(b, &i, "Only devices selected as clients or server will be "
                    "enabled.");
  
---- nvidia-settings-319.32/src/gtk+-2.x/ctkcolorcorrection.c.old	2013-06-29 10:08:48.000000000 +0200
-+++ nvidia-settings-319.32/src/gtk+-2.x/ctkcolorcorrection.c	2013-06-29 18:40:28.000000000 +0200
-@@ -1053,7 +1053,7 @@
-     ctk_color_correction_tab_help(b, &i, title, FALSE /* randr */);
+--- a/src/gtk+-2.x/ctkxvideo.c
++++ b/src/gtk+-2.x/ctkxvideo.c
+@@ -554,7 +554,7 @@
      
-     ctk_help_heading(b, &i, "Reset Hardware Defaults");
--    ctk_help_para(b, &i, __resest_button_help);
-+    ctk_help_para(b, &i, "%s", __resest_button_help);
- 
-     ctk_help_finish(b);
- 
-@@ -1068,7 +1068,7 @@
-     ctk_help_heading(b, i, "Color Correction");
- 
-     ctk_help_term(b, i, "Active Color Channel");
--    ctk_help_para(b, i, __active_color_help);
-+    ctk_help_para(b, i, "%s", __active_color_help);
- 
-     ctk_help_term(b, i, "Brightness, Contrast and Gamma");
-     ctk_help_para(b, i, "The Brightness, Contrast and Gamma sliders "
-@@ -1087,7 +1087,7 @@
-                   "value equally across all channels will make these games "
-                   "appear brighter, making them more playable.");
- 
--    ctk_help_para(b, i, __color_curve_help);
-+    ctk_help_para(b, i, "%s", __color_curve_help);
- 
-     if (randr) {
-         ctk_help_para(b, i, "The %s tab uses the RandR extension to "
-@@ -1098,5 +1098,5 @@
+     if (ctk_xvideo->active_attributes & __XV_SYNC_TO_DISPLAY) {
+         ctk_help_heading(b, &i, "Sync to this display device");
+-        ctk_help_para(b, &i, __xv_sync_to_display_help);
++        ctk_help_para(b, &i, "%s", __xv_sync_to_display_help);
      }
- 
-     ctk_help_term(b, i, "Confirm Current Changes");
--    ctk_help_para(b, i, __confirm_button_help);
-+    ctk_help_para(b, i, "%s", __confirm_button_help);
- }
---- nvidia-settings-319.32/src/gtk+-2.x/ctkmultisample.c.old	2013-06-29 18:41:57.000000000 +0200
-+++ nvidia-settings-319.32/src/gtk+-2.x/ctkmultisample.c	2013-06-29 18:44:37.000000000 +0200
+     
+     ctk_help_finish(b);
+--- a/src/gtk+-2.x/ctkmultisample.c
++++ b/src/gtk+-2.x/ctkmultisample.c
 @@ -1524,7 +1524,7 @@
          ctk_help_term(b, &i, "Application Antialiasing Settings");
          
@@ -231,8 +234,8 @@
      }
  
      ctk_help_finish(b);
---- nvidia-settings-319.32/src/gtk+-2.x/ctkopengl.c.old	2013-06-29 18:45:28.000000000 +0200
-+++ nvidia-settings-319.32/src/gtk+-2.x/ctkopengl.c	2013-06-29 18:46:39.000000000 +0200
+--- a/src/gtk+-2.x/ctkopengl.c
++++ b/src/gtk+-2.x/ctkopengl.c
 @@ -1206,7 +1206,7 @@
  
      if (ctk_opengl->active_attributes & __SYNC_TO_VBLANK) {
@@ -268,7 +271,7 @@
          ctk_help_heading(b, &i, "Enable gamma correction for "
                           "antialiased lines");
 -        ctk_help_para(b, &i, __aa_line_gamma_checkbox_help );
-+        ctk_help_para(b, &i, __aa_line_gamma_checkbox_help,"%s" );
++        ctk_help_para(b, &i, "%s", __aa_line_gamma_checkbox_help );
      }
  
      if (ctk_opengl->active_attributes & __AA_LINE_GAMMA_VALUE) {
@@ -285,19 +288,29 @@
      }
  
      if (ctk_opengl->active_attributes & __SHOW_SLI_VISUAL_INDICATOR) {
---- nvidia-settings-319.32/src/gtk+-2.x/ctkglx.c.old	2013-06-29 18:47:53.000000000 +0200
-+++ nvidia-settings-319.32/src/gtk+-2.x/ctkglx.c	2013-06-29 18:48:06.000000000 +0200
-@@ -945,7 +945,7 @@
-                  );
+--- a/src/gtk+-2.x/ctkdisplaydevice.c
++++ b/src/gtk+-2.x/ctkdisplaydevice.c
+@@ -507,15 +507,15 @@
+     ctk_help_title(b, &i, "%s Help", ctk_object->name);
  
-     ctk_help_heading(b, &i, "Show GLX Frame Buffer Configurations");
--    ctk_help_para(b, &i, __show_fbc_help);
-+    ctk_help_para(b, &i, "%s", __show_fbc_help);
+     ctk_help_heading(b, &i, "Device Information");
+-    ctk_help_para(b, &i, __info_help);
++    ctk_help_para(b, &i, "%s", __info_help);
  
-     ctk_help_heading(b, &i, "GLX Frame Buffer Configurations");
-     ctk_help_para(b, &i, "This table lists the supported frame buffer "
---- nvidia-settings-319.32/src/gtk+-2.x/ctkhelp.c.old	2013-06-29 18:48:55.000000000 +0200
-+++ nvidia-settings-319.32/src/gtk+-2.x/ctkhelp.c	2013-06-29 18:49:55.000000000 +0200
+     for (j = 0; j < ARRAY_LEN(__info_entry_data); j++) {
+         InfoEntryData *entryData = __info_entry_data+j;
+         InfoEntry *entry = ctk_object->info_entries+j;
+ 
+         if (entry->present) {
+-            ctk_help_term(b, &i, entryData->str);
+-            ctk_help_para(b, &i, *entryData->tooltip);
++            ctk_help_term(b, &i, "%s", entryData->str);
++            ctk_help_para(b, &i, "%s", *entryData->tooltip);
+         }
+     }
+ 
+--- a/src/gtk+-2.x/ctkhelp.c
++++ b/src/gtk+-2.x/ctkhelp.c
 @@ -414,7 +414,7 @@
                                        gchar *text)
  {
@@ -327,29 +340,19 @@
      }
  
      g_string_free(temp_string, TRUE);
---- nvidia-settings-319.32/src/gtk+-2.x/ctkdisplaydevice.c.old	2013-06-29 18:51:41.000000000 +0200
-+++ nvidia-settings-319.32/src/gtk+-2.x/ctkdisplaydevice.c	2013-06-29 18:52:18.000000000 +0200
-@@ -507,15 +507,15 @@
-     ctk_help_title(b, &i, "%s Help", ctk_object->name);
+--- a/src/gtk+-2.x/ctkglx.c
++++ b/src/gtk+-2.x/ctkglx.c
+@@ -936,7 +936,7 @@
+                  );
  
-     ctk_help_heading(b, &i, "Device Information");
--    ctk_help_para(b, &i, __info_help);
-+    ctk_help_para(b, &i, "%s", __info_help);
+     ctk_help_heading(b, &i, "Show GLX Frame Buffer Configurations");
+-    ctk_help_para(b, &i, __show_fbc_help);
++    ctk_help_para(b, &i, "%s", __show_fbc_help);
  
-     for (j = 0; j < ARRAY_LEN(__info_entry_data); j++) {
-         InfoEntryData *entryData = __info_entry_data+j;
-         InfoEntry *entry = ctk_object->info_entries+j;
- 
-         if (entry->present) {
--            ctk_help_term(b, &i, entryData->str);
--            ctk_help_para(b, &i, *entryData->tooltip);
-+            ctk_help_term(b, &i, "%s", entryData->str);
-+            ctk_help_para(b, &i, "%s", *entryData->tooltip);
-         }
-     }
- 
---- nvidia-settings-319.32/src/gtk+-2.x/ctkditheringcontrols.c.old	2013-06-29 18:52:53.000000000 +0200
-+++ nvidia-settings-319.32/src/gtk+-2.x/ctkditheringcontrols.c	2013-06-29 18:53:36.000000000 +0200
+     ctk_help_heading(b, &i, "GLX Frame Buffer Configurations");
+     ctk_help_para(b, &i, "This table lists the supported frame buffer "
+--- a/src/gtk+-2.x/ctkditheringcontrols.c
++++ b/src/gtk+-2.x/ctkditheringcontrols.c
 @@ -879,16 +879,16 @@
      }
  
@@ -371,8 +374,126 @@
  } /* add_dithering_controls_help() */
  
  
---- nvidia-settings-319.32/src/gtk+-2.x/ctkthermal.c.old	2013-06-29 18:55:20.000000000 +0200
-+++ nvidia-settings-319.32/src/gtk+-2.x/ctkthermal.c	2013-06-29 18:56:49.000000000 +0200
+--- a/src/gtk+-2.x/ctkgvo-csc.c
++++ b/src/gtk+-2.x/ctkgvo-csc.c
+@@ -1245,10 +1245,10 @@
+                   "the SDI (GVO) color space conversion.");
+ 
+     ctk_help_heading(b, &i, "Override default Color Space Conversion");
+-    ctk_help_para(b, &i, __override_help);
++    ctk_help_para(b, &i, "%s", __override_help);
+ 
+     ctk_help_heading(b, &i, "Initialize Color Space Conversion");
+-    ctk_help_para(b, &i, __initialize_help);
++    ctk_help_para(b, &i, "%s", __initialize_help);
+ 
+     ctk_help_heading(b, &i, "Color Space Conversion Matrix, Offset and Scale");
+     ctk_help_para(b, &i, "%s  RGB color is converted to YCrCb in the "
+@@ -1282,11 +1282,11 @@
+ 
+     if (ctk_gvo_csc->caps & NV_CTRL_GVO_CAPABILITIES_APPLY_CSC_IMMEDIATELY) {
+         ctk_help_heading(b, &i, "Apply Changes Immediately");
+-        ctk_help_para(b, &i, __apply_immediately_help);
++        ctk_help_para(b, &i, "%s", __apply_immediately_help);
+     }
+ 
+     ctk_help_heading(b, &i, "Apply");
+-    ctk_help_para(b, &i, __apply_help);
++    ctk_help_para(b, &i, "%s", __apply_help);
+ 
+     ctk_help_finish(b);
+ 
+--- a/src/gtk+-2.x/ctkgvo.c
++++ b/src/gtk+-2.x/ctkgvo.c
+@@ -783,16 +783,16 @@
+     ctk_help_para(b, &i, "This section shows information about the SDI device "
+                   "that is associated with the X screen.");
+     ctk_help_heading(b, &i, "Firmware Version");
+-    ctk_help_para(b, &i, __general_firmware_version_help);
++    ctk_help_para(b, &i, "%s", __general_firmware_version_help);
+     ctk_help_heading(b, &i, "Current SDI Resolution");
+-    ctk_help_para(b, &i, __general_current_sdi_resolution_help);
++    ctk_help_para(b, &i, "%s", __general_current_sdi_resolution_help);
+     ctk_help_heading(b, &i, "Current SDI State");
+-    ctk_help_para(b, &i, __general_current_sdi_state_help);
++    ctk_help_para(b, &i, "%s", __general_current_sdi_state_help);
+ 
+     ctk_help_heading(b, &i, "Requested SDI Video Format");
+-    ctk_help_para(b, &i, __requested_sdi_video_format_help);
++    ctk_help_para(b, &i, "%s", __requested_sdi_video_format_help);
+     ctk_help_heading(b, &i, "Requested SDI Data Format");
+-    ctk_help_para(b, &i, __requested_sdi_data_format_help);
++    ctk_help_para(b, &i, "%s", __requested_sdi_data_format_help);
+ 
+     ctk_help_finish(b);
+ 
+--- a/src/gtk+-2.x/ctkpowermizer.c
++++ b/src/gtk+-2.x/ctkpowermizer.c
+@@ -1385,7 +1385,7 @@
+                  conf_string);
+     }
+ 
+-    ctk_config_statusbar_message(ctk_powermizer->ctk_config, message);
++    ctk_config_statusbar_message(ctk_powermizer->ctk_config, "%s", message);
+ } /* post_dp_configuration_update() */
+ 
+ 
+@@ -1516,7 +1516,7 @@
+ 
+     if (ctk_powermizer->adaptive_clock_status) {
+         ctk_help_heading(b, &i, "Adaptive Clocking");
+-        ctk_help_para(b, &i, __adaptive_clock_help);
++        ctk_help_para(b, &i, "%s", __adaptive_clock_help);
+     }
+ 
+     if (ctk_powermizer->gpu_clock && ctk_powermizer->memory_clock) {
+@@ -1528,36 +1528,36 @@
+             s = "This indicates the GPU's current Graphics Clock and "
+                 "Memory Clock frequencies.";
+         }
+-        ctk_help_para(b, &i, s);
++        ctk_help_para(b, &i, "%s", s);
+     }
+ 
+     if (ctk_powermizer->power_source) {
+         ctk_help_heading(b, &i, "Power Source");
+-        ctk_help_para(b, &i, __power_source_help);
++        ctk_help_para(b, &i, "%s", __power_source_help);
+     }
+ 
+     if (ctk_powermizer->pcie_gen_queriable) {
+         ctk_help_heading(b, &i, "Current PCIe link width");
+-        ctk_help_para(b, &i, __current_pcie_link_width_help);
++        ctk_help_para(b, &i, "%s", __current_pcie_link_width_help);
+         ctk_help_heading(b, &i, "Current PCIe link speed");
+-        ctk_help_para(b, &i, __current_pcie_link_speed_help);
++        ctk_help_para(b, &i, "%s", __current_pcie_link_speed_help);
+     }
+ 
+     if (ctk_powermizer->performance_level) {
+         ctk_help_heading(b, &i, "Performance Level");
+-        ctk_help_para(b, &i, __performance_level_help);
++        ctk_help_para(b, &i, "%s", __performance_level_help);
+         ctk_help_heading(b, &i, "Performance Levels (Table)");
+-        ctk_help_para(b, &i, __performance_levels_table_help);
++        ctk_help_para(b, &i, "%s", __performance_levels_table_help);
+     }
+ 
+     if (ctk_powermizer->powermizer_menu) {
+         ctk_help_heading(b, &i, "PowerMizer Settings");
+-        ctk_help_para(b, &i, ctk_powermizer->powermizer_menu_help);
++        ctk_help_para(b, &i, "%s", ctk_powermizer->powermizer_menu_help);
+     }
+ 
+     if (ctk_powermizer->configuration_button) {
+         ctk_help_heading(b, &i, "CUDA - Double precision");
+-        ctk_help_para(b, &i, __dp_configuration_button_help);
++        ctk_help_para(b, &i, "%s", __dp_configuration_button_help);
+     }
+ 
+     ctk_help_finish(b);
+--- a/src/gtk+-2.x/ctkthermal.c
++++ b/src/gtk+-2.x/ctkthermal.c
 @@ -1623,32 +1623,32 @@
  
      if (!ctk_thermal->thermal_sensor_target_type_supported) {
@@ -448,139 +569,8 @@
      }
  done:
      ctk_help_finish(b);
---- nvidia-settings-319.32/src/gtk+-2.x/ctkpowermizer.c.old	2013-06-29 18:57:41.000000000 +0200
-+++ nvidia-settings-319.32/src/gtk+-2.x/ctkpowermizer.c	2013-06-29 18:58:38.000000000 +0200
-@@ -1366,7 +1366,7 @@
-                  conf_string);
-     }
- 
--    ctk_config_statusbar_message(ctk_powermizer->ctk_config, message);
-+    ctk_config_statusbar_message(ctk_powermizer->ctk_config, "%s", message);
- } /* post_dp_configuration_update() */
- 
- 
-@@ -1497,7 +1497,7 @@
- 
-     if (ctk_powermizer->adaptive_clock_status) {
-         ctk_help_heading(b, &i, "Adaptive Clocking");
--        ctk_help_para(b, &i, __adaptive_clock_help);
-+        ctk_help_para(b, &i, "%s", __adaptive_clock_help);
-     }
- 
-     if (ctk_powermizer->gpu_clock && ctk_powermizer->memory_clock) {
-@@ -1514,31 +1514,31 @@
- 
-     if (ctk_powermizer->power_source) {
-         ctk_help_heading(b, &i, "Power Source");
--        ctk_help_para(b, &i, __power_source_help);
-+        ctk_help_para(b, &i, "%s", __power_source_help);
-     }
- 
-     if (ctk_powermizer->pcie_gen_queriable) {
-         ctk_help_heading(b, &i, "Current PCIe link width");
--        ctk_help_para(b, &i, __current_pcie_link_width_help);
-+        ctk_help_para(b, &i, "%s", __current_pcie_link_width_help);
-         ctk_help_heading(b, &i, "Current PCIe link speed");
--        ctk_help_para(b, &i, __current_pcie_link_speed_help);
-+        ctk_help_para(b, &i, "%s", __current_pcie_link_speed_help);
-     }
- 
-     if (ctk_powermizer->performance_level) {
-         ctk_help_heading(b, &i, "Performance Level");
-         ctk_help_para(b, &i, __performance_level_help);
-         ctk_help_heading(b, &i, "Performance Levels (Table)");
--        ctk_help_para(b, &i, __performance_levels_table_help);
-+        ctk_help_para(b, &i, "%s", __performance_levels_table_help);
-     }
- 
-     if (ctk_powermizer->powermizer_menu) {
-         ctk_help_heading(b, &i, "PowerMizer Settings");
--        ctk_help_para(b, &i, ctk_powermizer->powermizer_menu_help);
-+        ctk_help_para(b, &i, "%s", ctk_powermizer->powermizer_menu_help);
-     }
- 
-     if (ctk_powermizer->configuration_button) {
-         ctk_help_heading(b, &i, "CUDA - Double precision");
--        ctk_help_para(b, &i, __dp_configuration_button_help);
-+        ctk_help_para(b, &i, "%s", __dp_configuration_button_help);
-     }
- 
-     ctk_help_finish(b);
---- nvidia-settings-319.32/src/gtk+-2.x/ctkpowermizer.c.old	2013-06-29 18:59:39.000000000 +0200
-+++ nvidia-settings-319.32/src/gtk+-2.x/ctkpowermizer.c	2013-06-29 19:00:16.000000000 +0200
-@@ -1509,7 +1509,7 @@
-             s = "This indicates the GPU's current Graphics Clock and "
-                 "Memory Clock frequencies.";
-         }
--        ctk_help_para(b, &i, s);
-+        ctk_help_para(b, &i, "%s", s);
-     }
- 
-     if (ctk_powermizer->power_source) {
-@@ -1526,7 +1526,7 @@
- 
-     if (ctk_powermizer->performance_level) {
-         ctk_help_heading(b, &i, "Performance Level");
--        ctk_help_para(b, &i, __performance_level_help);
-+        ctk_help_para(b, &i, "%s", __performance_level_help);
-         ctk_help_heading(b, &i, "Performance Levels (Table)");
-         ctk_help_para(b, &i, "%s", __performance_levels_table_help);
-     }
---- nvidia-settings-319.32/src/gtk+-2.x/ctkgvo.c.old	2013-06-29 19:01:26.000000000 +0200
-+++ nvidia-settings-319.32/src/gtk+-2.x/ctkgvo.c	2013-06-29 19:04:32.000000000 +0200
-@@ -783,16 +783,16 @@
-     ctk_help_para(b, &i, "This section shows information about the SDI device "
-                   "that is associated with the X screen.");
-     ctk_help_heading(b, &i, "Firmware Version");
--    ctk_help_para(b, &i, __general_firmware_version_help);
-+    ctk_help_para(b, &i, "%s", __general_firmware_version_help);
-     ctk_help_heading(b, &i, "Current SDI Resolution");
--    ctk_help_para(b, &i, __general_current_sdi_resolution_help);
-+    ctk_help_para(b, &i, "%s", __general_current_sdi_resolution_help);
-     ctk_help_heading(b, &i, "Current SDI State");
--    ctk_help_para(b, &i, __general_current_sdi_state_help);
-+    ctk_help_para(b, &i, "%s", __general_current_sdi_state_help);
- 
-     ctk_help_heading(b, &i, "Requested SDI Video Format");
--    ctk_help_para(b, &i, __requested_sdi_video_format_help);
-+    ctk_help_para(b, &i, "%s", __requested_sdi_video_format_help);
-     ctk_help_heading(b, &i, "Requested SDI Data Format");
--    ctk_help_para(b, &i, __requested_sdi_data_format_help);
-+    ctk_help_para(b, &i, "%s", __requested_sdi_data_format_help);
- 
-     ctk_help_finish(b);
- 
---- nvidia-settings-319.32/src/gtk+-2.x/ctkgvo-csc.c.old	2013-06-29 19:05:49.000000000 +0200
-+++ nvidia-settings-319.32/src/gtk+-2.x/ctkgvo-csc.c	2013-06-29 19:07:07.000000000 +0200
-@@ -1245,10 +1245,10 @@
-                   "the SDI (GVO) color space conversion.");
- 
-     ctk_help_heading(b, &i, "Override default Color Space Conversion");
--    ctk_help_para(b, &i, __override_help);
-+    ctk_help_para(b, &i, "%s", __override_help);
- 
-     ctk_help_heading(b, &i, "Initialize Color Space Conversion");
--    ctk_help_para(b, &i, __initialize_help);
-+    ctk_help_para(b, &i, "%s", __initialize_help);
- 
-     ctk_help_heading(b, &i, "Color Space Conversion Matrix, Offset and Scale");
-     ctk_help_para(b, &i, "%s  RGB color is converted to YCrCb in the "
-@@ -1282,11 +1282,11 @@
- 
-     if (ctk_gvo_csc->caps & NV_CTRL_GVO_CAPABILITIES_APPLY_CSC_IMMEDIATELY) {
-         ctk_help_heading(b, &i, "Apply Changes Immediately");
--        ctk_help_para(b, &i, __apply_immediately_help);
-+        ctk_help_para(b, &i, "%s", __apply_immediately_help);
-     }
- 
-     ctk_help_heading(b, &i, "Apply");
--    ctk_help_para(b, &i, __apply_help);
-+    ctk_help_para(b, &i, "%s", __apply_help);
- 
-     ctk_help_finish(b);
- 
---- nvidia-settings-319.32/src/gtk+-2.x/ctkclocks.c.old	2013-06-29 19:18:42.000000000 +0200
-+++ nvidia-settings-319.32/src/gtk+-2.x/ctkclocks.c	2013-06-29 19:20:11.000000000 +0200
+--- a/src/gtk+-2.x/ctkclocks.c
++++ b/src/gtk+-2.x/ctkclocks.c
 @@ -599,7 +599,7 @@
                    "void manufacturer warranties.  DO THIS AT YOUR OWN RISK."
                    );
@@ -639,9 +629,9 @@
 +                                     "%s", __detect_wait_msg);
      }
  }
---- nvidia-settings-319.32/src/gtk+-2.x/ctkutils.c.old	2013-06-29 19:20:51.000000000 +0200
-+++ nvidia-settings-319.32/src/gtk+-2.x/ctkutils.c	2013-06-29 19:21:19.000000000 +0200
-@@ -300,7 +300,7 @@
+--- a/src/gtk+-2.x/ctkutils.c
++++ b/src/gtk+-2.x/ctkutils.c
+@@ -316,7 +316,7 @@
      GtkWidget *dlg;
      
      if (msg) {
@@ -650,7 +640,7 @@
  
          if (parent) {
              dlg = gtk_message_dialog_new
-@@ -328,7 +328,7 @@
+@@ -344,7 +344,7 @@
      GtkWidget *dlg;
      
      if (msg) {
@@ -659,19 +649,9 @@
  
          if (parent) {
              dlg = gtk_message_dialog_new
---- nvidia-settings-319.32/src/gtk+-2.x/ctkedid.c.old	2013-06-29 20:11:00.000000000 +0200
-+++ nvidia-settings-319.32/src/gtk+-2.x/ctkedid.c	2013-06-29 20:11:17.000000000 +0200
-@@ -421,6 +421,6 @@
- void add_acquire_edid_help(GtkTextBuffer *b, GtkTextIter *i)
- {
-     ctk_help_heading(b, i, "Acquire EDID");
--    ctk_help_para(b, i, __acquire_edid_help);
-+    ctk_help_para(b, i, "%s", __acquire_edid_help);
- 
- } /* add_acquire_edid_help() */
---- nvidia-settings-319.32/src/gtk+-2.x/ctkdisplayconfig.c.old	2013-06-29 20:13:12.000000000 +0200
-+++ nvidia-settings-319.32/src/gtk+-2.x/ctkdisplayconfig.c	2013-06-29 20:24:02.000000000 +0200
-@@ -717,7 +717,7 @@
+--- a/src/gtk+-2.x/ctkdisplayconfig.c
++++ b/src/gtk+-2.x/ctkdisplayconfig.c
+@@ -722,7 +722,7 @@
              
              parent = ctk_get_parent_window(GTK_WIDGET(ctk_object));
              if (!parent) {
@@ -680,7 +660,7 @@
                  g_free(msg);
                  break;
              }
-@@ -2209,12 +2209,12 @@
+@@ -2195,12 +2195,12 @@
                    "down the CONTROL key while clicking on the display, and can "
                    "be moved by holding CONTROL-Click and dragging.");
      ctk_help_heading(b, &i, "Layout Hidden Label");
@@ -695,7 +675,7 @@
  
      ctk_help_para(b, &i, "");
      ctk_help_heading(b, &i, "Display Options");
-@@ -2222,7 +2222,7 @@
+@@ -2208,7 +2208,7 @@
                    "device is selected in the Selection drop-down to configure "
                    "the settings for that display device.");
      ctk_help_heading(b, &i, "Resolution");
@@ -704,7 +684,7 @@
      ctk_help_heading(b, &i, "Refresh");
      ctk_help_para(b, &i, "The Refresh drop-down is to the right of the "
                    "Resolution drop-down.  %s", __dpy_refresh_mnu_help);
-@@ -2231,7 +2231,7 @@
+@@ -2217,7 +2217,7 @@
                    "currently chosen for the selected display device.  "
                    "This is only available when advanced view is enabled.");
      ctk_help_heading(b, &i, "Stereo Eye");
@@ -713,7 +693,7 @@
      ctk_help_heading(b, &i, "Orientation");
      ctk_help_para(b, &i, "The Orientation drop-downs control how the desktop "
                    "image is rotated and/or reflected.  %s  %s  Note that "
-@@ -2243,20 +2243,20 @@
+@@ -2229,20 +2229,20 @@
                    "size.  This feature is formerly known as Overscan "
                    "Compensation.", __dpy_underscan_text_help);
      ctk_help_heading(b, &i, "Position Type");
@@ -740,7 +720,7 @@
  
  
      ctk_help_para(b, &i, "");
-@@ -2269,15 +2269,15 @@
+@@ -2255,15 +2255,15 @@
                    "304x200, and the width must be a multiple of 8.",
                    __screen_virtual_size_help);
      ctk_help_heading(b, &i, "Color Depth");
@@ -761,7 +741,7 @@
      ctk_help_heading(b, &i, "MetaMode Selection");
      ctk_help_para(b, &i, "%s  This is only available when advanced view "
                    "is enabled.", __screen_metamode_help);
-@@ -2300,16 +2300,16 @@
+@@ -2286,16 +2286,16 @@
                    "screen, adding/removing an X screen, and changing the X "
                    "screen color depth.", __apply_button_help);
      ctk_help_heading(b, &i, "Detect Displays");
@@ -781,16 +761,16 @@
  
      ctk_help_finish(b);
  
-@@ -5856,7 +5856,7 @@
-                                   "", &tokens);
-             update = TRUE;
-             if (!display_add_modelines_from_server(display, display->gpu, &err_str)) {
--                nv_warning_msg(err_str);
-+                nv_warning_msg("%s", err_str);
-                 g_free(err_str);
-                 return;
-             }
-@@ -8936,7 +8936,7 @@
+@@ -5588,7 +5588,7 @@
+         *updated = TRUE;
+         if (!display_add_modelines_from_server(display, display->gpu,
+                                                &err_str)) {
+-            nv_warning_msg(err_str);
++            nv_warning_msg("%s", err_str);
+             g_free(err_str);
+             return FALSE;
+         }
+@@ -8852,7 +8852,7 @@
      /* Handle errors loading the new layout */
      if (!layout || err_str) {
          if (err_str) {
@@ -799,9 +779,19 @@
              g_free(err_str);
          }
          return;
---- nvidia-settings-319.32/src/gtk+-2.x/ctkdisplayconfig-utils.c.old	2013-06-29 20:26:09.000000000 +0200
-+++ nvidia-settings-319.32/src/gtk+-2.x/ctkdisplayconfig-utils.c	2013-06-29 20:31:29.000000000 +0200
-@@ -1485,7 +1485,7 @@
+--- a/src/gtk+-2.x/ctkedid.c
++++ b/src/gtk+-2.x/ctkedid.c
+@@ -421,6 +421,6 @@
+ void add_acquire_edid_help(GtkTextBuffer *b, GtkTextIter *i)
+ {
+     ctk_help_heading(b, i, "Acquire EDID");
+-    ctk_help_para(b, i, __acquire_edid_help);
++    ctk_help_para(b, i, "%s", __acquire_edid_help);
+ 
+ } /* add_acquire_edid_help() */
+--- a/src/gtk+-2.x/ctkdisplayconfig-utils.c
++++ b/src/gtk+-2.x/ctkdisplayconfig-utils.c
+@@ -1488,7 +1488,7 @@
                                    "device %d '%s'.",
                                     NvCtrlGetTargetId(display->handle),
                                     display->logName);
@@ -810,7 +800,7 @@
          goto fail;
      }
  
-@@ -1503,7 +1503,7 @@
+@@ -1506,7 +1506,7 @@
                                         NvCtrlGetTargetId(display->handle),
                                         display->logName,
                                         str);
@@ -819,25 +809,25 @@
              goto fail;
          }
  
-@@ -2304,7 +2304,7 @@
-                                    "screen %d (on GPU-%d).",
-                                    screen->scrnum,
-                                    NvCtrlGetTargetId(screen->gpu->handle));
+@@ -2334,7 +2334,7 @@
+     if (ret != NvCtrlSuccess) {
+         *err_str = g_strdup_printf("Failed to query list of metamodes on\n"
+                                    "screen %d.", screen->scrnum);
 -        nv_error_msg(*err_str);
 +        nv_error_msg("%s", *err_str);
          goto fail;
      }
  
-@@ -2318,7 +2318,7 @@
-                                    "screen %d (on GPU-%d).",
-                                    screen->scrnum,
-                                    NvCtrlGetTargetId(screen->gpu->handle));
+@@ -2346,7 +2346,7 @@
+     if (ret != NvCtrlSuccess) {
+         *err_str = g_strdup_printf("Failed to query current metamode of\n"
+                                    "screen %d.", screen->scrnum);
 -        nv_error_msg(*err_str);
 +        nv_error_msg("%s", *err_str);
          goto fail;
      }
  
-@@ -2612,7 +2612,7 @@
+@@ -2717,7 +2717,7 @@
                                     "device DPY-%d.",
                                     displayNameInfo->nameDescription,
                                     NvCtrlGetTargetId(display->handle));
@@ -846,7 +836,7 @@
          return FALSE;
      }
  
-@@ -2651,7 +2651,7 @@
+@@ -2756,7 +2756,7 @@
                                     "display %d (on GPU-%d).",
                                     display_id,
                                     NvCtrlGetTargetId(gpu->handle));
@@ -855,7 +845,7 @@
          goto fail;
      }
  
-@@ -2808,7 +2808,7 @@
+@@ -2913,7 +2913,7 @@
          *err_str = g_strdup_printf("Failed to query list of displays \n"
                                     "connected to GPU-%d '%s'.",
                                     NvCtrlGetTargetId(gpu->handle), gpu->name);
@@ -864,7 +854,7 @@
          goto fail;
      }
  
-@@ -3064,7 +3064,7 @@
+@@ -3171,7 +3171,7 @@
      if (!gpu->handle) {
          *err_str = g_strdup_printf("Failed to create NV-CONTROL handle for "
                                     "GPU-%d.", gpu_id);
@@ -873,7 +863,7 @@
          goto fail;
      }
  
-@@ -3077,7 +3077,7 @@
+@@ -3184,7 +3184,7 @@
      if (ret != NvCtrlSuccess) {
          *err_str = g_strdup_printf("Failed to query GPU name of GPU-%d.",
                                     gpu_id);
@@ -882,7 +872,7 @@
          goto fail;
      }
  
-@@ -3088,7 +3088,7 @@
+@@ -3204,7 +3204,7 @@
      if (ret != NvCtrlSuccess) {
          *err_str = g_strdup_printf("Failed to query MAX SCREEN WIDTH on "
                                     "GPU-%d '%s'.", gpu_id, gpu->name);
@@ -891,7 +881,7 @@
          goto fail;
      }
  
-@@ -3097,7 +3097,7 @@
+@@ -3213,7 +3213,7 @@
      if (ret != NvCtrlSuccess) {
          *err_str = g_strdup_printf("Failed to query MAX SCREEN HEIGHT on "
                                     "GPU-%d '%s'.", gpu_id, gpu->name);
@@ -900,7 +890,7 @@
          goto fail;
      }
  
-@@ -3106,7 +3106,7 @@
+@@ -3222,7 +3222,7 @@
      if (ret != NvCtrlSuccess) {
          *err_str = g_strdup_printf("Failed to query MAX DISPLAYS on "
                                     "GPU-%d '%s'.", gpu_id, gpu->name);
@@ -909,7 +899,7 @@
          goto fail;
      }
  
-@@ -3176,7 +3176,7 @@
+@@ -3351,7 +3351,7 @@
      if (ret != NvCtrlSuccess || !ngpus) {
          *err_str = g_strdup("Failed to query number of GPUs (or no GPUs "
                              "found) in the system.");
@@ -918,7 +908,7 @@
          goto fail;
      }
  
-@@ -3307,7 +3307,7 @@
+@@ -3497,7 +3497,7 @@
          *err_str = g_strdup_printf("Failed to create NV-CONTROL handle for\n"
                                     "screen %d.",
                                     screen_id);
@@ -927,7 +917,7 @@
          goto fail;
      }
  
-@@ -3342,7 +3342,7 @@
+@@ -3532,7 +3532,7 @@
          *err_str = g_strdup_printf("Failed to query Dynamic TwinView for "
                                     "screen %d.",
                                     screen_id);
@@ -936,7 +926,7 @@
          goto fail;
      }
      screen->dynamic_twinview = !!val;
-@@ -3354,7 +3354,7 @@
+@@ -3544,7 +3544,7 @@
          *err_str = g_strdup_printf("Failed to query NoScanout for "
                                     "screen %d.",
                                     screen_id);
@@ -945,7 +935,7 @@
          goto fail;
      }
      screen->no_scanout = (val == NV_CTRL_NO_SCANOUT_ENABLED);
-@@ -3368,7 +3368,7 @@
+@@ -3558,7 +3558,7 @@
                                     "support scanout screens (%d) that have "
                                     "dynamic twinview disabled.",
                                     screen_id);
@@ -954,8 +944,8 @@
          goto fail;
      }
  
-@@ -3376,7 +3376,7 @@
-     if (!link_screen_to_gpu(layout, screen)) {
+@@ -3566,7 +3566,7 @@
+     if (!link_screen_to_gpus(layout, screen)) {
          *err_str = g_strdup_printf("Failed to find GPU that drives screen %d.",
                                     screen_id);
 -        nv_warning_msg(*err_str);
@@ -963,7 +953,7 @@
          goto fail;
      }
  
-@@ -3475,7 +3475,7 @@
+@@ -3679,7 +3679,7 @@
      if (ret != NvCtrlSuccess || !nscreens) {
          *err_str = g_strdup("Failed to query number of X screens (or no X "
                              "screens found) in the system.");
@@ -972,7 +962,7 @@
          nscreens = 0;
          goto fail;
      }
-@@ -3567,7 +3567,7 @@
+@@ -3771,7 +3771,7 @@
                               &layout->xinerama_enabled);
      if (ret != NvCtrlSuccess) {
          *err_str = g_strdup("Failed to query status of Xinerama.");
@@ -981,7 +971,7 @@
          goto fail;
      }
  
-@@ -3580,7 +3580,7 @@
+@@ -3784,7 +3784,7 @@
                                     "Display Configuration page.",
                                     displayName ? displayName : "this X server");
          free(displayName);
@@ -990,8 +980,8 @@
          goto fail;
      }
  
---- nvidia-settings-319.32/src/gtk+-2.x/ctkgvo-sync.c.old	2013-06-29 20:33:02.000000000 +0200
-+++ nvidia-settings-319.32/src/gtk+-2.x/ctkgvo-sync.c	2013-06-29 20:33:59.000000000 +0200
+--- a/src/gtk+-2.x/ctkgvo-sync.c
++++ b/src/gtk+-2.x/ctkgvo-sync.c
 @@ -1502,30 +1502,30 @@
                    "SDI synchronization options.");
  
@@ -1032,8 +1022,8 @@
      }
  
      ctk_help_finish(b);
---- nvidia-settings-319.32/src/gtk+-2.x/ctkpowersavings.c.old	2013-06-29 20:34:38.000000000 +0200
-+++ nvidia-settings-319.32/src/gtk+-2.x/ctkpowersavings.c	2013-06-29 20:35:01.000000000 +0200
+--- a/src/gtk+-2.x/ctkpowersavings.c
++++ b/src/gtk+-2.x/ctkpowersavings.c
 @@ -222,7 +222,7 @@
      ctk_help_title(b, &i, "Power Savings Help");
  
@@ -1043,8 +1033,32 @@
  
      ctk_help_finish(b);
  
---- nvidia-settings-319.32/src/gtk+-2.x/ctkecc.c.old	2013-06-29 20:35:51.000000000 +0200
-+++ nvidia-settings-319.32/src/gtk+-2.x/ctkecc.c	2013-06-29 20:39:48.000000000 +0200
+--- a/src/gtk+-2.x/ctkappprofile.c
++++ b/src/gtk+-2.x/ctkappprofile.c
+@@ -4072,8 +4072,8 @@
+     ctk_help_para(b, &i, "This NVIDIA® Linux Graphics Driver supports detection of the following features:");
+ 
+     for (j = 0; j < NUM_RULE_FEATURES; j++) {
+-        ctk_help_term(b, &i, rule_feature_label_strings[j]);
+-        ctk_help_para(b, &i, rule_feature_help_text[j]);
++        ctk_help_term(b, &i, "%s", rule_feature_label_strings[j]);
++        ctk_help_para(b, &i, "%s", rule_feature_help_text[j]);
+     }
+ 
+     ctk_help_heading(b, &i, "Supported Setting Keys");
+@@ -4082,8 +4082,8 @@
+                          "keys. For more information on a given key, please consult the README.");
+ 
+     for (j = 0; j < NUM_PROFILE_SETTINGS; j++) {
+-        ctk_help_term(b, &i, profile_setting_keys[j]);
+-        ctk_help_para(b, &i, profile_setting_descriptions[j]);
++        ctk_help_term(b, &i, "%s", profile_setting_keys[j]);
++        ctk_help_para(b, &i, "%s", profile_setting_descriptions[j]);
+     }
+ 
+     ctk_help_finish(b);
+--- a/src/gtk+-2.x/ctkecc.c
++++ b/src/gtk+-2.x/ctkecc.c
 @@ -207,7 +207,7 @@
          snprintf(message, sizeof(message), "ECC %s.", conf_string);
      }
@@ -1100,52 +1114,9 @@
  
      ctk_help_finish(b);
  
---- nvidia-settings-319.32/src/gtk+-2.x/ctkappprofile.c.old	2013-06-29 20:40:53.000000000 +0200
-+++ nvidia-settings-319.32/src/gtk+-2.x/ctkappprofile.c	2013-06-29 20:41:34.000000000 +0200
-@@ -4068,8 +4068,8 @@
-     ctk_help_para(b, &i, "This NVIDIA® Linux Graphics Driver supports detection of the following features:");
- 
-     for (j = 0; j < NUM_RULE_FEATURES; j++) {
--        ctk_help_term(b, &i, rule_feature_label_strings[j]);
--        ctk_help_para(b, &i, rule_feature_help_text[j]);
-+        ctk_help_term(b, &i, "%s", rule_feature_label_strings[j]);
-+        ctk_help_para(b, &i, "%s", rule_feature_help_text[j]);
-     }
- 
-     ctk_help_heading(b, &i, "Supported Setting Keys");
-@@ -4078,8 +4078,8 @@
-                          "keys. For more information on a given key, please consult the README.");
- 
-     for (j = 0; j < NUM_PROFILE_SETTINGS; j++) {
--        ctk_help_term(b, &i, profile_setting_keys[j]);
--        ctk_help_para(b, &i, profile_setting_descriptions[j]);
-+        ctk_help_term(b, &i, "%s", profile_setting_keys[j]);
-+        ctk_help_para(b, &i, "%s", profile_setting_descriptions[j]);
-     }
- 
-     ctk_help_finish(b);
---- nvidia-settings-319.32/src/gtk+-2.x/ctkcolorcontrols.c.old	2013-06-29 20:54:53.000000000 +0200
-+++ nvidia-settings-319.32/src/gtk+-2.x/ctkcolorcontrols.c	2013-06-29 20:55:20.000000000 +0200
-@@ -523,13 +523,13 @@
-     }
- 
-     ctk_help_heading(b, i, "Color Controls");
--    ctk_help_para(b, i, __color_controls_help);
-+    ctk_help_para(b, i, "%s", __color_controls_help);
- 
-     ctk_help_term(b, i, "Color Space");
--    ctk_help_para(b, i, __color_space_help);
-+    ctk_help_para(b, i, "%s", __color_space_help);
- 
-     ctk_help_term(b, i, "Color Range");
--    ctk_help_para(b, i, __color_range_help);
-+    ctk_help_para(b, i, "%s", __color_range_help);
- } /* add_color_controls_help() */
- 
- 
---- nvidia-settings-319.32/src/gtk+-2.x/ctk3dvisionpro.c.old	2013-06-29 20:58:38.000000000 +0200
-+++ nvidia-settings-319.32/src/gtk+-2.x/ctk3dvisionpro.c	2013-06-29 20:59:46.000000000 +0200
-@@ -1778,7 +1778,7 @@
+--- a/src/gtk+-2.x/ctk3dvisionpro.c
++++ b/src/gtk+-2.x/ctk3dvisionpro.c
+@@ -1771,7 +1771,7 @@
                           "with the hub.");
  
      ctk_help_heading(b, &i, "Add glasses");
@@ -1154,7 +1125,7 @@
      ctk_help_para(b, &i, "This action is used to set up new 3D Vision Pro Glasses. "
                           "On clicking this button the hub enters into pairing mode. "
                           "Follow the instructions on Add Glasses dialog box. "
-@@ -1787,7 +1787,7 @@
+@@ -1780,7 +1780,7 @@
                           " glasses or 'Cancel' if do not wish to store them.");
  
      ctk_help_heading(b, &i, "Refresh Glasses' Information");
@@ -1163,7 +1134,7 @@
      ctk_help_para(b, &i, "Refresh glasses information is typically required when- \n"
                           "o Glasses move in and out of the range.\n"
                           "o Get the updated battery level of all the glasses.");
-@@ -1799,18 +1799,18 @@
+@@ -1792,18 +1792,18 @@
                           "for a few seconds.");
  
      ctk_help_heading(b, &i, "Rename glasses");
@@ -1185,7 +1156,7 @@
  
      ctk_help_heading(b, &i, "Glasses Name");
      ctk_help_para(b, &i, "Each pair of glasses has an unique name and the name should "
-@@ -1839,7 +1839,7 @@
+@@ -1832,7 +1832,7 @@
                           "\tNo Signal\t\t [0%%]");
  
      ctk_help_heading(b, &i, "Hub Range");
@@ -1194,9 +1165,28 @@
      ctk_help_para(b, &i, "The hub range is the farthest distance that the "
                           "glasses can synchronize with the 3D Vision Pro Hub. "
                           "You can reduce the hub range to limit the experience "
---- nvidia-settings-319.32/src/gtk+-2.x/ctkvdpau.c.old	2013-06-29 21:02:16.000000000 +0200
-+++ nvidia-settings-319.32/src/gtk+-2.x/ctkvdpau.c	2013-06-29 21:04:49.000000000 +0200
-@@ -454,7 +454,7 @@
+--- a/src/gtk+-2.x/ctkcolorcontrols.c
++++ b/src/gtk+-2.x/ctkcolorcontrols.c
+@@ -523,13 +523,13 @@
+     }
+ 
+     ctk_help_heading(b, i, "Color Controls");
+-    ctk_help_para(b, i, __color_controls_help);
++    ctk_help_para(b, i, "%s", __color_controls_help);
+ 
+     ctk_help_term(b, i, "Color Space");
+-    ctk_help_para(b, i, __color_space_help);
++    ctk_help_para(b, i, "%s", __color_space_help);
+ 
+     ctk_help_term(b, i, "Color Range");
+-    ctk_help_para(b, i, __color_range_help);
++    ctk_help_para(b, i, "%s", __color_range_help);
+ } /* add_color_controls_help() */
+ 
+ 
+--- a/src/gtk+-2.x/ctkvdpau.c
++++ b/src/gtk+-2.x/ctkvdpau.c
+@@ -441,7 +441,7 @@
                      str1 = g_string_append(str1, s);
                  }
              }
@@ -1205,7 +1195,7 @@
              gtk_label_set_selectable(GTK_LABEL(label), TRUE);
              gtk_misc_set_alignment(GTK_MISC(label), 0.0f, 0.5f);
              gtk_table_attach(GTK_TABLE(table), label, 3, 4, count+1, count+2,
-@@ -792,7 +792,7 @@
+@@ -769,7 +769,7 @@
                      str1 = g_string_append(str1, s);
                  }
              }
@@ -1214,7 +1204,7 @@
              gtk_label_set_selectable(GTK_LABEL(label), TRUE);
              gtk_misc_set_alignment(GTK_MISC(label), 0.0f, 0.5f);
              gtk_table_attach(GTK_TABLE(table), label, 4, 5, count+1, count+2,
-@@ -1541,43 +1541,43 @@
+@@ -1494,43 +1494,43 @@
      gtk_text_buffer_get_iter_at_offset(b, &i, 0);
  
      ctk_help_title(b, &i, "VDPAU Information Help");
