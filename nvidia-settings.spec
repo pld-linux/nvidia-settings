@@ -1,8 +1,8 @@
 #
 # Conditional build:
 %bcond_without	nvidia_settings	# build the main package
-%bcond_without	utils	# build utils from samples dir
-%bcond_without	libXNVCtrl	# build libXNVCtrl for http://websvn.kde.org/trunk/kdenonbeta/nvidia/
+%bcond_without	utils		# build utils from samples dir
+%bcond_without	libXNVCtrl	# build libXNVCtrl for external packages
 
 Summary:	Tool for configuring the NVIDIA driver
 Summary(pl.UTF-8):	Narzędzie do konfigurowania sterownika NVIDIA
@@ -10,8 +10,8 @@ Name:		nvidia-settings
 # keep the version in sync with xorg-driver-video-nvidia.spec
 Version:	331.20
 Release:	1
-License:	GPL
-Group:		X11
+License:	GPL v2 (with MIT parts)
+Group:		X11/Applications
 Source0:	ftp://download.nvidia.com/XFree86/nvidia-settings/%{name}-%{version}.tar.bz2
 # Source0-md5:	bbe5b7beaedb274d4dc81640f8e561ce
 Source1:	%{name}.desktop
@@ -25,7 +25,7 @@ BuildRequires:	xorg-lib-libXext-devel
 BuildRequires:	xorg-lib-libXv-devel
 BuildRequires:	xorg-lib-libXxf86vm-devel
 %if %{with nvidia_settings}
-BuildRequires:	gtk+2-devel
+BuildRequires:	gtk+2-devel >= 2.0
 BuildRequires:	m4
 BuildRequires:	pkgconfig
 %endif
@@ -64,8 +64,9 @@ ustawień. Przy wyłączniu nvidia-settings odczytuje bieżące ustawienia
 z serwera X i zapisuje je do pliku konfiguracyjnego.
 
 %package -n libXNVCtrl-devel
-Summary:	libXNVCtrl development headers
-Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki libXNVCtrl
+Summary:	libXNVCtrl development files
+Summary(pl.UTF-8):	Pliki programistyczne biblioteki libXNVCtrl
+License:	MIT
 Group:		Development/Libraries
 Requires:	xorg-lib-libX11-devel
 Requires:	xorg-lib-libXext-devel
@@ -87,9 +88,8 @@ sterowników NVIDIA.
 %build
 %if %{with libXNVCtrl}
 %{__make} -C src/libXNVCtrl \
-	NV_VERBOSE=1 \
 	CC="%{__cc}" \
-	X_CFLAGS="%{rpmcppflags} %{rpmcflags} -fPIC"
+	CFLAGS="%{rpmcppflags} %{rpmcflags} -fPIC"
 %endif
 
 %if %{with utils}
@@ -166,12 +166,6 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/nvidia-settings
-%{_mandir}/man1/nvidia-settings.1*
-%{_desktopdir}/nvidia-settings.desktop
-%{_pixmapsdir}/nvidia-settings.png
-/etc/xdg/autostart/%{name}.desktop
-%endif
-
 %if %{with utils}
 %attr(755,root,root) %{_bindir}/nv-control-3dvisionpro
 %attr(755,root,root) %{_bindir}/nv-control-dpy
@@ -182,6 +176,11 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/nv-control-info
 %attr(755,root,root) %{_bindir}/nv-control-targets
 %attr(755,root,root) %{_bindir}/nv-control-warpblend
+%endif
+%{_mandir}/man1/nvidia-settings.1*
+%{_desktopdir}/nvidia-settings.desktop
+%{_pixmapsdir}/nvidia-settings.png
+/etc/xdg/autostart/%{name}.desktop
 %endif
 
 %if %{with libXNVCtrl}
