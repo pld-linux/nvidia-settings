@@ -28,6 +28,7 @@ BuildRequires:	xorg-lib-libXv-devel
 BuildRequires:	xorg-lib-libXxf86vm-devel
 %if %{with nvidia_settings}
 BuildRequires:	gtk+2-devel >= 2.0
+BuildRequires:	jansson-devel >= 2.2
 BuildRequires:	m4
 BuildRequires:	pkgconfig
 %endif
@@ -88,6 +89,7 @@ sterowników NVIDIA.
 %build
 %if %{with libXNVCtrl}
 %{__make} -C src/libXNVCtrl \
+	NV_VERBOSE=1 \
 	CC="%{__cc}" \
 	CFLAGS="%{rpmcppflags} %{rpmcflags} -fPIC"
 %endif
@@ -101,12 +103,16 @@ sterowników NVIDIA.
 %endif
 
 %if %{with nvidia_settings}
-%{__make} \
+%{__make} -C src \
+	NV_USE_BUNDLED_LIBJANSSON=0 \
 	NV_VERBOSE=1 \
 	STRIP_CMD=: \
 	CC="%{__cc}" \
 	X_CFLAGS="%{rpmcppflags} %{rpmcflags}" \
 	X_LDFLAGS="%{rpmldflags}"
+
+%{__make} -C doc \
+	NV_VERBOSE=1
 %endif
 
 %install
@@ -114,6 +120,8 @@ rm -rf $RPM_BUILD_ROOT
 %if %{with nvidia_settings}
 install -d $RPM_BUILD_ROOT{%{_bindir},%{_mandir}/man1,%{_desktopdir},%{_pixmapsdir},/etc/xdg/autostart}
 %{__make} install \
+	NV_USE_BUNDLED_LIBJANSSON=0 \
+	NV_VERBOSE=1 \
 	INSTALL="install -p" \
 	PREFIX=%{_prefix} \
 	DESTDIR=$RPM_BUILD_ROOT
@@ -126,7 +134,6 @@ cp -p %{SOURCE3} $RPM_BUILD_ROOT/etc/xdg/autostart/%{name}.desktop
 install -d $RPM_BUILD_ROOT%{_examplesdir}/libXNVCtrl-%{version} \
 	$RPM_BUILD_ROOT{%{_libdir},%{_includedir}/NVCtrl}
 cp -a samples/* $RPM_BUILD_ROOT%{_examplesdir}/libXNVCtrl-%{version}
-rm -r $RPM_BUILD_ROOT%{_examplesdir}/libXNVCtrl-%{version}/_out
 cp -p src/libXNVCtrl/nv_control.h $RPM_BUILD_ROOT%{_includedir}/NVCtrl
 cp -p src/libXNVCtrl/NVCtrl.h $RPM_BUILD_ROOT%{_includedir}/NVCtrl
 cp -p src/libXNVCtrl/NVCtrlLib.h $RPM_BUILD_ROOT%{_includedir}/NVCtrl
