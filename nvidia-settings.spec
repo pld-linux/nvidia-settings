@@ -1,6 +1,3 @@
-# TODO:
-# - use system jansson >= 2.6 library
-#
 # Conditional build:
 %bcond_without	nvidia_settings	# build the main package
 %bcond_without	utils		# build utils from samples dir
@@ -10,12 +7,12 @@ Summary:	Tool for configuring the NVIDIA driver
 Summary(pl.UTF-8):	Narzędzie do konfigurowania sterownika NVIDIA
 Name:		nvidia-settings
 # keep the version in sync with xorg-driver-video-nvidia.spec
-Version:	340.58
+Version:	340.65
 Release:	1
 License:	GPL v2 (with MIT parts)
 Group:		X11/Applications
 Source0:	ftp://download.nvidia.com/XFree86/nvidia-settings/%{name}-%{version}.tar.bz2
-# Source0-md5:	cbe2bf2ebe6267a905ed35d58fbadda3
+# Source0-md5:	6417b357f4f4d33aec3ea8e6ce71cc41
 Source1:	%{name}.desktop
 Source2:	%{name}.png
 Source3:	%{name}-autostart.desktop
