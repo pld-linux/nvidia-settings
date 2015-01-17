@@ -1,4 +1,5 @@
 # Conditional build:
+%bcond_with	gtk2		# build with gtk2 based gui
 %bcond_without	nvidia_settings	# build the main package
 %bcond_without	utils		# build utils from samples dir
 %bcond_without	libXNVCtrl	# build libXNVCtrl for external packages
@@ -7,29 +8,35 @@ Summary:	Tool for configuring the NVIDIA driver
 Summary(pl.UTF-8):	Narzędzie do konfigurowania sterownika NVIDIA
 Name:		nvidia-settings
 # keep the version in sync with xorg-driver-video-nvidia.spec
-Version:	340.65
+Version:	346.35
 Release:	1
 License:	GPL v2 (with MIT parts)
 Group:		X11/Applications
 Source0:	ftp://download.nvidia.com/XFree86/nvidia-settings/%{name}-%{version}.tar.bz2
-# Source0-md5:	6417b357f4f4d33aec3ea8e6ce71cc41
+# Source0-md5:	443894714195e60cf674ace2df78bc3e
 Source1:	%{name}.desktop
 Source2:	%{name}.png
 Source3:	%{name}-autostart.desktop
 URL:		ftp://download.nvidia.com/XFree86/nvidia-settings/
 BuildRequires:	OpenGL-devel
-BuildRequires:	libvdpau-devel
+BuildRequires:	libvdpau-devel >= 0.9
 BuildRequires:	xorg-lib-libX11-devel
 BuildRequires:	xorg-lib-libXext-devel
 BuildRequires:	xorg-lib-libXv-devel
 BuildRequires:	xorg-lib-libXxf86vm-devel
 %if %{with nvidia_settings}
 BuildRequires:	gtk+2-devel >= 2.0
+%if %{without gtk2}
+BuildRequires:	gtk+3-devel
+%endif
 BuildRequires:	jansson-devel >= 2.2
 BuildRequires:	m4
 BuildRequires:	pkgconfig
 %endif
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+
+# requires symbols from main binary
+%define skip_post_check_so libnvidia-gtk[23].so.*
 
 %description
 The nvidia-settings utility is a tool for configuring the NVIDIA Linux
@@ -101,6 +108,9 @@ sterowników NVIDIA.
 
 %if %{with nvidia_settings}
 %{__make} -C src \
+%if %{without gtk2}
+	BUILD_GTK3LIB=1 \
+%endif
 	NV_USE_BUNDLED_LIBJANSSON=0 \
 	NV_VERBOSE=1 \
 	STRIP_CMD=: \
@@ -120,11 +130,16 @@ install -d $RPM_BUILD_ROOT{%{_bindir},%{_mandir}/man1,%{_desktopdir},%{_pixmapsd
 	NV_USE_BUNDLED_LIBJANSSON=0 \
 	NV_VERBOSE=1 \
 	INSTALL="install -p" \
+	LIBDIR="$RPM_BUILD_ROOT%{_libdir}" \
 	PREFIX=%{_prefix} \
 	DESTDIR=$RPM_BUILD_ROOT
 cp -p %{SOURCE1} $RPM_BUILD_ROOT%{_desktopdir}
 cp -p %{SOURCE2} $RPM_BUILD_ROOT%{_pixmapsdir}
 cp -p %{SOURCE3} $RPM_BUILD_ROOT/etc/xdg/autostart/%{name}.desktop
+
+%if %{without gtk2}
+rm $RPM_BUILD_ROOT%{_libdir}/libnvidia-gtk2.so.%{version}
+%endif
 %endif
 
 %if %{with libXNVCtrl}
@@ -180,6 +195,11 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/nv-control-info
 %attr(755,root,root) %{_bindir}/nv-control-targets
 %attr(755,root,root) %{_bindir}/nv-control-warpblend
+%endif
+%if %{with gtk2}
+%attr(755,root,root) %{_libdir}/libnvidia-gtk2.so.%{version}
+%else
+%attr(755,root,root) %{_libdir}/libnvidia-gtk3.so.%{version}
 %endif
 %{_mandir}/man1/nvidia-settings.1*
 %{_desktopdir}/nvidia-settings.desktop
