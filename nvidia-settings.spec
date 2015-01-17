@@ -1,5 +1,6 @@
+#
 # Conditional build:
-%bcond_with	gtk2		# build with gtk2 based gui
+%bcond_without	gtk3		# GTK+ 3.x GUI library for nvidia-settings
 %bcond_without	nvidia_settings	# build the main package
 %bcond_without	utils		# build utils from samples dir
 %bcond_without	libXNVCtrl	# build libXNVCtrl for external packages
@@ -26,17 +27,17 @@ BuildRequires:	xorg-lib-libXv-devel
 BuildRequires:	xorg-lib-libXxf86vm-devel
 %if %{with nvidia_settings}
 BuildRequires:	gtk+2-devel >= 2.0
-%if %{without gtk2}
-BuildRequires:	gtk+3-devel
-%endif
+%{?with_gtk3:BuildRequires:	gtk+3-devel >= 3.0}
 BuildRequires:	jansson-devel >= 2.2
 BuildRequires:	m4
 BuildRequires:	pkgconfig
 %endif
+Requires:	%{name}-guilib = %{version}-%{release}
+Requires:	libvdpau >= 0.9
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 # requires symbols from main binary
-%define skip_post_check_so libnvidia-gtk[23].so.*
+%define		skip_post_check_so	libnvidia-gtk[23].so.*
 
 %description
 The nvidia-settings utility is a tool for configuring the NVIDIA Linux
@@ -69,6 +70,32 @@ konfiguracyjnego i wysyła te ustawienia do serwera X. Następnie
 wyświetla graficzny interfejs użytkownika (GUI) do konfiguracji
 ustawień. Przy wyłączniu nvidia-settings odczytuje bieżące ustawienia
 z serwera X i zapisuje je do pliku konfiguracyjnego.
+
+%package gtk2
+Summary:	GTK+ 2.x GUI library for nvidia-settings
+Summary(pl.UTF-8):	Biblioteka interfejsu graficznego GTK+ 2.x dla nvidia-settings
+Group:		X11/Libraries
+Requires:	%{name} = %{version}-%{release}
+Provides:	%{name}-guilib = %{version}-%{release}
+
+%description gtk2
+GTK+ 2.x GUI library for nvidia-settings.
+
+%description gtk2 -l pl.UTF-8
+Biblioteka interfejsu graficznego GTK+ 2.x dla nvidia-settings.
+
+%package gtk3
+Summary:	GTK+ 3.x GUI library for nvidia-settings
+Summary(pl.UTF-8):	Biblioteka interfejsu graficznego GTK+ 3.x dla nvidia-settings
+Group:		X11/Libraries
+Requires:	%{name} = %{version}-%{release}
+Provides:	%{name}-guilib = %{version}-%{release}
+
+%description gtk3
+GTK+ 3.x GUI library for nvidia-settings.
+
+%description gtk3 -l pl.UTF-8
+Biblioteka interfejsu graficznego GTK+ 3.x dla nvidia-settings.
 
 %package -n libXNVCtrl-devel
 Summary:	libXNVCtrl development files
@@ -108,9 +135,7 @@ sterowników NVIDIA.
 
 %if %{with nvidia_settings}
 %{__make} -C src \
-%if %{without gtk2}
-	BUILD_GTK3LIB=1 \
-%endif
+	%{!?with_gtk3:BUILD_GTK3LIB=} \
 	NV_USE_BUNDLED_LIBJANSSON=0 \
 	NV_VERBOSE=1 \
 	STRIP_CMD=: \
@@ -137,9 +162,8 @@ cp -p %{SOURCE1} $RPM_BUILD_ROOT%{_desktopdir}
 cp -p %{SOURCE2} $RPM_BUILD_ROOT%{_pixmapsdir}
 cp -p %{SOURCE3} $RPM_BUILD_ROOT/etc/xdg/autostart/%{name}.desktop
 
-%if %{without gtk2}
-rm $RPM_BUILD_ROOT%{_libdir}/libnvidia-gtk2.so.%{version}
-%endif
+# let RPM autogenerate deps
+chmod 755 $RPM_BUILD_ROOT%{_libdir}/lib*.so*
 %endif
 
 %if %{with libXNVCtrl}
@@ -181,6 +205,12 @@ done
 %clean
 rm -rf $RPM_BUILD_ROOT
 
+%post	gtk2 -p /sbin/ldconfig
+%postun	gtk2 -p /sbin/ldconfig
+
+%post	gtk3 -p /sbin/ldconfig
+%postun	gtk3 -p /sbin/ldconfig
+
 %if %{with nvidia_settings}
 %files
 %defattr(644,root,root,755)
@@ -196,15 +226,20 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/nv-control-targets
 %attr(755,root,root) %{_bindir}/nv-control-warpblend
 %endif
-%if %{with gtk2}
-%attr(755,root,root) %{_libdir}/libnvidia-gtk2.so.%{version}
-%else
-%attr(755,root,root) %{_libdir}/libnvidia-gtk3.so.%{version}
-%endif
 %{_mandir}/man1/nvidia-settings.1*
 %{_desktopdir}/nvidia-settings.desktop
 %{_pixmapsdir}/nvidia-settings.png
 /etc/xdg/autostart/%{name}.desktop
+
+%files gtk2
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libnvidia-gtk2.so.%{version}
+
+%if %{with gtk3}
+%files gtk3
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libnvidia-gtk3.so.%{version}
+%endif
 %endif
 
 %if %{with libXNVCtrl}
