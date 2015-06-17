@@ -9,18 +9,18 @@ Summary:	Tool for configuring the NVIDIA driver
 Summary(pl.UTF-8):	Narzędzie do konfigurowania sterownika NVIDIA
 Name:		nvidia-settings
 # keep the version in sync with xorg-driver-video-nvidia.spec
-Version:	346.35
+Version:	352.21
 Release:	2
 License:	GPL v2 (with MIT parts)
 Group:		X11/Applications
 Source0:	ftp://download.nvidia.com/XFree86/nvidia-settings/%{name}-%{version}.tar.bz2
-# Source0-md5:	443894714195e60cf674ace2df78bc3e
+# Source0-md5:	4719fe9ebd4c296e529b8f3e1c5705ae
 Source1:	%{name}.desktop
 Source2:	%{name}.png
 Source3:	%{name}-autostart.desktop
 URL:		ftp://download.nvidia.com/XFree86/nvidia-settings/
 BuildRequires:	OpenGL-devel
-BuildRequires:	libvdpau-devel >= 0.9
+BuildRequires:	libvdpau-devel >= 1.0
 BuildRequires:	xorg-lib-libX11-devel
 BuildRequires:	xorg-lib-libXext-devel
 BuildRequires:	xorg-lib-libXv-devel
@@ -33,7 +33,7 @@ BuildRequires:	m4
 BuildRequires:	pkgconfig
 %endif
 Requires:	%{name}-guilib = %{version}-%{release}
-Requires:	libvdpau >= 0.9
+Requires:	libvdpau >= 1.0
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 # requires symbols from main binary
