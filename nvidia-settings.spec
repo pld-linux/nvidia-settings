@@ -9,12 +9,12 @@ Summary:	Tool for configuring the NVIDIA driver
 Summary(pl.UTF-8):	Narzędzie do konfigurowania sterownika NVIDIA
 Name:		nvidia-settings
 # keep the version in sync with xorg-driver-video-nvidia.spec
-Version:	430.14
+Version:	430.26
 Release:	1
 License:	GPL v2 (with MIT parts)
 Group:		X11/Applications
 Source0:	https://download.nvidia.com/XFree86/nvidia-settings/%{name}-%{version}.tar.bz2
-# Source0-md5:	e283991662b5ca9e4b76b976552d62cc
+# Source0-md5:	51db6828856ab626e85612fbf17db60d
 Source1:	%{name}.desktop
 Source2:	%{name}.png
 Source3:	%{name}-autostart.desktop
@@ -122,7 +122,8 @@ sterowników NVIDIA.
 %{__make} -C src/libXNVCtrl \
 	NV_VERBOSE=1 \
 	CC="%{__cc}" \
-	CFLAGS="%{rpmcppflags} %{rpmcflags} -fPIC"
+	CFLAGS="%{rpmcppflags} %{rpmcflags} -fPIC" \
+	OUTPUTDIR=.
 %endif
 
 %if %{with utils}
