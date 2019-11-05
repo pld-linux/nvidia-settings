@@ -9,12 +9,12 @@ Summary:	Tool for configuring the NVIDIA driver
 Summary(pl.UTF-8):	Narzędzie do konfigurowania sterownika NVIDIA
 Name:		nvidia-settings
 # keep the version in sync with xorg-driver-video-nvidia.spec
-Version:	435.21
+Version:	440.31
 Release:	1
 License:	GPL v2 (with MIT parts)
 Group:		X11/Applications
 Source0:	https://download.nvidia.com/XFree86/nvidia-settings/%{name}-%{version}.tar.bz2
-# Source0-md5:	e6cbaec01a430daa5af209c67aa985f3
+# Source0-md5:	6b50fcc16909a9f97c4a4f175eae55b7
 Source1:	%{name}.desktop
 Source2:	%{name}.png
 Source3:	%{name}-autostart.desktop
@@ -222,7 +222,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/nv-control-dvc
 %attr(755,root,root) %{_bindir}/nv-control-events
 %attr(755,root,root) %{_bindir}/nv-control-framelock
-%attr(755,root,root) %{_bindir}/nv-control-gvi
 %attr(755,root,root) %{_bindir}/nv-control-info
 %attr(755,root,root) %{_bindir}/nv-control-targets
 %attr(755,root,root) %{_bindir}/nv-control-warpblend
