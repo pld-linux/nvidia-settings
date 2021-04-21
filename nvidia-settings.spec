@@ -10,7 +10,7 @@ Summary(pl.UTF-8):	Narzędzie do konfigurowania sterownika NVIDIA
 Name:		nvidia-settings
 # keep the version in sync with xorg-driver-video-nvidia.spec
 Version:	465.24.02
-Release:	1
+Release:	2
 License:	GPL v2 (with MIT parts)
 Group:		X11/Applications
 Source0:	https://download.nvidia.com/XFree86/nvidia-settings/%{name}-%{version}.tar.bz2
@@ -119,30 +119,30 @@ sterowników NVIDIA.
 
 %build
 %if %{with libXNVCtrl}
+CFLAGS="%{rpmcppflags} %{rpmcflags} -fPIC" \
 %{__make} -C src/libXNVCtrl \
 	NV_VERBOSE=1 \
 	CC="%{__cc}" \
-	CFLAGS="%{rpmcppflags} %{rpmcflags} -fPIC" \
 	OUTPUTDIR=.
 %endif
 
 %if %{with utils}
+CFLAGS="%{rpmcppflags} %{rpmcflags} -fPIC" \
 %{__make} -C samples \
 	NV_VERBOSE=1 \
 	CC="%{__cc}" \
 	OUTPUTDIR=$(pwd)/_out/utils \
-	X_CFLAGS="%{rpmcppflags} %{rpmcflags} -fPIC"
 %endif
 
 %if %{with nvidia_settings}
+CFLAGS="%{rpmcppflags} %{rpmcflags}" \
+LDFLAGS="%{rpmldflags}" \
 %{__make} -C src \
 	%{!?with_gtk3:BUILD_GTK3LIB=} \
 	NV_USE_BUNDLED_LIBJANSSON=0 \
 	NV_VERBOSE=1 \
 	STRIP_CMD=: \
-	CC="%{__cc}" \
-	X_CFLAGS="%{rpmcppflags} %{rpmcflags}" \
-	X_LDFLAGS="%{rpmldflags}"
+	CC="%{__cc}"
 
 %{__make} -C doc \
 	NV_VERBOSE=1
