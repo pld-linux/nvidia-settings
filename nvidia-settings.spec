@@ -22,7 +22,6 @@ Patch0:		wayland.patch
 URL:		ftp://download.nvidia.com/XFree86/nvidia-settings/
 BuildRequires:	OpenGL-devel
 BuildRequires:	libvdpau-devel >= 1.0
-BuildRequires:	wayland-devel
 BuildRequires:	xorg-lib-libX11-devel
 BuildRequires:	xorg-lib-libXext-devel
 BuildRequires:	xorg-lib-libXv-devel
@@ -33,6 +32,7 @@ BuildRequires:	gtk+2-devel >= 2.0
 BuildRequires:	jansson-devel >= 2.2
 BuildRequires:	m4
 BuildRequires:	pkgconfig
+BuildRequires:	wayland-devel
 %endif
 Requires:	%{name}-guilib = %{version}-%{release}
 Requires:	libvdpau >= 1.0
@@ -209,6 +209,9 @@ done
 %clean
 rm -rf $RPM_BUILD_ROOT
 
+%post	-p /sbin/ldconfig
+%postun	-p /sbin/ldconfig
+
 %post	gtk2 -p /sbin/ldconfig
 %postun	gtk2 -p /sbin/ldconfig
 
@@ -229,6 +232,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/nv-control-targets
 %attr(755,root,root) %{_bindir}/nv-control-warpblend
 %endif
+%attr(755,root,root) %{_libdir}/libnvidia-wayland-client.so.*
 %{_mandir}/man1/nvidia-settings.1*
 %{_desktopdir}/nvidia-settings.desktop
 %{_pixmapsdir}/nvidia-settings.png
