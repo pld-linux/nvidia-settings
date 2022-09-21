@@ -107,7 +107,7 @@ Group:		Development/Libraries
 Requires:	xorg-lib-libX11-devel
 Requires:	xorg-lib-libXext-devel
 Requires:	xorg-lib-libXxf86vm-devel
-Obsoletes:	libXNVCtrl-static
+Obsoletes:	libXNVCtrl-static < 195.36.24
 
 %description -n libXNVCtrl-devel
 Library for accessing NV-CONTROL extension in NVIDIA's latest drivers.
