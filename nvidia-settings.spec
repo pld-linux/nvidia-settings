@@ -40,6 +40,10 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 # requires symbols from main binary
 %define		skip_post_check_so	libnvidia-gtk[23].so.*
 
+%if !%{with utils}
+%define		_enable_debug_packages	0
+%endif
+
 %description
 The nvidia-settings utility is a tool for configuring the NVIDIA Linux
 graphics driver. It operates by communicating with the NVIDIA X
