@@ -33,6 +33,7 @@ BuildRequires:	m4
 BuildRequires:	pkgconfig
 BuildRequires:	wayland-devel
 %endif
+Requires(post,postun):	desktop-file-utils
 Requires:	%{name}-guilib = %{version}-%{release}
 Requires:	libvdpau >= 1.0
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -211,8 +212,13 @@ done
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%post	-p /sbin/ldconfig
-%postun	-p /sbin/ldconfig
+%post
+/sbin/ldconfig
+%update_desktop_database_post
+
+%postun
+/sbin/ldconfig
+%update_desktop_database_postun
 
 %post	gtk2 -p /sbin/ldconfig
 %postun	gtk2 -p /sbin/ldconfig
